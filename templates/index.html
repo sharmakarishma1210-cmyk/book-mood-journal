@@ -12,5 +12,21 @@
   <body>
     <h1 class="title">Welcome to Book and Mood journal 📚🥹</h1>
     <p>Your personal reading companion!</p>
+
+    <form action="/add" method="POST">
+      <input type="text" name="title" placeholder="Book Title" required />
+      <input type="text" name="author" placeholder="Author Name" required />
+
+      <button type="submit">Add Book</button>
+    </form>
+    <hr />
+    <h2>Your Books</h2>
+
+    {% for book in books %}
+    <p>
+      <strong> {{book.title}} </strong>
+      by {{book.author}}
+    </p>
+    {% endfor %}
   </body>
 </html>
