@@ -1,9 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: #f5f1eb;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #3e3e3e;
   margin: 0;
   padding: 40px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.empty-message {
+  color: #8d6e63;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #8d6e63;
+  margin-bottom: 30px;
+  font-size: 18px;
 }
 
 .title {
@@ -20,7 +42,8 @@ p {
 
 form {
   background-color: #fffaf5;
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   margin: 30px auto;
   padding: 25px;
   border-radius: 15px;
@@ -35,6 +58,7 @@ input {
   border-radius: 8px;
   font-size: 15px;
   box-sizing: border-box;
+  transition: border-color 0.2s ease;
 }
 
 input:focus {
@@ -52,10 +76,14 @@ button {
   border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 button:hover {
   background-color: #6d4c41;
+  transform: scale(1.02);
 }
 
 hr {
@@ -71,10 +99,26 @@ h2 {
 
 .book-card {
   background-color: #fffaf5;
-  width: 420px;
+  width: 100%;
+  max-width: 420px;
   margin: 20px auto;
   padding: 18px;
   border-radius: 12px;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.08);
   line-height: 1.6;
+  transition: transform 0.2s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-4px);
+}
+
+.book-card h3 {
+  margin-top: 0;
+  color: #6d4c41;
+}
+
+.book-card p {
+  text-align: left;
+  margin: 8px 0;
 }

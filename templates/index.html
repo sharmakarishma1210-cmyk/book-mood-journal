@@ -12,42 +12,45 @@
   </head>
 
   <body>
-    <h1 class="title">Book Mood Journal 📚🥹</h1>
-    <p class="subtitle">Your cozy little space to track books and moods ✨</p>
+    <div class="container">
+      <h1 class="title">Book Mood Journal 📚🥹</h1>
+      <p class="subtitle">Your cozy little space to track books and moods ✨</p>
 
-    <form action="/add" method="POST">
-      <input type="text" name="title" placeholder="Book Title" required />
-      <input type="text" name="author" placeholder="Author Name" required />
-      <input
-        type="text"
-        name="mood"
-        placeholder="Mood (dark , emotional , intense.......)"
-        required
-      />
+      <form action="/add" method="POST">
+        <input type="text" name="title" placeholder="Book Title" required />
+        <input type="text" name="author" placeholder="Author Name" required />
+        <input
+          type="text"
+          name="mood"
+          placeholder="Mood (dark , emotional , intense.......)"
+          required
+        />
 
-      <input
-        type="text"
-        name="rating"
-        placeholder="Rating out of 5"
-        min="1"
-        max="5"
-        required
-      />
+        <input
+          type="number"
+          name="rating"
+          placeholder="Rating out of 5"
+          min="1"
+          max="5"
+          required
+        />
 
-      <button type="submit">Add Book</button>
-    </form>
+        <button type="submit">Add Book</button>
+      </form>
 
-    <hr />
+      <hr />
 
-    <h2>Your Books</h2>
-
-    {% for book in books %}
-    <div class="book-card">
-      <h3>{{book.title}}</h3>
-      <p><strong> Author : </strong>{{book.author}}</p>
-      <p><strong>Mood:</strong>{{book.mood}}</p>
-      <p><strong>Rating:</strong>⭐{{book.rating}}</p>
+      <h2>Your Books</h2>
+      {% if books %} {% for book in books %}
+      <div class="book-card">
+        <h3>{{book.title}}</h3>
+        <p><strong> Author : </strong> {{book.author}}</p>
+        <p><strong>Mood:</strong> {{book.mood}}</p>
+        <p><strong>Rating:</strong>⭐ {{book.rating}}</p>
+      </div>
+      {% endfor %} {%else%}
+      <p class="empty-message">No books added yet 📚></p>
+      {% endif %}
     </div>
-    {% endfor %}
   </body>
 </html>
