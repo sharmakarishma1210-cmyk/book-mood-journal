@@ -32,6 +32,7 @@
           placeholder="Rating out of 5"
           min="1"
           max="5"
+          step="0.1"
           required
         />
 
@@ -43,10 +44,21 @@
       <h2>Your Books</h2>
       {% if books %} {% for book in books %}
       <div class="book-card">
-        <h3>{{book.title}}</h3>
+        <h2>{{book.title}}</h2>
         <p><strong> Author : </strong> {{book.author}}</p>
         <p><strong>Mood:</strong> {{book.mood}}</p>
         <p><strong>Rating:</strong>⭐ {{book.rating}}</p>
+        <div class="button-group">
+          <a href="/edit/{{ book.id }}">
+            <button class="edit-btn">Edit</button></a
+          >
+          <a
+            href="/delete/{{ book.id }}"
+            onclick="return confirm('Delete this book?');"
+          >
+            <button class="delete-btn">Delete</button>
+          </a>
+        </div>
       </div>
       {% endfor %} {%else%}
       <p class="empty-message">No books added yet 📚></p>
