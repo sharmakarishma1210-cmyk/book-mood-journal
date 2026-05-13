@@ -20,6 +20,8 @@ class Book(db.Model):
 
     rating = db.Column(db.Float, nullable=False)
 
+    favorite = db.Column(db.Boolean , default = False)
+
 
 @app.route("/")
 def home():
@@ -66,8 +68,8 @@ def add_book():
         title=title,
         author=author,
         mood=mood,
-        rating=rating
-    )
+        rating=rating,
+        favorite = False)
 
     db.session.add(new_book)
 
@@ -108,7 +110,12 @@ def edit_book(id):
         "edit.html",
         book=book
     )
-
+@app.route("/favorite/<int:id>")
+def favorite_book(id):
+    book = Book.query.get_or_404(id)
+    book.favorite = not book.favorite
+    db.session.commit()
+    return redirect("/")
 
 with app.app_context():
     db.create_all()

@@ -11,6 +11,11 @@
     <title>BOOK MOOD JOURNAL 📚💕</title>
 
     <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
     />
@@ -18,9 +23,12 @@
 
   <body>
     <div class="container">
+
       <!-- HEADER -->
 
-      <h1 class="title">Book Mood Journal 📚🥹</h1>
+      <h1 class="title">
+        Book Mood Journal 📚🥹
+      </h1>
 
       <p class="subtitle">
         Your cozy little space to track books and moods ✨
@@ -28,7 +36,8 @@
 
       <!-- ADD BOOK FORM -->
 
-      <form action="/add" method="POST" class="add-form">
+      <form action="/add" method="POST" class="main-form">
+
         <input
           type="text"
           name="title"
@@ -60,18 +69,24 @@
           required
         />
 
-        <button type="submit">Add Book</button>
+        <button type="submit" class="btn brown-btn">
+          Add Book
+        </button>
+
       </form>
 
       <hr />
 
       <!-- BOOK SECTION -->
 
-      <h2>Your Reading Shelf 📖</h2>
+      <h2 class="shelf-title">
+        Your Reading Shelf 📖
+      </h2>
 
-      <!-- SEARCH + FILTER -->
+      <!-- SEARCH FORM -->
 
       <form action="/" method="GET" class="search-form">
+
         <input
           type="text"
           name="search"
@@ -80,6 +95,7 @@
         />
 
         <select name="mood">
+
           <option
             value="all"
             {% if request.args.get('mood') == 'all' or not request.args.get('mood') %}
@@ -133,21 +149,26 @@
           >
             Reflective
           </option>
+
         </select>
 
-        <div class="search-buttons">
-          <button type="submit">Search</button>
+        <div class="button-row">
+
+          <button type="submit" class="btn green-btn">
+            Search
+          </button>
 
           {% if request.args.get('search') or
-          (request.args.get('mood') and request.args.get('mood') != 'all')
-          %}
+          (request.args.get('mood') and request.args.get('mood') != 'all') %}
 
-          <a href="/" class="clear-link">
-            <button type="button">Clear</button>
+          <a href="/" class="btn red-btn">
+            Clear
           </a>
 
           {% endif %}
+
         </div>
+
       </form>
 
       <!-- BOOK LIST -->
@@ -156,39 +177,61 @@
 
         {% for book in books %}
 
-        <div class="book-card">
-          <h2>{{ book.title }}</h2>
+          <div class="book-card {% if book.favorite %}favorite-card{% endif %}">
+            {% if book.favorite %}
+            <div class = "favorite-badge">
+              ⭐ Favorite
+            </div>
+            {% endif %}
 
-          <p>
-            <strong>Author:</strong>
-            {{ book.author }}
-          </p>
+            <h2>{{ book.title }}</h2>
 
-          <p>
-            <strong>Mood:</strong>
-            {{ book.mood.title() }}
-          </p>
+            <p>
+              <strong>Author:</strong>
+              {{ book.author }}
+            </p>
 
-          <p>
-            <strong>Rating:</strong>
-            ⭐ {{ book.rating }}
-          </p>
+            <p>
+              <strong>Mood:</strong>
+              {{ book.mood.title() }}
+            </p>
 
-          <div class="button-group">
-            <a href="/edit/{{ book.id }}">
-              <button class="edit-btn">Edit</button>
-            </a>
+            <p>
+              <strong>Rating:</strong>
+              ⭐ {{ book.rating }}
+            </p>
 
-            <a
-              href="/delete/{{ book.id }}"
-              onclick="return confirm('Delete this book?');"
-            >
-              <button class="delete-btn">
+            <div class="button-row">
+
+              <a
+                href="/edit/{{ book.id }}"
+                class="btn green-btn"
+              >
+                Edit
+              </a>
+
+              <a
+                href="/favorite/{{ book.id }}"
+                class="btn gold-btn"
+              >
+                {% if book.favorite %}
+                  ⭐ Favorited
+                {% else %}
+                  ⭐ Favorite
+                {% endif %}
+              </a>
+
+              <a
+                href="/delete/{{ book.id }}"
+                class="btn red-btn"
+                onclick="return confirm('Delete this book?');"
+              >
                 Delete
-              </button>
-            </a>
+              </a>
+
+            </div>
+
           </div>
-        </div>
 
         {% endfor %}
 
@@ -199,6 +242,7 @@
         </p>
 
       {% endif %}
+
     </div>
   </body>
 </html>
