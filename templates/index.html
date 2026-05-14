@@ -69,6 +69,14 @@
           required
         />
 
+        <label class="optional-label">
+          Favorite Quote (Optional)
+        </label>
+        <textarea 
+        name = "quote",
+        placeholder="Add a memorable line from the book..."
+        ></textarea>
+
         <button type="submit" class="btn brown-btn">
           Add Book
         </button>
@@ -200,6 +208,11 @@
               <strong>Rating:</strong>
               ⭐ {{ book.rating }}
             </p>
+            {% if book.quote %}
+            <p class = "quote">
+              "{{ book.quote }}"
+            </p>
+            {% endif %}
 
             <div class="button-row">
 

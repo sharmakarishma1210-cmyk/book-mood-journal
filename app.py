@@ -22,6 +22,8 @@ class Book(db.Model):
 
     favorite = db.Column(db.Boolean , default = False)
 
+    quote = db.Column(db.Text)
+
 
 @app.route("/")
 def home():
@@ -64,12 +66,16 @@ def add_book():
 
     rating = float(request.form["rating"])
 
+    quote = request.form["quote"]
+
     new_book = Book(
         title=title,
         author=author,
         mood=mood,
         rating=rating,
-        favorite = False)
+        favorite = False,
+        quote = quote)
+    
 
     db.session.add(new_book)
 
