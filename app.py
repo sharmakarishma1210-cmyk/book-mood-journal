@@ -33,26 +33,52 @@ def home():
 
     books = Book.query
 
-    # SEARCH FILTER
-
     if search:
         books = books.filter(
             Book.title.ilike(f"%{search}%") |
             Book.author.ilike(f"%{search}%")
         )
 
-    # MOOD FILTER
-
     if mood != "all":
         books = books.filter(
             Book.mood.ilike(f"%{mood}%")
         )
 
-    books = books.order_by(Book.title).all()
+    books = books.order_by(Book.favorite.desc()).all()
+    total_books = len(books)
+    favorite_books = len(
+        [book for book in books if book.favorite]
+    )
+    if books:
+        average_rating = round(
+            sum(book.rating for book in books)/total_books,1
+        )
+    else:
+        average_rating = 0
+
+
+    mood_count = {}
+    for book in books:
+        moods = book.mood.lower().split(",")
+        for mood in moods:
+            mood = mood.strip()
+            mood_count[mood] = mood_count.get(mood , 0)+1
+
+    if mood_count:
+        top_mood = max(
+            mood_count,key=mood_count.get
+        )
+    else:
+        top_mood = "None"
+
 
     return render_template(
         "index.html",
-        books=books
+        books=books,
+        total_books = total_books,
+        favorite_books = favorite_books,
+        average_rating = average_rating,
+        top_mood = top_mood
     )
 
 

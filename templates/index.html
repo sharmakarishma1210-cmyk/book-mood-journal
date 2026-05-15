@@ -34,7 +34,24 @@
         Your cozy little space to track books and moods ✨
       </p>
 
-      <!-- ADD BOOK FORM -->
+      <div class = "stats-container">
+        <div class = "stat-card">
+          <h3>{{ total_books }}</h3>
+          <p>Total Books</p>
+        </div>
+        <div class = "stat-card">
+          <h3>⭐ {{ average_rating }}</h3>
+          <p>Average Rating</p>
+        </div>
+                <div class = "stat-card">
+          <h3>{{ favorite_books }}</h3>
+          <p>favorite</p>
+        </div>
+                <div class = "stat-card">
+          <h3>{{top_mood }}</h3>
+          <p>Top Mood</p>
+        </div>
+      </div>
 
       <form action="/add" method="POST" class="main-form">
 
@@ -73,7 +90,7 @@
           Favorite Quote (Optional)
         </label>
         <textarea 
-        name = "quote",
+        name = "quote"
         placeholder="Add a memorable line from the book..."
         ></textarea>
 
