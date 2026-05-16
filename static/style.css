@@ -315,3 +315,13 @@ textarea {
   margin-top: 10px;
   color: #8d6e63;
 }
+
+.analytics-btn-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.analytics-btn {
+  width: auto;
+  padding: 12px 20px;
+}

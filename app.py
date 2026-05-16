@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func 
 
 app = Flask(__name__)
 
@@ -34,10 +35,21 @@ def home():
     books = Book.query
 
     if search:
+        clean_search = search.replace(".","").lower()
+
         books = books.filter(
-            Book.title.ilike(f"%{search}%") |
-            Book.author.ilike(f"%{search}%")
+            func.replace(
+                func.lower(Book.title),
+                ".",""
+            ).contains(clean_search)
+        |
+
+        func.replace(
+                func.lower(Book.author),
+                ".",""
+            ).contains(clean_search)
         )
+
 
     if mood != "all":
         books = books.filter(
@@ -81,17 +93,20 @@ def home():
         top_mood = top_mood
     )
 
+@app.route("/analytics")
+def analytics():
+    books = Book.query.all()
+    return render_template(
+        "analytics.html",
+        books = books
+    )
 
 @app.route("/add", methods=["POST"])
 def add_book():
     title = request.form["title"].title().strip()
-
     author = request.form["author"].title().strip()
-
     mood = request.form["mood"].lower().strip()
-
     rating = float(request.form["rating"])
-
     quote = request.form["quote"]
 
     new_book = Book(
