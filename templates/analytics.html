@@ -2,26 +2,311 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reading Analytics</title>
+
+    <title>Reading Analytics 📊</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <link
       rel="stylesheet"
-      href="{{ url_for('static' , filename = 'style.css') }}"
+      href="{{ url_for('static', filename='style.css') }}"
     />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
+
   <body>
     <div class="container">
-      <h1 class="title">Reasing analytics 📊</h1>
-      <p class="subtitle">Insight into your reading habits..!</p>
-      <div class="book-card">
-        <h3>Charts Coming Soon ......</h3>
-        <p>
-          Mood analytics , rating charts , favorites breakdown and more.....
-        </p>
+      <!-- ========================= -->
+      <!-- PAGE HEADER -->
+      <!-- ========================= -->
+
+      <h1 class="title">Reading Analytics 📊</h1>
+
+      <p class="subtitle">Insights into your reading habits and moods ✨</p>
+
+      <!-- ========================= -->
+      <!-- INSIGHT CARDS -->
+      <!-- ========================= -->
+
+      <div class="insights-container">
+        <div class="insight-card">
+          <h3>⭐ {{ average_rating }}</h3>
+
+          <p>Average Rating</p>
+        </div>
+
+        <div class="insight-card">
+          <h3>{{ favorite_count }}</h3>
+
+          <p>Favorite Books</p>
+        </div>
+
+        <div class="insight-card">
+          <h3>{{ favorite_percentage }}%</h3>
+
+          <p>Favorites Ratio</p>
+        </div>
+
+        <div class="insight-card">
+          <h3>{{ top_author }}</h3>
+
+          <p>Most Read Author</p>
+        </div>
       </div>
-      <a href="/">
-        <button>Back Home</button>
-      </a>
+
+      <!-- ========================= -->
+      <!-- HIGHEST RATED BOOK -->
+      <!-- ========================= -->
+
+      {% if highest_rated %}
+
+      <div class="book-highlight">
+        <h2>🏆 Highest Rated Book</h2>
+
+        <h3>{{ highest_rated.title }}</h3>
+
+        <p>by {{ highest_rated.author }}</p>
+
+        <p>⭐ {{ highest_rated.rating }}</p>
+
+        {% if highest_rated.quote %}
+
+        <p class="quote">"{{ highest_rated.quote }}"</p>
+
+        {% endif %}
+      </div>
+
+      {% endif %}
+
+      <!-- ========================= -->
+      <!-- CHARTS -->
+      <!-- ========================= -->
+
+      <div class="charts-container">
+        <!-- ========================= -->
+        <!-- MOOD CHART -->
+        <!-- ========================= -->
+
+        <div class="chart-card">
+          <h2>Mood Distribution</h2>
+
+          <div class="chart-wrapper">
+            <canvas id="moodChart"></canvas>
+          </div>
+        </div>
+
+        <!-- ========================= -->
+        <!-- RATING CHART -->
+        <!-- ========================= -->
+
+        <div class="chart-card">
+          <h2>Ratings Breakdown</h2>
+
+          <div class="chart-wrapper">
+            <canvas id="ratingChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================= -->
+      <!-- BACK BUTTON -->
+      <!-- ========================= -->
+
+      <div class="analytics-btn-container">
+        <a href="/">
+          <button class="analytics-btn">← Back Home</button>
+        </a>
+      </div>
     </div>
+
+    <!-- ========================= -->
+    <!-- CHART SCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+      // =========================
+      // FLASK DATA
+      // =========================
+
+      const moodLabels = {{ mood_labels | tojson | safe }};
+
+      const moodValues = {{ mood_values | tojson | safe }};
+
+      const ratingLabels = {{ rating_labels | tojson | safe }};
+
+      const ratingValues = {{ rating_values | tojson | safe }};
+
+      // =========================
+      // MOOD PIE CHART
+      // =========================
+
+      if (moodLabels.length > 0) {
+
+        new Chart(
+
+          document.getElementById("moodChart"),
+
+          {
+
+            type: "pie",
+
+            data: {
+
+              labels: moodLabels,
+
+              datasets: [
+
+                {
+
+                  data: moodValues,
+
+                  backgroundColor: [
+
+                    "#5c5470",
+                    "#b9b4c7",
+                    "#7c9d96",
+                    "#d4a373",
+                    "#e6ccb2",
+                    "#9f86c0",
+                    "#84a59d",
+                    "#ddb892"
+
+                  ],
+
+                  borderWidth: 2,
+
+                  borderColor: "#ffffff"
+
+                }
+
+              ]
+
+            },
+
+            options: {
+
+              responsive: true,
+
+              maintainAspectRatio: false,
+
+              plugins: {
+
+                legend: {
+
+                  position: "bottom"
+
+                }
+
+              }
+
+            }
+
+          }
+
+        );
+
+      }
+
+      // =========================
+      // RATING BAR CHART
+      // =========================
+
+      if (ratingLabels.length > 0) {
+
+        new Chart(
+
+          document.getElementById("ratingChart"),
+
+          {
+
+            type: "bar",
+
+            data: {
+
+              labels: ratingLabels,
+
+              datasets: [
+
+                {
+
+                  label: "Books",
+
+                  data: ratingValues,
+
+                  backgroundColor: "#5c5470",
+
+                  borderRadius: 12,
+
+                  borderSkipped: false
+
+                }
+
+              ]
+
+            },
+
+            options: {
+
+              responsive: true,
+
+              maintainAspectRatio: false,
+
+              scales: {
+
+                y: {
+
+                  beginAtZero: true,
+
+                  ticks: {
+
+                    stepSize: 1
+
+                  },
+
+                  grid: {
+
+                    color: "#e7e2dc"
+
+                  }
+
+                },
+
+                x: {
+
+                  grid: {
+
+                    display: false
+
+                  }
+
+                }
+
+              },
+
+              plugins: {
+
+                legend: {
+
+                  display: false
+
+                }
+
+              }
+
+            }
+
+          }
+
+        );
+
+      }
+    </script>
   </body>
 </html>

@@ -3,12 +3,9 @@
   <head>
     <meta charset="UTF-8" />
 
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>BOOK MOOD JOURNAL 📚💕</title>
+    <title>Book Mood Journal 📚</title>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
@@ -23,64 +20,67 @@
 
   <body>
     <div class="container">
-
+      <!-- ========================= -->
       <!-- HEADER -->
+      <!-- ========================= -->
 
-      <h1 class="title">
-        Book Mood Journal 📚🥹
-      </h1>
+      <h1 class="title">Book Mood Journal 📚</h1>
 
-      <p class="subtitle">
-        Your cozy little space to track books and moods ✨
-      </p>
+      <p class="subtitle">Your cozy little reading tracker ✨</p>
 
-      <div class = "analytics-btn-container">
-        <a href = "/analytics">
-          <button class = "analytics-btn">
-            View Analytics 📊
-          </button>
+      <!-- ========================= -->
+      <!-- ANALYTICS BUTTON -->
+      <!-- ========================= -->
+
+      <div class="analytics-btn-container">
+        <a href="/analytics">
+          <button class="analytics-btn">View Analytics 📊</button>
         </a>
       </div>
 
-      <div class = "stats-container">
-        <div class = "stat-card">
+      <!-- ========================= -->
+      <!-- STATS -->
+      <!-- ========================= -->
+
+      <div class="stats-container">
+        <div class="stat-card">
           <h3>{{ total_books }}</h3>
+
           <p>Total Books</p>
         </div>
-        <div class = "stat-card">
+
+        <div class="stat-card">
           <h3>⭐ {{ average_rating }}</h3>
+
           <p>Average Rating</p>
         </div>
-                <div class = "stat-card">
+
+        <div class="stat-card">
           <h3>{{ favorite_books }}</h3>
-          <p>favorite</p>
+
+          <p>Favorites</p>
         </div>
-                <div class = "stat-card">
-          <h3>{{top_mood }}</h3>
+
+        <div class="stat-card">
+          <h3>{{ top_mood.title() }}</h3>
+
           <p>Top Mood</p>
         </div>
       </div>
 
+      <!-- ========================= -->
+      <!-- ADD BOOK FORM -->
+      <!-- ========================= -->
+
       <form action="/add" method="POST" class="main-form">
+        <input type="text" name="title" placeholder="Book Title" required />
 
-        <input
-          type="text"
-          name="title"
-          placeholder="Book Title"
-          required
-        />
-
-        <input
-          type="text"
-          name="author"
-          placeholder="Author Name"
-          required
-        />
+        <input type="text" name="author" placeholder="Author Name" required />
 
         <input
           type="text"
           name="mood"
-          placeholder="Mood (dark, emotional, intense...)"
+          placeholder="Mood (dark, emotional, comforting...)"
           required
         />
 
@@ -94,32 +94,23 @@
           required
         />
 
-        <label class="optional-label">
-          Favorite Quote (Optional)
-        </label>
-        <textarea 
-        name = "quote"
-        placeholder="Add a memorable line from the book..."
+        <label class="optional-label"> Favorite Quote (Optional) </label>
+
+        <textarea
+          name="quote"
+          placeholder="Add a memorable quote..."
         ></textarea>
 
-        <button type="submit" class="btn brown-btn">
-          Add Book
-        </button>
-
+        <button type="submit" class="btn brown-btn">Add Book</button>
       </form>
 
       <hr />
 
-      <!-- BOOK SECTION -->
-
-      <h2 class="shelf-title">
-        Your Reading Shelf 📖
-      </h2>
-
-      <!-- SEARCH FORM -->
+      <!-- ========================= -->
+      <!-- SEARCH -->
+      <!-- ========================= -->
 
       <form action="/" method="GET" class="search-form">
-
         <input
           type="text"
           name="search"
@@ -128,159 +119,85 @@
         />
 
         <select name="mood">
+          <option value="all">All Moods</option>
 
-          <option
-            value="all"
-            {% if request.args.get('mood') == 'all' or not request.args.get('mood') %}
-              selected
-            {% endif %}
-          >
-            All Moods
-          </option>
+          <option value="dark">Dark</option>
 
-          <option
-            value="dark"
-            {% if request.args.get('mood') == 'dark' %}
-              selected
-            {% endif %}
-          >
-            Dark
-          </option>
+          <option value="emotional">Emotional</option>
 
-          <option
-            value="emotional"
-            {% if request.args.get('mood') == 'emotional' %}
-              selected
-            {% endif %}
-          >
-            Emotional
-          </option>
+          <option value="comforting">Comforting</option>
 
-          <option
-            value="intense"
-            {% if request.args.get('mood') == 'intense' %}
-              selected
-            {% endif %}
-          >
-            Intense
-          </option>
+          <option value="intense">Intense</option>
 
-          <option
-            value="comforting"
-            {% if request.args.get('mood') == 'comforting' %}
-              selected
-            {% endif %}
-          >
-            Comforting
-          </option>
-
-          <option
-            value="reflective"
-            {% if request.args.get('mood') == 'reflective' %}
-              selected
-            {% endif %}
-          >
-            Reflective
-          </option>
-
+          <option value="reflective">Reflective</option>
         </select>
 
         <div class="button-row">
+          <button type="submit" class="btn green-btn">Search</button>
 
-          <button type="submit" class="btn green-btn">
-            Search
-          </button>
-
-          {% if request.args.get('search') or
-          (request.args.get('mood') and request.args.get('mood') != 'all') %}
-
-          <a href="/" class="btn red-btn">
-            Clear
-          </a>
-
-          {% endif %}
-
+          <a href="/" class="btn red-btn"> Clear </a>
         </div>
-
       </form>
 
-      <!-- BOOK LIST -->
+      <!-- ========================= -->
+      <!-- BOOKS -->
+      <!-- ========================= -->
 
-      {% if books %}
+      {% if books %} {% for book in books %}
 
-        {% for book in books %}
+      <div class="book-card {% if book.favorite %}favorite-card{% endif %}">
+        {% if book.favorite %}
 
-          <div class="book-card {% if book.favorite %}favorite-card{% endif %}">
-            {% if book.favorite %}
-            <div class = "favorite-badge">
-              ⭐ Favorite
-            </div>
-            {% endif %}
+        <div class="favorite-badge">⭐ Favorite</div>
 
-            <h2>{{ book.title }}</h2>
+        {% endif %}
 
-            <p>
-              <strong>Author:</strong>
-              {{ book.author }}
-            </p>
+        <h2>{{ book.title }}</h2>
 
-            <p>
-              <strong>Mood:</strong>
-              {{ book.mood.title() }}
-            </p>
-
-            <p>
-              <strong>Rating:</strong>
-              ⭐ {{ book.rating }}
-            </p>
-            {% if book.quote %}
-            <p class = "quote">
-              "{{ book.quote }}"
-            </p>
-            {% endif %}
-
-            <div class="button-row">
-
-              <a
-                href="/edit/{{ book.id }}"
-                class="btn green-btn"
-              >
-                Edit
-              </a>
-
-              <a
-                href="/favorite/{{ book.id }}"
-                class="btn gold-btn"
-              >
-                {% if book.favorite %}
-                  ⭐ Favorited
-                {% else %}
-                  ⭐ Favorite
-                {% endif %}
-              </a>
-
-              <a
-                href="/delete/{{ book.id }}"
-                class="btn red-btn"
-                onclick="return confirm('Delete this book?');"
-              >
-                Delete
-              </a>
-
-            </div>
-
-          </div>
-
-        {% endfor %}
-
-      {% else %}
-
-        <p class="empty-message">
-          No books found 📚
+        <p>
+          <strong>Author:</strong>
+          {{ book.author }}
         </p>
 
-      {% endif %}
+        <p>
+          <strong>Mood:</strong>
+          {{ book.mood.title() }}
+        </p>
 
+        <p>
+          <strong>Rating:</strong>
+          ⭐ {{ book.rating }}
+        </p>
+
+        {% if book.quote %}
+
+        <p class="quote">"{{ book.quote }}"</p>
+
+        {% endif %}
+
+        <div class="button-row">
+          <a href="/edit/{{ book.id }}" class="btn green-btn"> Edit </a>
+
+          <a href="/favorite/{{ book.id }}" class="btn gold-btn">
+            {% if book.favorite %} ⭐ Favorited {% else %} ⭐ Favorite {% endif
+            %}
+          </a>
+
+          <a
+            href="/delete/{{ book.id }}"
+            class="btn red-btn"
+            onclick="return confirm('Delete this book?');"
+          >
+            Delete
+          </a>
+        </div>
+      </div>
+
+      {% endfor %} {% else %}
+
+      <p class="empty-message">No books added yet 📚</p>
+
+      {% endif %}
     </div>
   </body>
 </html>

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import func 
+from sqlalchemy import func
 
 app = Flask(__name__)
 
@@ -10,113 +10,330 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
+# =========================
+# DATABASE MODEL
+# =========================
+
 class Book(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
 
-    title = db.Column(db.String(200), nullable=False)
+    title = db.Column(
+        db.String(200),
+        nullable=False
+    )
 
-    author = db.Column(db.String(200), nullable=False)
+    author = db.Column(
+        db.String(200),
+        nullable=False
+    )
 
-    mood = db.Column(db.String(100), nullable=False)
+    mood = db.Column(
+        db.String(200),
+        nullable=False
+    )
 
-    rating = db.Column(db.Float, nullable=False)
+    rating = db.Column(
+        db.Float,
+        nullable=False
+    )
 
-    favorite = db.Column(db.Boolean , default = False)
+    favorite = db.Column(
+        db.Boolean,
+        default=False
+    )
 
     quote = db.Column(db.Text)
 
 
+# =========================
+# HOME PAGE
+# =========================
+
 @app.route("/")
 def home():
-    search = request.args.get("search", "").strip()
 
-    mood = request.args.get("mood", "all").strip().lower()
+    search = request.args.get(
+        "search",
+        ""
+    ).strip()
 
-    books = Book.query
+    mood_filter = request.args.get(
+        "mood",
+        "all"
+    ).strip().lower()
+
+    books_query = Book.query
+
+    # =========================
+    # SEARCH
+    # =========================
 
     if search:
-        clean_search = search.replace(".","").lower()
 
-        books = books.filter(
+        clean_search = search.replace(
+            ".",
+            ""
+        ).lower()
+
+        books_query = books_query.filter(
+
             func.replace(
                 func.lower(Book.title),
-                ".",""
+                ".",
+                ""
             ).contains(clean_search)
-        |
 
-        func.replace(
+            |
+
+            func.replace(
                 func.lower(Book.author),
-                ".",""
+                ".",
+                ""
             ).contains(clean_search)
         )
 
+    # =========================
+    # MOOD FILTER
+    # =========================
 
-    if mood != "all":
-        books = books.filter(
-            Book.mood.ilike(f"%{mood}%")
+    if mood_filter != "all":
+
+        books_query = books_query.filter(
+            Book.mood.ilike(
+                f"%{mood_filter}%"
+            )
         )
 
-    books = books.order_by(Book.favorite.desc()).all()
+    books = books_query.order_by(
+        Book.favorite.desc(),
+        Book.id.desc()
+    ).all()
+
+    # =========================
+    # STATS
+    # =========================
+
     total_books = len(books)
+
     favorite_books = len(
         [book for book in books if book.favorite]
     )
-    if books:
-        average_rating = round(
-            sum(book.rating for book in books)/total_books,1
-        )
-    else:
-        average_rating = 0
 
+    average_rating = round(
 
-    mood_count = {}
+        sum(book.rating for book in books) / total_books,
+
+        1
+
+    ) if books else 0
+
+    # =========================
+    # TOP MOOD
+    # =========================
+
+    mood_data = {}
+
     for book in books:
+
         moods = book.mood.lower().split(",")
+
         for mood in moods:
+
             mood = mood.strip()
-            mood_count[mood] = mood_count.get(mood , 0)+1
 
-    if mood_count:
-        top_mood = max(
-            mood_count,key=mood_count.get
-        )
-    else:
-        top_mood = "None"
+            if mood:
 
+                mood_data[mood] = (
+                    mood_data.get(mood, 0) + 1
+                )
+
+    top_mood = (
+
+        max(mood_data, key=mood_data.get)
+
+        if mood_data else "None"
+
+    )
 
     return render_template(
         "index.html",
+
         books=books,
-        total_books = total_books,
-        favorite_books = favorite_books,
-        average_rating = average_rating,
-        top_mood = top_mood
+
+        total_books=total_books,
+
+        favorite_books=favorite_books,
+
+        average_rating=average_rating,
+
+        top_mood=top_mood
     )
+
+
+# =========================
+# ANALYTICS PAGE
+# =========================
 
 @app.route("/analytics")
 def analytics():
+
     books = Book.query.all()
+
+    # =========================
+    # MOOD DATA
+    # =========================
+
+    mood_data = {}
+
+    for book in books:
+
+        moods = book.mood.lower().split(",")
+
+        for mood in moods:
+
+            mood = mood.strip()
+
+            if mood:
+
+                mood_data[mood] = (
+                    mood_data.get(mood, 0) + 1
+                )
+
+    # =========================
+    # RATING DATA
+    # =========================
+
+    rating_data = {
+        "1 ⭐": 0,
+        "2 ⭐": 0,
+        "3 ⭐": 0,
+        "4 ⭐": 0,
+        "5 ⭐": 0,
+    }
+
+    for book in books:
+
+        rounded_rating = round(book.rating)
+
+        rating_key = f"{rounded_rating} ⭐"
+
+        if rating_key in rating_data:
+
+            rating_data[rating_key] += 1
+
+    # =========================
+    # FAVORITES
+    # =========================
+
+    favorite_count = len(
+        [book for book in books if book.favorite]
+    )
+
+    # =========================
+    # AVERAGE RATING
+    # =========================
+
+    average_rating = round(
+
+        sum(book.rating for book in books) / len(books),
+
+        1
+
+    ) if books else 0
+
+    # =========================
+    # HIGHEST RATED
+    # =========================
+
+    highest_rated = max(
+
+        books,
+
+        key=lambda book: book.rating
+
+    ) if books else None
+
+    # =========================
+    # TOP AUTHOR
+    # =========================
+
+    author_data = {}
+
+    for book in books:
+
+        author_data[book.author] = (
+            author_data.get(book.author, 0) + 1
+        )
+
+    top_author = (
+
+        max(author_data, key=author_data.get)
+
+        if author_data else "None"
+
+    )
+
+    # =========================
+    # FAVORITE PERCENTAGE
+    # =========================
+
+    favorite_percentage = round(
+
+        (favorite_count / len(books)) * 100,
+
+        1
+
+    ) if books else 0
+
     return render_template(
         "analytics.html",
-        books = books
+
+        mood_labels=list(mood_data.keys()),
+        mood_values=list(mood_data.values()),
+
+        rating_labels=list(rating_data.keys()),
+        rating_values=list(rating_data.values()),
+
+        favorite_count=favorite_count,
+
+        average_rating=average_rating,
+
+        highest_rated=highest_rated,
+
+        top_author=top_author,
+
+        favorite_percentage=favorite_percentage
     )
+
+
+# =========================
+# ADD BOOK
+# =========================
 
 @app.route("/add", methods=["POST"])
 def add_book():
+
     title = request.form["title"].title().strip()
+
     author = request.form["author"].title().strip()
+
     mood = request.form["mood"].lower().strip()
-    rating = float(request.form["rating"])
-    quote = request.form["quote"]
+
+    rating = float(
+        request.form["rating"]
+    )
+
+    quote = request.form["quote"].strip()
 
     new_book = Book(
         title=title,
         author=author,
         mood=mood,
         rating=rating,
-        favorite = False,
-        quote = quote)
-    
+        favorite=False,
+        quote=quote
+    )
 
     db.session.add(new_book)
 
@@ -125,8 +342,13 @@ def add_book():
     return redirect("/")
 
 
+# =========================
+# DELETE BOOK
+# =========================
+
 @app.route("/delete/<int:id>")
 def delete_book(id):
+
     book = Book.query.get_or_404(id)
 
     db.session.delete(book)
@@ -136,18 +358,36 @@ def delete_book(id):
     return redirect("/")
 
 
+# =========================
+# EDIT BOOK
+# =========================
+
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit_book(id):
+
     book = Book.query.get_or_404(id)
 
     if request.method == "POST":
-        book.title = request.form["title"].title().strip()
 
-        book.author = request.form["author"].title().strip()
+        book.title = request.form[
+            "title"
+        ].title().strip()
 
-        book.mood = request.form["mood"].lower().strip()
+        book.author = request.form[
+            "author"
+        ].title().strip()
 
-        book.rating = float(request.form["rating"])
+        book.mood = request.form[
+            "mood"
+        ].lower().strip()
+
+        book.rating = float(
+            request.form["rating"]
+        )
+
+        book.quote = request.form[
+            "quote"
+        ].strip()
 
         db.session.commit()
 
@@ -157,16 +397,35 @@ def edit_book(id):
         "edit.html",
         book=book
     )
+
+
+# =========================
+# FAVORITE BOOK
+# =========================
+
 @app.route("/favorite/<int:id>")
 def favorite_book(id):
+
     book = Book.query.get_or_404(id)
+
     book.favorite = not book.favorite
+
     db.session.commit()
+
     return redirect("/")
+
+
+# =========================
+# CREATE DATABASE
+# =========================
 
 with app.app_context():
     db.create_all()
 
+
+# =========================
+# RUN APP
+# =========================
 
 if __name__ == "__main__":
     app.run(debug=True)
