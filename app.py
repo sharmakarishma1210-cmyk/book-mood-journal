@@ -1,18 +1,46 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
+from flask_login import(
+    LoginManager,
+    UserMixin,
+    login_user,
+    logout_user,
+    login_required,
+    current_user
+)
 
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///books.db"
+
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///instance/books.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
 
 # =========================
 # DATABASE MODEL
 # =========================
+
+class User(UserMixin , db.Model):
+    id = db.Column(
+        db.Integer ,
+        primary_key = True
+    )
+    username = db.Column(
+        db.String(100),
+        unique = True,
+        nullable = False
+    )
+    password = db.Column(
+        db.String(200),
+        nullable = False
+    )
 
 class Book(db.Model):
 
@@ -49,6 +77,30 @@ class Book(db.Model):
 # =========================
 # HOME PAGE
 # =========================
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+
+@app.route("/register",methods = ["GET" , "POST"])
+def register():
+    if request.method == "POST":
+        print("REGISTER ROUTE HIT")
+        username = request.form["username"]
+        password = request.form["password"]
+        user = User(
+            username=username,
+            password=password
+        )
+        db.session.add(user)
+        db.session.commit()
+
+        print("USER SAVED")
+        return redirect("/login")
+    return render_template("register.html")
 
 @app.route("/")
 def home():
