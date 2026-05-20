@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register</title>
+    <title>Login</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static' , filename = 'style.css') }}"
+      href="{{ url_for('static', filename = 'style.css')}}"
     />
   </head>
   <body>
     <div class="container">
-      <h1 class="title">Create Account!</h1>
+      <h1 class="title">Welcome Back</h1>
       <form method="POST">
         <input type="text" name="username" placeholder="Username" required />
         <input
@@ -20,11 +20,11 @@
           placeholder="password"
           required
         />
-        <button type="submit">Register</button>
+        <button type="submit">Login</button>
       </form>
-      <p class="switch-auth">
-        Already have an account?
-        <a href="/login"> Login here </a>
+      <p class="switch-aut">
+        New user ?
+        <a href="/register"> Register here </a>
       </p>
     </div>
   </body>

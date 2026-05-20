@@ -580,3 +580,14 @@ hr {
     height: 280px;
   }
 }
+
+.switch-auth {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.switch-auth a {
+  color: #6b4f3b;
+  font-weight: 600;
+  text-decoration: none;
+}

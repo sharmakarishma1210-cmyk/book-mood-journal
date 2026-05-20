@@ -9,8 +9,13 @@ from flask_login import(
     login_required,
     current_user
 )
+from werkzeug.security import(
+    generate_password_hash,
+    check_password_hash
+)
 
 app = Flask(__name__)
+app.secret_key = "winneralways12"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///books.db"
 
@@ -73,6 +78,11 @@ class Book(db.Model):
 
     quote = db.Column(db.Text)
 
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("user.id")
+    )
+
 
 # =========================
 # HOME PAGE
@@ -90,7 +100,9 @@ def register():
     if request.method == "POST":
         print("REGISTER ROUTE HIT")
         username = request.form["username"]
-        password = request.form["password"]
+        password = generate_password_hash(
+            request.form["password"]
+        )
         user = User(
             username=username,
             password=password
@@ -102,7 +114,35 @@ def register():
         return redirect("/login")
     return render_template("register.html")
 
+@app.route("/login" , methods = ["GET" , "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        user = User.query.filter_by(
+            username = username
+        ).first()
+        print(user)
+        if user:
+            print(user.password)
+
+        if user and check_password_hash(
+            user.password , password
+        ):
+            print("LOGIN SUCCESS")
+            login_user(user)
+            return redirect("/")
+        print("LOGIN FAILED!")
+    return render_template("login.html")
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect("/login")
+
 @app.route("/")
+@login_required
 def home():
 
     search = request.args.get(
@@ -115,7 +155,9 @@ def home():
         "all"
     ).strip().lower()
 
-    books_query = Book.query
+    books_query = Book.query.filter_by(
+        user_id=current_user.id
+    )
 
     # =========================
     # SEARCH
@@ -228,6 +270,7 @@ def home():
 # =========================
 
 @app.route("/analytics")
+@login_required
 def analytics():
 
     books = Book.query.all()
@@ -364,6 +407,7 @@ def analytics():
 # =========================
 
 @app.route("/add", methods=["POST"])
+@login_required
 def add_book():
 
     title = request.form["title"].title().strip()
@@ -384,7 +428,8 @@ def add_book():
         mood=mood,
         rating=rating,
         favorite=False,
-        quote=quote
+        quote=quote,
+        user_id = current_user.id
     )
 
     db.session.add(new_book)
@@ -399,6 +444,7 @@ def add_book():
 # =========================
 
 @app.route("/delete/<int:id>")
+@login_required
 def delete_book(id):
 
     book = Book.query.get_or_404(id)
@@ -415,6 +461,7 @@ def delete_book(id):
 # =========================
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
+@login_required
 def edit_book(id):
 
     book = Book.query.get_or_404(id)
@@ -456,6 +503,7 @@ def edit_book(id):
 # =========================
 
 @app.route("/favorite/<int:id>")
+@login_required
 def favorite_book(id):
 
     book = Book.query.get_or_404(id)
