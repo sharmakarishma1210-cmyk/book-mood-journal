@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect , flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 from flask_login import(
@@ -100,17 +100,26 @@ def register():
     if request.method == "POST":
         print("REGISTER ROUTE HIT")
         username = request.form["username"]
-        password = generate_password_hash(
-            request.form["password"]
-        )
+        password = request.form["password"]
+
+        existing_user = User.query.filter_by(
+            username = username
+        ).first()
+
+        if existing_user:
+            flash("username already exists.")
+            return redirect("/register")
+        
+        hashed_password = generate_password_hash(password)
         user = User(
             username=username,
-            password=password
+            password=hashed_password 
         )
         db.session.add(user)
         db.session.commit()
 
         print("USER SAVED")
+        flash("Account created successfully 🎉")
         return redirect("/login")
     return render_template("register.html")
 
@@ -131,7 +140,9 @@ def login():
         ):
             print("LOGIN SUCCESS")
             login_user(user)
+            flash("Logged in successfully 🎉")
             return redirect("/")
+        flash("Invalid username or password ❌")
         print("LOGIN FAILED!")
     return render_template("login.html")
 
@@ -139,6 +150,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash("Logged out successfully 👋")
     return redirect("/login")
 
 @app.route("/")
@@ -435,6 +447,7 @@ def add_book():
     db.session.add(new_book)
 
     db.session.commit()
+    flash("Book added successfully📚")
 
     return redirect("/")
 
@@ -452,6 +465,7 @@ def delete_book(id):
     db.session.delete(book)
 
     db.session.commit()
+    flash("Book deleted")
 
     return redirect("/")
 

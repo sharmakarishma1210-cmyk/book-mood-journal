@@ -591,3 +591,13 @@ hr {
   font-weight: 600;
   text-decoration: none;
 }
+
+.flash-message {
+  background-color: #d8f3dc;
+  color: #2d6a4f;
+  padding: 14px;
+  width: 400px;
+  margin: 20px auto;
+  border-radius: 10px;
+  text-align: center;
+}
