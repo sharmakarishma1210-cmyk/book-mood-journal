@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect , flash
+
+from flask import Flask, render_template, request, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
-from flask_login import(
+from flask_login import (
     LoginManager,
     UserMixin,
     login_user,
@@ -9,7 +10,7 @@ from flask_login import(
     login_required,
     current_user
 )
-from werkzeug.security import(
+from werkzeug.security import (
     generate_password_hash,
     check_password_hash
 )
@@ -18,38 +19,44 @@ app = Flask(__name__)
 app.secret_key = "winneralways12"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///books.db"
-
-# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///instance/books.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
 
 # =========================
-# DATABASE MODEL
+# DATABASE MODELS
 # =========================
 
-class User(UserMixin , db.Model):
+class User(UserMixin, db.Model):
+
     id = db.Column(
-        db.Integer ,
-        primary_key = True
+        db.Integer,
+        primary_key=True
     )
+
     username = db.Column(
         db.String(100),
-        unique = True,
-        nullable = False
+        unique=True,
+        nullable=False
     )
+
     password = db.Column(
         db.String(200),
-        nullable = False
+        nullable=False
     )
+
 
 class Book(db.Model):
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
     title = db.Column(
         db.String(200),
@@ -80,78 +87,136 @@ class Book(db.Model):
 
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey("user.id")
+        db.ForeignKey("user.id"),
+        nullable=False
     )
+
+
+# =========================
+# LOGIN MANAGER
+# =========================
+
+@login_manager.user_loader
+def load_user(user_id):
+
+    return db.session.get(
+        User,
+        int(user_id)
+    )
+
+
+# =========================
+# REGISTER
+# =========================
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+
+    if request.method == "POST":
+
+        print("REGISTER ROUTE HIT")
+
+        username = request.form[
+            "username"
+        ].strip().lower()
+
+        password = request.form[
+            "password"
+        ].strip()
+
+        existing_user = User.query.filter_by(
+            username=username
+        ).first()
+
+        if existing_user:
+
+            flash("Username already exists.")
+
+            return redirect("/register")
+
+        hashed_password = generate_password_hash(
+            password
+        )
+
+        user = User(
+            username=username,
+            password=hashed_password
+        )
+
+        db.session.add(user)
+
+        db.session.commit()
+
+        print("USER SAVED")
+
+        flash("Account created successfully 🎉")
+
+        return redirect("/login")
+
+    return render_template("register.html")
+
+
+# =========================
+# LOGIN
+# =========================
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+
+        username = request.form[
+            "username"
+        ].strip().lower()
+
+        password = request.form[
+            "password"
+        ].strip()
+
+        user = User.query.filter_by(
+            username=username
+        ).first()
+
+        print(user)
+
+        if user and check_password_hash(
+            user.password,
+            password
+        ):
+
+            print("LOGIN SUCCESS")
+
+            login_user(user)
+
+            flash("Logged in successfully 🎉")
+
+            return redirect("/")
+
+        flash("Invalid username or password ❌")
+
+        print("LOGIN FAILED!")
+
+    return render_template("login.html")
+
+
+# =========================
+# LOGOUT
+# =========================
+
+@app.route("/logout")
+@login_required
+def logout():
+
+    logout_user()
+
+    flash("Logged out successfully 👋")
+
+    return redirect("/login")
 
 
 # =========================
 # HOME PAGE
 # =========================
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-
-
-@app.route("/register",methods = ["GET" , "POST"])
-def register():
-    if request.method == "POST":
-        print("REGISTER ROUTE HIT")
-        username = request.form["username"]
-        password = request.form["password"]
-
-        existing_user = User.query.filter_by(
-            username = username
-        ).first()
-
-        if existing_user:
-            flash("username already exists.")
-            return redirect("/register")
-        
-        hashed_password = generate_password_hash(password)
-        user = User(
-            username=username,
-            password=hashed_password 
-        )
-        db.session.add(user)
-        db.session.commit()
-
-        print("USER SAVED")
-        flash("Account created successfully 🎉")
-        return redirect("/login")
-    return render_template("register.html")
-
-@app.route("/login" , methods = ["GET" , "POST"])
-def login():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        user = User.query.filter_by(
-            username = username
-        ).first()
-        print(user)
-        if user:
-            print(user.password)
-
-        if user and check_password_hash(
-            user.password , password
-        ):
-            print("LOGIN SUCCESS")
-            login_user(user)
-            flash("Logged in successfully 🎉")
-            return redirect("/")
-        flash("Invalid username or password ❌")
-        print("LOGIN FAILED!")
-    return render_template("login.html")
-
-@app.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    flash("Logged out successfully 👋")
-    return redirect("/login")
 
 @app.route("/")
 @login_required
@@ -228,7 +293,8 @@ def home():
 
     average_rating = round(
 
-        sum(book.rating for book in books) / total_books,
+        sum(book.rating for book in books)
+        / total_books,
 
         1
 
@@ -256,7 +322,10 @@ def home():
 
     top_mood = (
 
-        max(mood_data, key=mood_data.get)
+        max(
+            mood_data,
+            key=mood_data.get
+        )
 
         if mood_data else "None"
 
@@ -285,7 +354,9 @@ def home():
 @login_required
 def analytics():
 
-    books = Book.query.all()
+    books = Book.query.filter_by(
+        user_id=current_user.id
+    ).all()
 
     # =========================
     # MOOD DATA
@@ -343,7 +414,8 @@ def analytics():
 
     average_rating = round(
 
-        sum(book.rating for book in books) / len(books),
+        sum(book.rating for book in books)
+        / len(books),
 
         1
 
@@ -375,7 +447,10 @@ def analytics():
 
     top_author = (
 
-        max(author_data, key=author_data.get)
+        max(
+            author_data,
+            key=author_data.get
+        )
 
         if author_data else "None"
 
@@ -422,17 +497,31 @@ def analytics():
 @login_required
 def add_book():
 
-    title = request.form["title"].title().strip()
+    title = request.form[
+        "title"
+    ].title().strip()
 
-    author = request.form["author"].title().strip()
+    author = request.form[
+        "author"
+    ].title().strip()
 
-    mood = request.form["mood"].lower().strip()
+    mood = request.form[
+        "mood"
+    ].lower().strip()
 
     rating = float(
         request.form["rating"]
     )
 
-    quote = request.form["quote"].strip()
+    if rating < 1 or rating > 5:
+
+        flash("Rating must be between 1 and 5")
+
+        return redirect("/")
+
+    quote = request.form[
+        "quote"
+    ].strip()
 
     new_book = Book(
         title=title,
@@ -441,13 +530,14 @@ def add_book():
         rating=rating,
         favorite=False,
         quote=quote,
-        user_id = current_user.id
+        user_id=current_user.id
     )
 
     db.session.add(new_book)
 
     db.session.commit()
-    flash("Book added successfully📚")
+
+    flash("Book added successfully 📚")
 
     return redirect("/")
 
@@ -460,11 +550,15 @@ def add_book():
 @login_required
 def delete_book(id):
 
-    book = Book.query.get_or_404(id)
+    book = Book.query.filter_by(
+        id=id,
+        user_id=current_user.id
+    ).first_or_404()
 
     db.session.delete(book)
 
     db.session.commit()
+
     flash("Book deleted")
 
     return redirect("/")
@@ -478,9 +572,22 @@ def delete_book(id):
 @login_required
 def edit_book(id):
 
-    book = Book.query.get_or_404(id)
+    book = Book.query.filter_by(
+        id=id,
+        user_id=current_user.id
+    ).first_or_404()
 
     if request.method == "POST":
+
+        rating = float(
+            request.form["rating"]
+        )
+
+        if rating < 1 or rating > 5:
+
+            flash("Rating must be between 1 and 5")
+
+            return redirect(f"/edit/{id}")
 
         book.title = request.form[
             "title"
@@ -494,15 +601,15 @@ def edit_book(id):
             "mood"
         ].lower().strip()
 
-        book.rating = float(
-            request.form["rating"]
-        )
+        book.rating = rating
 
         book.quote = request.form[
             "quote"
         ].strip()
 
         db.session.commit()
+
+        flash("Book updated successfully ✏️")
 
         return redirect("/")
 
@@ -520,7 +627,10 @@ def edit_book(id):
 @login_required
 def favorite_book(id):
 
-    book = Book.query.get_or_404(id)
+    book = Book.query.filter_by(
+        id=id,
+        user_id=current_user.id
+    ).first_or_404()
 
     book.favorite = not book.favorite
 
@@ -534,6 +644,7 @@ def favorite_book(id):
 # =========================
 
 with app.app_context():
+
     db.create_all()
 
 
@@ -543,3 +654,4 @@ with app.app_context():
 
 if __name__ == "__main__":
     app.run(debug=True)
+

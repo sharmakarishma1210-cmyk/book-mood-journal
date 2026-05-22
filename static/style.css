@@ -601,3 +601,10 @@ hr {
   border-radius: 10px;
   text-align: center;
 }
+
+.welcome-user {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #6d4c41;
+  font-size: 18px;
+}

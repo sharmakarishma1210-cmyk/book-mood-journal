@@ -10,6 +10,11 @@
     />
   </head>
   <body>
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for
+    message in messages %}
+    <div class="flash-message">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
     <div class="container">
       <h1 class="title">Welcome Back</h1>
       <form method="POST">

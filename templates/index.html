@@ -28,6 +28,11 @@
 
       <p class="subtitle">Your cozy little reading tracker ✨</p>
 
+      <div class="welcome-user">
+        Welcome ,
+        <strong> {{ current_user.username }}</strong>
+      </div>
+
       {% with messages = get_flashed_messages() %} {% if messages %} {% for
       message in messages %}
       <div class="flash-message">{{ message }}</div>
