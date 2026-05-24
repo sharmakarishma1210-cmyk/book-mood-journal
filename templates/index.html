@@ -19,17 +19,21 @@
   </head>
 
   <body>
+    <div class="navbar">
+      <h2 class="nav-logo">Book Mood Journal📚</h2>
+      <div class="nav-links">
+        <a href="/"> Home </a>
+        <a href="/analytics"> Analytics </a>
+        <a href="/logout"> Logout </a>
+      </div>
+    </div>
     <div class="container">
-      <!-- ========================= -->
-      <!-- HEADER -->
-      <!-- ========================= -->
-
       <h1 class="title">Book Mood Journal 📚</h1>
 
       <p class="subtitle">Your cozy little reading tracker ✨</p>
 
       <div class="welcome-user">
-        Welcome ,
+        Welcome,
         <strong> {{ current_user.username }}</strong>
       </div>
 
@@ -40,25 +44,13 @@
 
       <script>
         setTimeout(() => {
-          const flash = document.querySelector(".flash-message");
-          if (flash) {
+          const flashes = document.querySelectorAll(".flash-message");
+
+          flashes.forEach((flash) => {
             flash.remove();
-          }
+          });
         }, 3000);
       </script>
-
-      <!-- ========================= -->
-      <!-- ANALYTICS BUTTON -->
-      <!-- ========================= -->
-
-      <div class="analytics-btn-container">
-        <a href="/analytics">
-          <button class="analytics-btn">View Analytics 📊</button>
-        </a>
-        <a href="/logout">
-          <button class="analytics-btn">Logout</button>
-        </a>
-      </div>
 
       <!-- ========================= -->
       <!-- STATS -->
@@ -139,20 +131,26 @@
           placeholder="Search books or authors..."
           value="{{ request.args.get('search', '') }}"
         />
-
         <select name="mood">
-          <option value="all">All Moods</option>
 
-          <option value="dark">Dark</option>
+  <option value="all">All Moods</option>
 
-          <option value="emotional">Emotional</option>
+  {% for mood in all_moods %}
 
-          <option value="comforting">Comforting</option>
+    <option
+      value="{{ mood }}"
+      {% if request.args.get('mood') == mood %}
+        selected
+      {% endif %}
+    >
+      {{ mood.title() }}
+    </option>
 
-          <option value="intense">Intense</option>
+  {% endfor %}
 
-          <option value="reflective">Reflective</option>
-        </select>
+</select>
+
+
 
         <div class="button-row">
           <button type="submit" class="btn green-btn">Search</button>
@@ -198,7 +196,7 @@
         {% endif %}
 
         <div class="button-row">
-          <a href="/edit/{{ book.id }}" class="btn green-btn"> Edit </a>
+          <a href="/edit/{{ book.id }}" class="btn green-btn"> Edit🖋️ </a>
 
           <a href="/favorite/{{ book.id }}" class="btn gold-btn">
             {% if book.favorite %} ⭐ Favorited {% else %} ⭐ Favorite {% endif

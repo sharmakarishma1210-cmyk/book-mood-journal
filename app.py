@@ -331,18 +331,26 @@ def home():
 
     )
 
+    all_moods = set()
+    for book in Book.query.filter_by(
+        user_id = current_user.id
+    ).all():
+        moods = book.mood.split(",")
+        for mood in moods:
+            cleaned_mood = mood.strip().lower()
+            if cleaned_mood:
+                all_moods.add(cleaned_mood)
+    all_moods = sorted(all_moods)
+
+
     return render_template(
         "index.html",
-
         books=books,
-
         total_books=total_books,
-
         favorite_books=favorite_books,
-
         average_rating=average_rating,
-
-        top_mood=top_mood
+        top_mood=top_mood,
+        all_moods =all_moods
     )
 
 
