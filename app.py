@@ -1,4 +1,4 @@
-
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
@@ -84,6 +84,11 @@ class Book(db.Model):
     )
 
     quote = db.Column(db.Text)
+
+    created_at = db.Column(
+        db.DateTime,
+        default = datetime.utcnow
+    )
 
     user_id = db.Column(
         db.Integer,

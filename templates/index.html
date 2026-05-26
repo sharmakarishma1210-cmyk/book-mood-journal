@@ -162,9 +162,11 @@
       <!-- ========================= -->
       <!-- BOOKS -->
       <!-- ========================= -->
+       
 
-      {% if books %} {% for book in books %}
-
+      {% if books %} 
+      <div class="books-grid">
+          {% for book in books %}
       <div class="book-card {% if book.favorite %}favorite-card{% endif %}">
         {% if book.favorite %}
 
@@ -178,46 +180,53 @@
           <strong>Author:</strong>
           {{ book.author }}
         </p>
-
         <p>
           <strong>Mood:</strong>
           {{ book.mood.title() }}
         </p>
-
         <p>
           <strong>Rating:</strong>
           ⭐ {{ book.rating }}
         </p>
-
+        <p>
+          <strong>Added:</strong>
+          {{ book.created_at.strftime("%d %b %Y") }}
+        </p>
         {% if book.quote %}
-
         <p class="quote">"{{ book.quote }}"</p>
-
         {% endif %}
 
         <div class="button-row">
           <a href="/edit/{{ book.id }}" class="btn green-btn"> Edit🖋️ </a>
-
           <a href="/favorite/{{ book.id }}" class="btn gold-btn">
-            {% if book.favorite %} ⭐ Favorited {% else %} ⭐ Favorite {% endif
-            %}
+            {% if book.favorite %} 
+            ⭐ Favorited
+             {% else %} 
+             ⭐ Favorite 
+             {% endif %}
           </a>
-
           <a
             href="/delete/{{ book.id }}"
             class="btn red-btn"
-            onclick="return confirm('Delete this book?');"
-          >
+            onclick="return confirm('Delete this book?');">
             Delete
           </a>
         </div>
       </div>
-
-      {% endfor %} {% else %}
-
-      <p class="empty-message">No books added yet 📚</p>
-
+      {% endfor %} 
+    </div>
+       {% else %}
+      <div class = "empty-state">
+        <h2>📚</h2>
+        <p>No books yet.</p>
+        <span>
+          Start building your cozy reading shelf.
+        </span>
+      </div>
       {% endif %}
     </div>
+    <footer class = "footer">
+      Whispered into existence by Karishma ✨🤍
+    </footer>
   </body>
 </html>
