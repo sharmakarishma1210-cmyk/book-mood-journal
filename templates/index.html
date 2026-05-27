@@ -86,6 +86,28 @@
       <!-- ADD BOOK FORM -->
       <!-- ========================= -->
 
+
+      <div class="api-search-box">
+        <h2 class="search-title">
+          Search Any Book 📖
+        </h2>
+        <div class="api-search-row">
+          <input
+          type="text"
+          id="book-search"
+          placeholder="Search for a book">
+
+          <button
+          type = "button"
+          class="btn brown-btn"
+          onclick="searchBooks()"
+          >
+          Search
+          </button>
+        </div>
+        <div id="search-results"></div>
+      </div>
+
       <form action="/add" method="POST" class="main-form">
         <input type="text" name="title" placeholder="Book Title" required />
 
@@ -114,6 +136,12 @@
           name="quote"
           placeholder="Add a memorable quote..."
         ></textarea>
+
+        <input 
+        type="hidden"
+        name="cover_url"
+        id="cover_url"
+        />
 
         <button type="submit" class="btn brown-btn">Add Book</button>
       </form>
@@ -173,6 +201,12 @@
         <div class="favorite-badge">⭐ Favorite</div>
 
         {% endif %}
+        {% if book.cover_url %}
+        <img 
+        src="{{ book.cover_url }}"
+        class ="book-cover"
+        />
+        {% endif %}
 
         <h2>{{ book.title }}</h2>
 
@@ -228,5 +262,103 @@
     <footer class = "footer">
       Whispered into existence by Karishma ✨🤍
     </footer>
+    <script>
+      console.log("js is working just fine!")
+
+async function searchBooks() {
+
+    const query = document
+        .getElementById("book-search")
+        .value;
+
+    if (!query) return;
+
+    const response = await fetch(
+        `https://openlibrary.org/search.json?title=${query}`
+    );
+
+    const data = await response.json();
+
+    const resultsDiv =
+        document.getElementById(
+            "search-results"
+        );
+
+    resultsDiv.innerHTML = "";
+
+    data.docs
+    .filter((book) =>
+    book.language && book.language.includes("eng"))
+    .slice(0, 5)
+    .forEach(book => {
+        const title =
+            book.title || "Unknown";
+
+        const author =
+            book.author_name?.[0]
+            || "Unknown";
+
+        const cover = book.cover_i
+
+            ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
+
+            : "https://placehold.co/200x300";
+
+        resultsDiv.innerHTML += `
+
+            <div class="search-book-card">
+
+                <img
+                  src="${cover}"
+                  class="search-cover"
+                >
+
+                <h3>${title}</h3>
+
+                <p>${author}</p>
+
+                <button
+                  type="button"
+                  class="btn green-btn"
+                  onclick="
+                    selectBook(
+                      '${title}',
+                      '${author}',
+                      '${cover}'
+                    )
+                  "
+                >
+                  Add This
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+function selectBook(
+    title,
+    author,
+    cover
+) {
+
+    document.querySelector(
+        'input[name="title"]'
+    ).value = title;
+
+    document.querySelector(
+        'input[name="author"]'
+    ).value = author;
+
+    document.getElementById(
+        "cover_url"
+    ).value = cover;
+
+    window.scrollTo({
+        top: 500,
+        behavior: "smooth"
+    });
+}
+</script>
   </body>
 </html>

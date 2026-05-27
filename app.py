@@ -85,6 +85,10 @@ class Book(db.Model):
 
     quote = db.Column(db.Text)
 
+    cover_url = db.Column(
+        db.String(500)
+    )
+
     created_at = db.Column(
         db.DateTime,
         default = datetime.utcnow
@@ -536,6 +540,7 @@ def add_book():
         "quote"
     ].strip()
 
+    cover_url = request.form["cover_url"]
     new_book = Book(
         title=title,
         author=author,
@@ -543,6 +548,7 @@ def add_book():
         rating=rating,
         favorite=False,
         quote=quote,
+        cover_url = cover_url,
         user_id=current_user.id
     )
 
