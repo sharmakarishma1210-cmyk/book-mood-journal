@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
 
     <title>Book Mood Journal 📚</title>
 
@@ -19,99 +22,193 @@
   </head>
 
   <body>
-    <div class="navbar">
-      <h2 class="nav-logo">Book Mood Journal📚</h2>
-      <div class="nav-links">
-        <a href="/"> Home </a>
-        <a href="/analytics"> Analytics </a>
-        <a href="/logout"> Logout </a>
-      </div>
-    </div>
-    <div class="container">
-      <h1 class="title">Book Mood Journal 📚</h1>
 
-      <p class="subtitle">Your cozy little reading tracker ✨</p>
+    <!-- ========================= -->
+    <!-- NAVBAR -->
+    <!-- ========================= -->
+
+    <div class="navbar">
+
+      <h2 class="nav-logo">
+        Book Mood Journal 📚
+      </h2>
+
+      <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="/analytics">
+          Analytics
+        </a>
+
+        <a href="/logout">
+          Logout
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- CONTAINER -->
+    <!-- ========================= -->
+
+    <div class="container">
+
+      <!-- ========================= -->
+      <!-- TITLE -->
+      <!-- ========================= -->
+
+      <h1 class="title">
+        Book Mood Journal 📚
+      </h1>
+
+      <p class="subtitle">
+        Your cozy little reading tracker ✨
+      </p>
 
       <div class="welcome-user">
+
         Welcome,
-        <strong> {{ current_user.username }}</strong>
+
+        <strong>
+          {{ current_user.username }}
+        </strong>
+
       </div>
 
-      {% with messages = get_flashed_messages() %} {% if messages %} {% for
-      message in messages %}
-      <div class="flash-message">{{ message }}</div>
-      {% endfor %} {% endif %} {% endwith %}
+      <!-- ========================= -->
+      <!-- FLASH MESSAGES -->
+      <!-- ========================= -->
 
-      <script>
-        setTimeout(() => {
-          const flashes = document.querySelectorAll(".flash-message");
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
 
-          flashes.forEach((flash) => {
-            flash.remove();
-          });
-        }, 3000);
-      </script>
+        {% for message in messages %}
+
+        <div class="flash-message">
+          {{ message }}
+        </div>
+
+        {% endfor %}
+
+      {% endif %}
+      {% endwith %}
 
       <!-- ========================= -->
       <!-- STATS -->
       <!-- ========================= -->
 
       <div class="stats-container">
+
         <div class="stat-card">
+
           <h3>{{ total_books }}</h3>
 
           <p>Total Books</p>
+
         </div>
 
         <div class="stat-card">
-          <h3>⭐ {{ average_rating }}</h3>
+
+          <h3>
+            ⭐ {{ average_rating }}
+          </h3>
 
           <p>Average Rating</p>
+
         </div>
 
         <div class="stat-card">
-          <h3>{{ favorite_books }}</h3>
+
+          <h3>
+            {{ favorite_books }}
+          </h3>
 
           <p>Favorites</p>
+
         </div>
 
         <div class="stat-card">
-          <h3>{{ top_mood.title() }}</h3>
+
+          <h3>
+            {{ top_mood.title() }}
+          </h3>
 
           <p>Top Mood</p>
+
         </div>
+
+      </div>
+
+      <!-- ========================= -->
+      <!-- API SEARCH -->
+      <!-- ========================= -->
+
+      <div class="api-search-box">
+
+        <h2 class="search-title">
+          Search Any Book 📖
+        </h2>
+
+        <div class="api-search-row">
+
+          <input
+            type="text"
+            id="book-search"
+            placeholder="Search for a book..."
+          />
+
+          <button
+            type="button"
+            class="btn brown-btn"
+            onclick="searchBooks()"
+          >
+            Search
+          </button>
+
+        </div>
+
+        <!-- RESULTS -->
+
+        <div
+          id="search-results"
+          class="search-results"
+        ></div>
+
       </div>
 
       <!-- ========================= -->
       <!-- ADD BOOK FORM -->
       <!-- ========================= -->
 
+      <form
+        action="/add"
+        method="POST"
+        class="main-form"
+      >
 
-      <div class="api-search-box">
-        <h2 class="search-title">
-          Search Any Book 📖
-        </h2>
-        <div class="api-search-row">
-          <input
+        <input
           type="text"
-          id="book-search"
-          placeholder="Search for a book">
+          name="title"
+          placeholder="Book Title"
+          required
+        />
 
-          <button
-          type = "button"
-          class="btn brown-btn"
-          onclick="searchBooks()"
-          >
-          Search
-          </button>
-        </div>
-        <div id="search-results"></div>
-      </div>
+        <input
+          type="text"
+          name="author"
+          placeholder="Author Name"
+          required
+        />
 
-      <form action="/add" method="POST" class="main-form">
-        <input type="text" name="title" placeholder="Book Title" required />
+        <!-- COVER URL -->
 
-        <input type="text" name="author" placeholder="Author Name" required />
+        <input
+          type="hidden"
+          name="cover_url"
+          id="cover_url"
+        />
 
         <input
           type="text"
@@ -130,235 +227,400 @@
           required
         />
 
-        <label class="optional-label"> Favorite Quote (Optional) </label>
+        <label class="optional-label">
+          Favorite Quote (Optional)
+        </label>
 
         <textarea
           name="quote"
           placeholder="Add a memorable quote..."
         ></textarea>
 
-        <input 
-        type="hidden"
-        name="cover_url"
-        id="cover_url"
-        />
+        <button
+          type="submit"
+          class="btn brown-btn"
+        >
+          Add Book
+        </button>
 
-        <button type="submit" class="btn brown-btn">Add Book</button>
       </form>
 
       <hr />
 
       <!-- ========================= -->
-      <!-- SEARCH -->
+      <!-- SEARCH + FILTER -->
       <!-- ========================= -->
 
-      <form action="/" method="GET" class="search-form">
+      <form
+        action="/"
+        method="GET"
+        class="search-form"
+      >
+
         <input
           type="text"
           name="search"
           placeholder="Search books or authors..."
           value="{{ request.args.get('search', '') }}"
         />
+
         <select name="mood">
 
-  <option value="all">All Moods</option>
+          <option value="all">
+            All Moods
+          </option>
 
-  {% for mood in all_moods %}
+          {% for mood in all_moods %}
 
-    <option
-      value="{{ mood }}"
-      {% if request.args.get('mood') == mood %}
-        selected
-      {% endif %}
-    >
-      {{ mood.title() }}
-    </option>
+          <option
+            value="{{ mood }}"
+            {% if request.args.get('mood') == mood %}
+              selected
+            {% endif %}
+          >
+            {{ mood.title() }}
+          </option>
 
-  {% endfor %}
+          {% endfor %}
 
-</select>
-
-
+        </select>
 
         <div class="button-row">
-          <button type="submit" class="btn green-btn">Search</button>
 
-          <a href="/" class="btn red-btn"> Clear </a>
+          <button
+            type="submit"
+            class="btn green-btn"
+          >
+            Search
+          </button>
+
+          <a
+            href="/"
+            class="btn red-btn"
+          >
+            Clear
+          </a>
+
         </div>
+
       </form>
 
       <!-- ========================= -->
       <!-- BOOKS -->
       <!-- ========================= -->
-       
 
-      {% if books %} 
+      {% if books %}
+
       <div class="books-grid">
-          {% for book in books %}
-      <div class="book-card {% if book.favorite %}favorite-card{% endif %}">
-        {% if book.favorite %}
 
-        <div class="favorite-badge">⭐ Favorite</div>
+        {% for book in books %}
 
-        {% endif %}
-        {% if book.cover_url %}
-        <img 
-        src="{{ book.cover_url }}"
-        class ="book-cover"
-        />
-        {% endif %}
+        <div
+          class="book-card {% if book.favorite %}favorite-card{% endif %}"
+        >
 
-        <h2>{{ book.title }}</h2>
+          {% if book.favorite %}
 
-        <p>
-          <strong>Author:</strong>
-          {{ book.author }}
-        </p>
-        <p>
-          <strong>Mood:</strong>
-          {{ book.mood.title() }}
-        </p>
-        <p>
-          <strong>Rating:</strong>
-          ⭐ {{ book.rating }}
-        </p>
-        <p>
-          <strong>Added:</strong>
-          {{ book.created_at.strftime("%d %b %Y") }}
-        </p>
-        {% if book.quote %}
-        <p class="quote">"{{ book.quote }}"</p>
-        {% endif %}
+          <div class="favorite-badge">
+            ⭐ Favorite
+          </div>
 
-        <div class="button-row">
-          <a href="/edit/{{ book.id }}" class="btn green-btn"> Edit🖋️ </a>
-          <a href="/favorite/{{ book.id }}" class="btn gold-btn">
-            {% if book.favorite %} 
-            ⭐ Favorited
-             {% else %} 
-             ⭐ Favorite 
-             {% endif %}
-          </a>
-          <a
-            href="/delete/{{ book.id }}"
-            class="btn red-btn"
-            onclick="return confirm('Delete this book?');">
-            Delete
-          </a>
+          {% endif %}
+
+          <!-- TOP -->
+
+          <div class="book-top">
+
+            <!-- COVER -->
+
+            {% if book.cover_url %}
+
+            <img
+              src="{{ book.cover_url }}"
+              class="book-cover"
+            />
+
+            {% endif %}
+
+            <!-- INFO -->
+
+            <div class="book-info">
+
+              <h2>
+                {{ book.title }}
+              </h2>
+
+              <p>
+
+                <strong>Author:</strong>
+
+                {{ book.author }}
+
+              </p>
+
+              <p>
+
+                <strong>Mood:</strong>
+
+                {{ book.mood.title() }}
+
+              </p>
+
+              <p>
+
+                <strong>Rating:</strong>
+
+                ⭐ {{ book.rating }}
+
+              </p>
+
+              <p>
+
+                <strong>Added:</strong>
+
+                {{ book.created_at.strftime("%d %b %Y") }}
+
+              </p>
+
+              {% if book.quote %}
+
+              <p class="quote">
+
+                "{{ book.quote }}"
+
+              </p>
+
+              {% endif %}
+
+            </div>
+
+          </div>
+
+          <!-- BUTTONS -->
+
+          <div class="button-row">
+
+            <a
+              href="/edit/{{ book.id }}"
+              class="btn green-btn"
+            >
+              Edit 🖋️
+            </a>
+
+            <a
+              href="/favorite/{{ book.id }}"
+              class="btn gold-btn"
+            >
+
+              {% if book.favorite %}
+
+                ⭐ Favorited
+
+              {% else %}
+
+                ⭐ Favorite
+
+              {% endif %}
+
+            </a>
+
+            <a
+              href="/delete/{{ book.id }}"
+              class="btn red-btn"
+              onclick="return confirm('Delete this book?');"
+            >
+              Delete
+            </a>
+
+          </div>
+
         </div>
+
+        {% endfor %}
+
       </div>
-      {% endfor %} 
-    </div>
-       {% else %}
-      <div class = "empty-state">
+
+      {% else %}
+
+      <!-- ========================= -->
+      <!-- EMPTY STATE -->
+      <!-- ========================= -->
+
+      <div class="empty-state">
+
         <h2>📚</h2>
+
         <p>No books yet.</p>
+
         <span>
           Start building your cozy reading shelf.
         </span>
+
       </div>
+
       {% endif %}
+
     </div>
-    <footer class = "footer">
+
+    <!-- ========================= -->
+    <!-- FOOTER -->
+    <!-- ========================= -->
+
+    <footer class="footer">
+
       Whispered into existence by Karishma ✨🤍
+
     </footer>
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
     <script>
-      console.log("js is working just fine!")
 
-async function searchBooks() {
+      // =========================
+      // AUTO REMOVE FLASH
+      // =========================
 
-    const query = document
-        .getElementById("book-search")
-        .value;
+      setTimeout(() => {
 
-    if (!query) return;
+        const flashes =
+          document.querySelectorAll(
+            ".flash-message"
+          );
 
-    const response = await fetch(
-        `https://openlibrary.org/search.json?title=${query}`
-    );
+        flashes.forEach((flash) => {
+          flash.remove();
+        });
 
-    const data = await response.json();
+      }, 3000);
 
-    const resultsDiv =
-        document.getElementById(
-            "search-results"
+
+      // =========================
+      // SEARCH BOOKS
+      // =========================
+
+      async function searchBooks() {
+
+        const query =
+          document
+            .getElementById("book-search")
+            .value
+            .trim();
+
+        if (!query) return;
+
+        const response = await fetch(
+          `https://openlibrary.org/search.json?title=${query}`
         );
 
-    resultsDiv.innerHTML = "";
+        const data = await response.json();
 
-    data.docs
-    .filter((book) =>
-    book.language && book.language.includes("eng"))
-    .slice(0, 5)
-    .forEach(book => {
-        const title =
-            book.title || "Unknown";
+        const resultsDiv =
+          document.getElementById(
+            "search-results"
+          );
 
-        const author =
-            book.author_name?.[0]
-            || "Unknown";
+        resultsDiv.innerHTML = "";
 
-        const cover = book.cover_i
+        data.docs
 
-            ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
+          .filter((book) =>
 
-            : "https://placehold.co/200x300";
+            book.cover_i &&
 
-        resultsDiv.innerHTML += `
+            book.language &&
 
-            <div class="search-book-card">
+            book.language.includes("eng")
+          )
+
+          .slice(0, 10)
+
+          .forEach((book) => {
+
+            const title =
+              book.title || "Unknown";
+
+            const author =
+              book.author_name?.[0]
+              || "Unknown";
+
+            const cover =
+              `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
+
+            resultsDiv.innerHTML += `
+
+              <div
+                class="search-result"
+
+                onclick="
+                  selectBook(
+                    \`${title}\`,
+                    \`${author}\`,
+                    \`${cover}\`
+                  )
+                "
+              >
 
                 <img
                   src="${cover}"
                   class="search-cover"
                 >
 
-                <h3>${title}</h3>
+                <div class="search-info">
 
-                <p>${author}</p>
+                  <h3>${title}</h3>
 
-                <button
-                  type="button"
-                  class="btn green-btn"
-                  onclick="
-                    selectBook(
-                      '${title}',
-                      '${author}',
-                      '${cover}'
-                    )
-                  "
-                >
-                  Add This
-                </button>
+                  <p>${author}</p>
 
-            </div>
-        `;
-    });
-}
+                </div>
 
-function selectBook(
-    title,
-    author,
-    cover
-) {
+              </div>
+            `;
+          });
+      }
 
-    document.querySelector(
-        'input[name="title"]'
-    ).value = title;
 
-    document.querySelector(
-        'input[name="author"]'
-    ).value = author;
+      // =========================
+      // SELECT BOOK
+      // =========================
 
-    document.getElementById(
-        "cover_url"
-    ).value = cover;
+      function selectBook(
+        title,
+        author,
+        cover
+      ) {
 
-    window.scrollTo({
-        top: 500,
-        behavior: "smooth"
-    });
-}
-</script>
+        document.querySelector(
+          'input[name="title"]'
+        ).value = title;
+
+        document.querySelector(
+          'input[name="author"]'
+        ).value = author;
+
+        document.getElementById(
+          "cover_url"
+        ).value = cover;
+
+        // clear results
+
+        document.getElementById(
+          "search-results"
+        ).innerHTML = "";
+
+        // smooth scroll
+
+        window.scrollTo({
+
+          top: 500,
+
+          behavior: "smooth"
+
+        });
+      }
+
+    </script>
+
   </body>
 </html>
