@@ -2,100 +2,87 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Reading Analytics 📊</title>
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
+    <title>Analytics page</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
+      href="{{ url_for('static',filename ='style.css') }}"
     />
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
-
   <body>
-    <div class="navbar">
-      <h2 class="nav-logo">Book Mood Journal📚</h2>
-      <div class="nav-links">
-        <a href="/"> Home </a>
-        <a href="/analytics"> Analytics </a>
-        <a href="/logout"> Logout </a>
-      </div>
-    </div>
     <div class="container">
       <h1 class="title">Reading Analytics 📊</h1>
+
       <p class="subtitle">Insights into your reading habits and moods ✨</p>
 
-      <!-- ========================= -->
-      <!-- INSIGHT CARDS -->
-      <!-- ========================= -->
+      <!-- HERO -->
+
+      <div class="analytics-hero">
+        <div class="hero-card books-card">
+          <span class="hero-number"> {{ total_books }} </span>
+
+          <span class="hero-label"> Books Logged 📚 </span>
+        </div>
+
+        <div class="hero-card rating-card">
+          <span class="hero-number"> {{ average_rating }} </span>
+
+          <span class="hero-label"> Average Rating ⭐ </span>
+        </div>
+      </div>
+
+      <h2 class="analytics-section-title">📈 Reading Overview</h2>
 
       <div class="insights-container">
         <div class="insight-card">
-          <h3>⭐ {{ average_rating }}</h3>
-
-          <p>Average Rating</p>
-        </div>
-
-        <div class="insight-card">
           <h3>{{ favorite_count }}</h3>
-
-          <p>Favorite Books</p>
+          <p>💗 Favorite Books</p>
         </div>
 
         <div class="insight-card">
           <h3>{{ favorite_percentage }}%</h3>
-
-          <p>Favorites Ratio</p>
+          <p>📚 Favorites Ratio</p>
         </div>
 
         <div class="insight-card">
           <h3>{{ top_author }}</h3>
-
-          <p>Most Read Author</p>
+          <p>✍️ Most Read Author</p>
         </div>
       </div>
 
-      <!-- ========================= -->
-      <!-- HIGHEST RATED BOOK -->
-      <!-- ========================= -->
+      <h2 class="analytics-section-title">🏆 Book Spotlight</h2>
 
       {% if highest_rated %}
 
       <div class="book-highlight">
-        <h2>🏆 Highest Rated Book</h2>
-
-        <h3>{{ highest_rated.title }}</h3>
-
-        <p>by {{ highest_rated.author }}</p>
-
-        <p>⭐ {{ highest_rated.rating }}</p>
-
-        {% if highest_rated.quote %}
-
-        <p class="quote">"{{ highest_rated.quote }}"</p>
-
+        {% if highest_rated.cover_url %}
+        <img src="{{ highest_rated.cover_url }}" class="highlight-cover" />
         {% endif %}
+
+        <div class="highlight-info">
+          <h2>{{ highest_rated.title }}</h2>
+
+          <p>
+            <strong>Author:</strong>
+            {{ highest_rated.author }}
+          </p>
+
+          <p>
+            <strong>Rating:</strong>
+            ⭐ {{ highest_rated.rating }}
+          </p>
+
+          {% if highest_rated.quote %}
+          <p class="quote">"{{ highest_rated.quote }}"</p>
+          {% endif %}
+        </div>
       </div>
 
       {% endif %}
 
-      <!-- ========================= -->
-      <!-- CHARTS -->
-      <!-- ========================= -->
+      <h2 class="analytics-section-title">📊 Visual Insights</h2>
 
       <div class="charts-container">
-        <!-- ========================= -->
-        <!-- MOOD CHART -->
-        <!-- ========================= -->
-
         <div class="chart-card">
           <h2>Mood Distribution</h2>
 
@@ -103,10 +90,6 @@
             <canvas id="moodChart"></canvas>
           </div>
         </div>
-
-        <!-- ========================= -->
-        <!-- RATING CHART -->
-        <!-- ========================= -->
 
         <div class="chart-card">
           <h2>Ratings Breakdown</h2>
@@ -117,199 +100,9 @@
         </div>
       </div>
 
-      <!-- ========================= -->
-      <!-- BACK BUTTON -->
-      <!-- ========================= -->
-
       <div class="analytics-btn-container">
-        <a href="/">
-          <button class="analytics-btn">← Back Home</button>
-        </a>
+        <a href="/" class="btn brown-btn"> ← Back Home </a>
       </div>
     </div>
-
-    <!-- ========================= -->
-    <!-- CHART SCRIPT -->
-    <!-- ========================= -->
-
-    <script>
-
-      // =========================
-      // FLASK DATA
-      // =========================
-
-      const moodLabels = {{ mood_labels | tojson | safe }};
-
-      const moodValues = {{ mood_values | tojson | safe }};
-
-      const ratingLabels = {{ rating_labels | tojson | safe }};
-
-      const ratingValues = {{ rating_values | tojson | safe }};
-
-      // =========================
-      // MOOD PIE CHART
-      // =========================
-
-      if (moodLabels.length > 0) {
-
-        new Chart(
-
-          document.getElementById("moodChart"),
-
-          {
-
-            type: "pie",
-
-            data: {
-
-              labels: moodLabels,
-
-              datasets: [
-
-                {
-
-                  data: moodValues,
-
-                  backgroundColor: [
-
-                    "#5c5470",
-                    "#b9b4c7",
-                    "#7c9d96",
-                    "#d4a373",
-                    "#e6ccb2",
-                    "#9f86c0",
-                    "#84a59d",
-                    "#ddb892"
-
-                  ],
-
-                  borderWidth: 2,
-
-                  borderColor: "#ffffff"
-
-                }
-
-              ]
-
-            },
-
-            options: {
-
-              responsive: true,
-
-              maintainAspectRatio: false,
-
-              plugins: {
-
-                legend: {
-
-                  position: "bottom"
-
-                }
-
-              }
-
-            }
-
-          }
-
-        );
-
-      }
-
-      // =========================
-      // RATING BAR CHART
-      // =========================
-
-      if (ratingLabels.length > 0) {
-
-        new Chart(
-
-          document.getElementById("ratingChart"),
-
-          {
-
-            type: "bar",
-
-            data: {
-
-              labels: ratingLabels,
-
-              datasets: [
-
-                {
-
-                  label: "Books",
-
-                  data: ratingValues,
-
-                  backgroundColor: "#5c5470",
-
-                  borderRadius: 12,
-
-                  borderSkipped: false
-
-                }
-
-              ]
-
-            },
-
-            options: {
-
-              responsive: true,
-
-              maintainAspectRatio: false,
-
-              scales: {
-
-                y: {
-
-                  beginAtZero: true,
-
-                  ticks: {
-
-                    stepSize: 1
-
-                  },
-
-                  grid: {
-
-                    color: "#e7e2dc"
-
-                  }
-
-                },
-
-                x: {
-
-                  grid: {
-
-                    display: false
-
-                  }
-
-                }
-
-              },
-
-              plugins: {
-
-                legend: {
-
-                  display: false
-
-                }
-
-              }
-
-            }
-
-          }
-
-        );
-
-      }
-    </script>
   </body>
 </html>

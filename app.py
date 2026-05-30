@@ -455,22 +455,18 @@ def analytics():
     # =========================
 
     author_data = {}
-
     for book in books:
-
         author_data[book.author] = (
             author_data.get(book.author, 0) + 1
         )
-
+    if not author_data:
+        top_author = "None"
     top_author = (
-
         max(
             author_data,
             key=author_data.get
         )
-
         if author_data else "None"
-
     )
 
     # =========================
