@@ -484,6 +484,8 @@ def analytics():
     return render_template(
         "analytics.html",
 
+        total_books = len(books),
+
         mood_labels=list(mood_data.keys()),
         mood_values=list(mood_data.values()),
 

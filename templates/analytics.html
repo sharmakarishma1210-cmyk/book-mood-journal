@@ -104,5 +104,33 @@
         <a href="/" class="btn brown-btn"> ← Back Home </a>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script>
+       const moodLabels = {{ mood_labels | tojson }};
+       const moodValues = {{ mood_values | tojson }};
+       const ratingLabels = {{ rating_labels | tojson }};
+      const ratingValues = {{ rating_values | tojson }};
+
+             new Chart(document.getElementById("moodChart"),
+           {
+             type:"doughnut",
+             data:{
+               labels:moodLabels,
+               datasets:[{
+                 data:moodValues
+               }]
+             }
+           });
+           new Chart(document.getElementById("ratingChart"),
+         {
+           type:"bar",
+           data:{
+             labels:ratingLabels,
+             datasets:[{
+               data:ratingValues
+             }]
+           }
+         });
+    </script>
   </body>
 </html>
