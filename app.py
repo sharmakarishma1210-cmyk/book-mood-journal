@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime , timezone
 from flask import Flask, render_template, request, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
@@ -91,7 +91,7 @@ class Book(db.Model):
 
     created_at = db.Column(
         db.DateTime,
-        default = datetime.utcnow
+        default = datetime.now(timezone.utc)
     )
 
     user_id = db.Column(
@@ -394,6 +394,11 @@ def analytics():
                 mood_data[mood] = (
                     mood_data.get(mood, 0) + 1
                 )
+    most_common_mood = (
+    max(mood_data, key=mood_data.get)
+    if mood_data
+    else "None"
+)
 
     # =========================
     # RATING DATA
@@ -470,16 +475,17 @@ def analytics():
     )
 
     # =========================
-    # FAVORITE PERCENTAGE
+    # BOOKS THIS MONTH
     # =========================
+    current_month = datetime.now(timezone.utc).month
+    current_year = datetime.now(timezone.utc).year
+    books_this_month = len([
+    book for book in books
+    if book.created_at.month == current_month
+    and book.created_at.year == current_year
+])
 
-    favorite_percentage = round(
 
-        (favorite_count / len(books)) * 100,
-
-        1
-
-    ) if books else 0
 
     return render_template(
         "analytics.html",
@@ -499,8 +505,10 @@ def analytics():
         highest_rated=highest_rated,
 
         top_author=top_author,
+        most_common_mood=most_common_mood,
+        books_this_month=books_this_month,
 
-        favorite_percentage=favorite_percentage
+        # favorite_percentage=favorite_percentage
     )
 
 

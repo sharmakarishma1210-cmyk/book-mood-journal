@@ -16,8 +16,9 @@
     {% endfor %} {% endif %} {% endwith %}
 
     <div class="container">
-      <h1 class="title">Welcome Back</h1>
-      <form method="POST" autocomplete="off">
+      <h5 class="title">📚 Your reading journey continues ✨</h5>
+      <p class="subtitle">Welcome back , reader ✨</p>
+      <form method="POST" autocomplete="off" class="auth-form">
         <input
           type="text"
           name="username"
@@ -32,11 +33,11 @@
           autocomplete="new-password"
           required
         />
-        <button type="submit">Login</button>
+        <button type="submit" class="btn brown-btn">Login</button>
       </form>
-      <p class="switch-aut">
+      <p class="auth-switch">
         New user ?
-        <a href="/register"> Register here </a>
+        <a href="/register"> Create an account ✨ </a>
       </p>
     </div>
   </body>
