@@ -114,7 +114,7 @@ body {
 }
 
 .chart-wrapper {
-  height: 340px;
+  height: 450px;
 }
 
 /* =========================
@@ -200,6 +200,8 @@ form,
 .nav-logo {
   margin: 0;
   color: var(--primary-dark);
+  font-size: 25px;
+  font-weight: 500;
 }
 
 .nav-links {
@@ -216,6 +218,7 @@ form,
 
 .nav-links a:hover {
   color: var(--text-soft);
+  transform: translateY(-2px);
 }
 
 /* =========================
@@ -813,6 +816,75 @@ textarea:focus {
   gap: 24px;
   margin-bottom: 50px;
 }
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark-mode {
+  background:
+    radial-gradient(circle at top left, #4a2c59 0%, transparent 30%),
+    radial-gradient(circle at bottom right, #2c2140 0%, transparent 30%),
+    linear-gradient(135deg, #1f1a2e, #2b223d);
+
+  color: #f5e9ff;
+}
+
+/* Cards */
+
+body.dark-mode .navbar,
+body.dark-mode form,
+body.dark-mode .book-card,
+body.dark-mode .api-search-box,
+body.dark-mode .insight-card,
+body.dark-mode .chart-card,
+body.dark-mode .book-highlight {
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  backdrop-filter: blur(20px);
+}
+
+/* Headings */
+
+body.dark-mode .title,
+body.dark-mode .nav-logo,
+body.dark-mode .analytics-section-title,
+body.dark-mode .chart-card h2,
+body.dark-mode .book-info h2,
+body.dark-mode .highlight-info h2 {
+  color: #f7d9ff;
+}
+
+/* Normal text */
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode strong {
+  color: #ece4f6;
+}
+
+/* Inputs */
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background: rgba(255, 255, 255, 0.08);
+
+  color: white;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Links */
+
+body.dark-mode .nav-links a {
+  color: #f2d8ff;
+}
+
+body.dark-mode .nav-links a:hover {
+  color: #ffb7ff;
+}
 
 /* =========================
    MOBILE
@@ -843,16 +915,14 @@ textarea:focus {
 
   .navbar {
     flex-direction: column;
-
     gap: 15px;
-
     text-align: center;
   }
 
   .nav-links {
-    flex-wrap: wrap;
-
-    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 18px;
   }
 
   .title {

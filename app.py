@@ -485,8 +485,6 @@ def analytics():
     and book.created_at.year == current_year
 ])
 
-
-
     return render_template(
         "analytics.html",
 
@@ -663,15 +661,12 @@ def favorite_book(id):
 
     return redirect("/")
 
-
 # =========================
 # CREATE DATABASE
 # =========================
 
 with app.app_context():
-
     db.create_all()
-
 
 # =========================
 # RUN APP

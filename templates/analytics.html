@@ -10,6 +10,17 @@
     />
   </head>
   <body>
+    <div class="navbar">
+      <h2 class="nav-logo">Book Mood Journal 📚</h2>
+
+      <div class="nav-links">
+        <a href="/">Home</a>
+
+        <button id="theme-toggle" class="btn brown-btn" type="button">
+          🌙 Dark Mode
+        </button>
+      </div>
+    </div>
     <div class="container">
       <h1 class="title">Reading Analytics 📊</h1>
 
@@ -89,6 +100,10 @@
           <div class="chart-wrapper">
             <canvas id="moodChart"></canvas>
           </div>
+          <p class="mood-highlight">
+            💗 Most Common Mood:
+            <strong>{{ most_common_mood }}</strong>
+          </p>
         </div>
 
         <div class="chart-card">
@@ -106,31 +121,67 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script>
-       const moodLabels = {{ mood_labels | tojson }};
-       const moodValues = {{ mood_values | tojson }};
-       const ratingLabels = {{ rating_labels | tojson }};
-      const ratingValues = {{ rating_values | tojson }};
+             const moodLabels = {{ mood_labels | tojson }};
+             const moodValues = {{ mood_values | tojson }};
+             const ratingLabels = {{ rating_labels | tojson }};
+            const ratingValues = {{ rating_values | tojson }};
+            new Chart(document.getElementById("moodChart"), {
+        type: "doughnut",
+        data: {
+          labels: moodLabels,
+          datasets: [{
+            data: moodValues
+          }]
+        },
 
-             new Chart(document.getElementById("moodChart"),
-           {
-             type:"doughnut",
-             data:{
-               labels:moodLabels,
-               datasets:[{
-                 data:moodValues
-               }]
-             }
-           });
-           new Chart(document.getElementById("ratingChart"),
-         {
-           type:"bar",
-           data:{
-             labels:ratingLabels,
-             datasets:[{
-               data:ratingValues
-             }]
-           }
-         });
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+
+                 new Chart(document.getElementById("ratingChart"),
+               {
+                 type:"bar",
+                 data:{
+                   labels:ratingLabels,
+                   datasets:[{
+                     data:ratingValues
+                   }]
+                 }
+               });
+    </script>
+    <script>
+      const themeToggle = document.getElementById("theme-toggle");
+      function updateButton() {
+        if (document.body.classList.contains("dark-mode")) {
+          themeToggle.textContent = "☀️ Light Mode";
+        } else {
+          themeToggle.textContent = "🌙 Dark Mode";
+        }
+      }
+
+      if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+      }
+
+      updateButton();
+
+      themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+
+        updateButton();
+        localStorage.setItem(
+          "theme",
+          document.body.classList.contains("dark-mode") ? "dark" : "light",
+        );
+      });
     </script>
   </body>
 </html>
