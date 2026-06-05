@@ -422,9 +422,7 @@ textarea:focus {
 
 .stat-card h3 {
   margin: 0;
-
   font-size: 28px;
-
   color: var(--primary-dark);
 }
 
@@ -837,12 +835,24 @@ body.dark-mode .book-card,
 body.dark-mode .api-search-box,
 body.dark-mode .insight-card,
 body.dark-mode .chart-card,
+body.dark.mode .stat-card,
 body.dark-mode .book-highlight {
-  background: rgba(255, 255, 255, 0.08);
-
-  border: 1px solid rgba(255, 255, 255, 0.12);
-
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(20px);
+}
+
+body.dark-mode .insight-card h3 {
+  /* color: #ffffff; */
+  color: white;
+}
+
+body.dark-mode .hero-number {
+  color: #ffffff;
+}
+
+body.dark-mode .hero-label {
+  color: #f5e9ff;
 }
 
 /* Headings */
@@ -870,9 +880,7 @@ body.dark-mode input,
 body.dark-mode select,
 body.dark-mode textarea {
   background: rgba(255, 255, 255, 0.08);
-
   color: white;
-
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
@@ -886,6 +894,22 @@ body.dark-mode .nav-links a:hover {
   color: #ffb7ff;
 }
 
+body.dark-mode .stat-card h3,
+body.dark-mode .hero-number,
+body.dark-mode .search-title,
+body.dark-mode .welcome-user,
+body.dark-mode .stat-card p,
+body.dark-mode .hero-label {
+  color: #f7d9ff;
+}
+
+body.dark-mode input::placeholder {
+  color: #d8cde6;
+}
+body.dark-mode .subtitle,
+body.dark-mode .welcome-user {
+  color: #ece4f6;
+}
 /* =========================
    MOBILE
 ========================= */
