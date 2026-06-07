@@ -246,13 +246,14 @@
           name="quote"
           placeholder="Add a memorable quote..."
         ></textarea>
-
+        <div class = "form-btn-container">
         <button
           type="submit"
           class="btn brown-btn"
         >
           Add Book
         </button>
+        </div>
 
       </form>
 
@@ -654,34 +655,39 @@
       "recommendations-container"
     );
 
-  let html =
-    `<h2 class="analytics-section-title">
-      ✨ More From This Author
-    </h2>`;
+let html = `
+  <h3 class="recommendation-title">
+    ✨ More From This Author
+  </h3>
+
+  <div class="recommendations-row">
+`;
 
   let count = 0;
 
   data.docs.forEach((book) => {
-
     if (
       book.title && book.title.toLowerCase() !== currentTitle.toLowerCase() 
       &&
       count < 3
     ) {
 
-      html += `
-        <div class="search-book-card">
-          <div class="search-info">
-            <h3>${book.title}</h3>
-            <p>${author}</p>
-          </div>
-        </div>
-      `;
+html += `
+  <div class="recommendation-chip">
+    📖 ${book.title}
+  </div>
+`;
 
       count++;
     }
 
   });
+
+  if (count == 0){
+    container.innerHTML = "";
+    return;
+  }
+  html += '</div>';
 
   container.innerHTML = html;
 }

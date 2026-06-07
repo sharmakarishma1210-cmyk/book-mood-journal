@@ -127,11 +127,26 @@ body {
   margin-top: 50px;
 }
 
+/* .search-book-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 12px 18px;
+  margin: 10px auto;
+  max-width: 500px;
+  box-shadow: none;
+} */
+
+.search-book-card {
+  max-width: 400px;
+  padding: 10px 16px;
+  margin: 8px auto;
+}
+
 .navbar,
 form,
 .book-card,
 .stat-card,
-.search-book-card,
 .api-search-box {
   background: var(--glass-bg);
 
@@ -377,6 +392,16 @@ textarea:focus {
   flex: 1;
 }
 
+.form-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.form-btn-container button {
+  min-width: 150px;
+}
+
 /* =========================
    STATS
 ========================= */
@@ -429,6 +454,32 @@ textarea:focus {
   margin: 40px auto;
 
   padding: 28px;
+}
+
+#recommendations-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.recommendations-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.recommendation-chip {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+}
+
+.recommendation-title {
+  text-align: center;
+  margin: 20px 0 12px;
+  font-size: 1.3rem;
 }
 
 .search-title {
