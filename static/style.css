@@ -499,7 +499,9 @@ textarea:focus {
 
 #search-results {
   display: grid;
-  gap: 18px;
+  gap: 13px;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 /* =========================
