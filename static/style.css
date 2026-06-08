@@ -812,7 +812,6 @@ textarea:focus {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-
   max-width: 1000px;
   margin: 40px auto;
 }
@@ -821,13 +820,13 @@ textarea:focus {
   transform: translateY(-6px);
 }
 
-.books-card {
+/* .books-card {
   background: linear-gradient(135deg, #7c9d96, #62827a);
-}
+} */
 
-.rating-card {
+/* .rating-card {
   background: linear-gradient(135deg, #5c5470, #433d55);
-}
+} */
 
 .hero-number {
   font-size: 56px;
@@ -886,7 +885,7 @@ body.dark-mode .insight-card h3 {
 }
 
 body.dark-mode .hero-number {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
 body.dark-mode .hero-label {
@@ -947,6 +946,11 @@ body.dark-mode input::placeholder {
 body.dark-mode .subtitle,
 body.dark-mode .welcome-user {
   color: #ece4f6;
+}
+
+body.dark-mode .books-card,
+body.dark-mode .rating-card {
+  background: rgba(255, 255, 255, 0.08);
 }
 /* =========================
    MOBILE
