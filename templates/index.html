@@ -638,6 +638,14 @@ filteredBooks.forEach((book) => {
           top: 500,
           behavior: "smooth"
         });
+
+      const form = document.querySelector(".main-form");
+
+form.classList.add("highlight-form");
+
+setTimeout(() => {
+  form.classList.remove("highlight-form");
+}, 2000);
       }
 
       async function loadRecommendations(author, currentTitle) {
