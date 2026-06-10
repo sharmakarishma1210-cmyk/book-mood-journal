@@ -511,9 +511,13 @@
       // =========================
       // SEARCH BOOKS
       // =========================
+      alert("Search function started");
+
+
 
       async function searchBooks() {
         console.log("SEARCH RUNNING!")
+        // alert("search function started")
 
         const query =
           document
@@ -523,33 +527,51 @@
 
         if (!query) return;
 
-const response = await fetch(
-  `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=30`
-);
-
-        const data = await response.json();
-
         const resultsDiv =
           document.getElementById(
             "search-results"
           );
 
-        resultsDiv.innerHTML = "";
-        const filteredBooks = data.docs.filter(book => {
+        resultsDiv.innerHTML = "<p>📚 Searching books...</p>";
 
-  const titleMatch =
-    book.title &&
-    book.title.toLowerCase().includes(query.toLowerCase());
+        const response = await fetch(
+  `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=30`
+);
+const data = await response.json();
+// alert("API returned")
+// console.log(data)
 
-  const authorMatch =
-    book.author_name &&
-    book.author_name.some(author =>
-      author.toLowerCase().includes(query.toLowerCase())
-    );
+        const filteredBooks = data.docs
 
-  return titleMatch || authorMatch;
+  .map(book => {
+    let score = 0;
+    const title =
+      (book.title || "").toLowerCase();
+    const queryLower =
+      query.toLowerCase();
+    if (title === queryLower)
+      score += 100;
+    else if (title.startsWith(queryLower))
+      score += 50;
+    else if (title.includes(queryLower))
+      score += 20;
+    return {
+      ...book,
+      score
+    };
+  })
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 20);
 
-}).slice(0, 20);
+
+  console.log("Filtered books:", filteredBooks);
+alert(filteredBooks.length);
+
+  if (filteredBooks.length===0){
+    resultsDiv.innerHTML = "<p>📚 No books found</p>";
+    return;
+  }
+  resultsDiv.innerHTML = "";
 
 filteredBooks.forEach((book) => {
 
