@@ -538,9 +538,7 @@
   `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=30`
 );
 const data = await response.json();
-// alert("API returned")
-// console.log(data)
-
+console.log(data.docs[0]);
         const filteredBooks = data.docs
 
   .map(book => {
@@ -576,6 +574,7 @@ alert(filteredBooks.length);
 filteredBooks.forEach((book) => {
 
   console.log(book);
+
 
   const title =
     book.title || "Unknown";
