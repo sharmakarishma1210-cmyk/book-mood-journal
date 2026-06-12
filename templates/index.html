@@ -511,10 +511,7 @@
       // =========================
       // SEARCH BOOKS
       // =========================
-      alert("Search function started");
-
-
-
+      // alert("Search function started");
       async function searchBooks() {
         console.log("SEARCH RUNNING!")
         // alert("search function started")
@@ -553,11 +550,20 @@ console.log(data.docs[0]);
       score += 50;
     else if (title.includes(queryLower))
       score += 20;
+
+    const authorMatch = 
+    book.author_name &&
+    book.author_name.some(author => 
+      author.toLowerCase().includes(queryLower)
+    );
+    if (authorMatch)
+      score+=80
     return {
       ...book,
       score
     };
   })
+  .filter(book => book.score>0)
   .sort((a, b) => b.score - a.score)
   .slice(0, 20);
 
@@ -594,7 +600,8 @@ filteredBooks.forEach((book) => {
                   selectBook(
                     \`${title}\`,
                     \`${author}\`,
-                    \`${cover}\`
+                    \`${cover}\`,
+                     \`${book.key}\`
                   )
                 "
               >
@@ -622,11 +629,26 @@ filteredBooks.forEach((book) => {
       // SELECT BOOK
       // =========================
 
-      function selectBook(
+       async function selectBook(
         title,
         author,
-        cover
+        cover,
+        workKey
       ) {
+
+        console.log("WORK KEY" , workKey)
+      
+
+        const response = await fetch(
+          `https://openlibrary.org${workKey}.json`);
+
+          const workData = await response.json();
+
+          console.log("work Data:" , workData);
+          console.log(workData.subjects)
+
+          const subjects = workData.subjects || [];
+          console.log(subjects)
 
         document.querySelector(
           'input[name="title"]'
