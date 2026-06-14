@@ -636,6 +636,18 @@ filteredBooks.forEach((book) => {
         workKey
       ) {
 
+        const duplicateResponse = await fetch(
+    `/check-book?title=${encodeURIComponent(title)}&author=${encodeURIComponent(author)}`);
+    const duplicateData = await duplicateResponse.json();
+
+    if (duplicateData.exists){
+          alert(
+      `📚 ${title} is already in your bookshelf`
+    );
+    return;
+  }
+
+
         console.log("WORK KEY" , workKey)
       
 

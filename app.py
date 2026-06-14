@@ -514,6 +514,31 @@ def analytics():
 # ADD BOOK
 # =========================
 
+
+@app.route("/check-book")
+@login_required
+def check_book():
+
+    title = request.args.get("title" , "")
+    author = request.args.get("author" , "")
+    
+    existing_book = Book.query.filter(
+    db.func.lower(Book.title) == title.lower(),
+    db.func.lower(Book.author) == author.lower(),
+    Book.user_id == current_user.id
+).first()
+    
+    return {
+        "exists": existing_book is not None
+    }
+
+
+    # if existing_book:
+    #     flash(f"{title} by {author} is already in your bookshelf.")
+    #     return redirect("/")
+    
+
+
 @app.route("/add", methods=["POST"])
 @login_required
 def add_book():
@@ -525,6 +550,15 @@ def add_book():
     author = request.form[
         "author"
     ].title().strip()
+
+    existing_book = Book.query.filter(
+    db.func.lower(Book.title) == title.lower(),
+    db.func.lower(Book.author) == author.lower(),
+    Book.user_id == current_user.id
+).first()
+    if existing_book:
+        flash(f"📚 {title} by {author} is already in your bookshelf.")
+    return redirect("/")
 
     mood = request.form[
         "mood"
