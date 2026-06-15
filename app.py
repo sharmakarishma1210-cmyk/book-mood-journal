@@ -244,6 +244,9 @@ def home():
     books_query = Book.query.filter_by(
         user_id=current_user.id
     )
+    all_books = Book.query.filter_by(
+        user_id = current_user.id
+    ).all()
 
     # =========================
     # SEARCH
@@ -294,20 +297,16 @@ def home():
     # STATS
     # =========================
 
-    total_books = len(books)
+    total_books = len(all_books)
 
     favorite_books = len(
-        [book for book in books if book.favorite]
+        [book for book in all_books if book.favorite]
     )
-
     average_rating = round(
-
-        sum(book.rating for book in books)
+        sum(book.rating for book in all_books)
         / total_books,
-
         1
-
-    ) if books else 0
+    ) if all_books else 0
 
     # =========================
     # TOP MOOD
@@ -315,7 +314,7 @@ def home():
 
     mood_data = {}
 
-    for book in books:
+    for book in all_books:
 
         moods = book.mood.lower().split(",")
 
@@ -543,41 +542,24 @@ def check_book():
 @login_required
 def add_book():
 
-    title = request.form[
-        "title"
-    ].title().strip()
-
-    author = request.form[
-        "author"
-    ].title().strip()
-
+    title = request.form["title"].title().strip()
+    author = request.form["author"].title().strip()
     existing_book = Book.query.filter(
-    db.func.lower(Book.title) == title.lower(),
-    db.func.lower(Book.author) == author.lower(),
-    Book.user_id == current_user.id
-).first()
+        db.func.lower(Book.title) == title.lower(),
+        db.func.lower(Book.author) == author.lower(),
+        Book.user_id == current_user.id
+        ).first()
     if existing_book:
         flash(f"📚 {title} by {author} is already in your bookshelf.")
-    return redirect("/")
-
-    mood = request.form[
-        "mood"
-    ].lower().strip()
-
-    rating = float(
-        request.form["rating"]
-    )
-
-    if rating < 1 or rating > 5:
-
-        flash("Rating must be between 1 and 5")
-
         return redirect("/")
 
-    quote = request.form[
-        "quote"
-    ].strip()
+    mood = request.form["mood"].lower().strip()
+    rating = float(request.form["rating"])
+    if rating < 1 or rating > 5:
+        flash("Rating must be between 1 and 5")
+        return redirect("/")
 
+    quote = request.form["quote"].strip()
     cover_url = request.form["cover_url"]
     new_book = Book(
         title=title,
@@ -591,12 +573,11 @@ def add_book():
     )
 
     db.session.add(new_book)
-
     db.session.commit()
-
     flash("Book added successfully 📚")
-
     return redirect("/")
+
+    
 
 
 # =========================
