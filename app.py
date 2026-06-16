@@ -397,7 +397,14 @@ def analytics():
     max(mood_data, key=mood_data.get)
     if mood_data
     else "None"
-)
+    )
+
+    top_vibes = sorted(
+    mood_data.items(),
+    key=lambda x: x[1],
+    reverse=True
+)[:5]
+
 
     # =========================
     # RATING DATA
@@ -504,6 +511,7 @@ def analytics():
         top_author=top_author,
         most_common_mood=most_common_mood,
         books_this_month=books_this_month,
+        top_vibes = top_vibes,
 
         # favorite_percentage=favorite_percentage
     )

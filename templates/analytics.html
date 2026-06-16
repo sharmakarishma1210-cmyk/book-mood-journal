@@ -94,11 +94,28 @@
       <h2 class="analytics-section-title">📊 Visual Insights</h2>
 
       <div class="charts-container">
-        <div class="chart-card">
+        <!-- <div class="chart-card">
           <h2>Mood Distribution</h2>
 
           <div class="chart-wrapper">
             <canvas id="moodChart"></canvas>
+          </div>
+
+          <p class="mood-highlight">
+            💗 Most Common Mood:
+            <strong>{{ most_common_mood }}</strong>
+          </p>
+        </div> -->
+
+        <div class="chart-card">
+          <h2>Top Reading Vibes ✨🤍</h2>
+          <div class="vibes-container">
+            {% for mood, count in top_vibes %}
+            <div class="vibe-row">
+              <span class="vibe-name"> {{ mood.title() }} </span>
+              <span class="vibe-count"> {{ count }} books </span>
+            </div>
+            {% endfor %}
           </div>
           <p class="mood-highlight">
             💗 Most Common Mood:
@@ -121,30 +138,30 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script>
-             const moodLabels = {{ mood_labels | tojson }};
-             const moodValues = {{ mood_values | tojson }};
+            //  const moodLabels = {{ mood_labels | tojson }};
+            //  const moodValues = {{ mood_values | tojson }};
              const ratingLabels = {{ rating_labels | tojson }};
             const ratingValues = {{ rating_values | tojson }};
-            new Chart(document.getElementById("moodChart"), {
-        type: "doughnut",
-        data: {
-          labels: moodLabels,
-          datasets: [{
-            data: moodValues
-          }]
-        },
+      //       new Chart(document.getElementById("moodChart"), {
+      //   type: "doughnut",
+      //   data: {
+      //     labels: moodLabels,
+      //     datasets: [{
+      //       data: moodValues
+      //     }]
+      //   },
 
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
+      //   options: {
+      //     responsive: true,
+      //     maintainAspectRatio: false,
 
-          plugins: {
-            legend: {
-              display: false
-            }
-          }
-        }
-      });
+      //     plugins: {
+      //       legend: {
+      //         display: false
+      //       }
+      //     }
+      //   }
+      // });
 
                  new Chart(document.getElementById("ratingChart"),
                {

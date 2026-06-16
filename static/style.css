@@ -428,12 +428,20 @@ textarea:focus {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-
   gap: 24px;
-
   margin-bottom: 42px;
 }
 
+.vibes-container {
+  margin-top: 20px;
+}
+
+.vibe-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
 .stat-card {
   width: 220px;
 
