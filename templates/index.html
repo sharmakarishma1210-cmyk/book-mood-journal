@@ -323,7 +323,7 @@
 
       {% if books %}
 
-      <div class="books-grid">
+      <div class="books-grid" id="bookshelf-section">
 
         {% for book in books %}
 
@@ -781,6 +781,21 @@ html += `
         );
       });
     </script>
+    {% if request.args.get('search')%}
+    <script>
+      document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+          document.getElementById(
+            "bookshelf-section"
+          )
+          .scrollIntoView({
+            behavior:"smooth"
+          });
+        }
+      );
+    </script>
+    {% endif %}
 
   </body>
 </html>
