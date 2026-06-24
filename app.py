@@ -404,6 +404,8 @@ def analytics():
     key=lambda x: x[1],
     reverse=True
 )[:5]
+    
+    max_count = top_vibes[0][1] if top_vibes else 1
 
 
     # =========================
@@ -512,6 +514,7 @@ def analytics():
         most_common_mood=most_common_mood,
         books_this_month=books_this_month,
         top_vibes = top_vibes,
+        max_count = max_count,
 
         # favorite_percentage=favorite_percentage
     )

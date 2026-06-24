@@ -115,6 +115,12 @@
               <span class="vibe-name"> {{ mood.title() }} </span>
               <span class="vibe-count"> {{ count }} books </span>
             </div>
+            <div class="vibe-bar">
+              <div
+                class="vibe-fill"
+                style="width: {{ (count / max_count) * 100 }}%;"
+              ></div>
+            </div>
             {% endfor %}
           </div>
           <p class="mood-highlight">
