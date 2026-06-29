@@ -288,10 +288,22 @@ def home():
             )
         )
 
-    books = books_query.order_by(
+    page = request.args.get(
+        "page",
+        1,
+        type=int
+    )
+
+    pagination = books_query.order_by(
         Book.favorite.desc(),
         Book.id.desc()
-    ).all()
+    ).paginate(
+        page=page,
+        per_page=6,
+        error_out=False
+    )
+
+    books = pagination.items
 
     # =========================
     # STATS
@@ -354,6 +366,9 @@ def home():
     return render_template(
         "index.html",
         books=books,
+        pagination = pagination,
+        search = search,
+        mood_filter = mood_filter,
         total_books=total_books,
         favorite_books=favorite_books,
         average_rating=average_rating,

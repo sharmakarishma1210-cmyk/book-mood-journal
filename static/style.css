@@ -745,6 +745,23 @@ textarea:focus {
 }
 
 /* =========================
+   PAGINATION
+========================= */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin: 35px 0;
+}
+
+.page-info {
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+/* =========================
    EMPTY STATE
 ========================= */
 

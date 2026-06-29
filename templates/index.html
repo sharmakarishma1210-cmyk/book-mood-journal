@@ -452,7 +452,37 @@
         {% endfor %}
 
       </div>
-
+      {% if pagination.pages > 1 %}
+      <div class="pagination">
+        {% if pagination.has_prev %}
+        <a 
+        href = "{{ url_for(
+          'home',
+          page=pagination.prev_num,
+          search=search,
+          mood=mood_filter
+        )}}#bookshelf-section"
+        class="btn brown-btn">
+        <- Previous
+      </a>
+        {% endif %}
+        <span class="page-info">
+          page {{ pagination.page }} of {{ pagination.pages }}
+        </span>
+        {% if pagination.has_next %}
+        <a
+        href="{{ url_for(
+          'home',
+          page=pagination.next_num,
+          search=search,
+          mood=mood_filter
+        )}}#bookshelf-section"
+        class="btn brown-btn">
+      Next ->
+        </a>
+        {% endif %}
+      </div>
+      {% endif %}
       {% else %}
 
       <!-- ========================= -->
