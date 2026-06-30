@@ -91,6 +91,19 @@
 
       {% endif %}
 
+      <h2 class="analytics-section-title">
+        ✨ Discover Your Reading Personality
+      </h2>
+      <div class="personality-card">
+        <h3>{{ personality.title }}</h3>
+        <p class="personality-description">{{ personality.description}}</p>
+        <p class="personality-moods">
+          📚 based on your readings: {% for mood in top_personality_moods %}
+          <strong>{{ mood }}</strong>{% if not loop.last %} . {% endif %} {%
+          endfor %}
+        </p>
+      </div>
+
       <h2 class="analytics-section-title">📊 Visual Insights</h2>
 
       <div class="charts-container">

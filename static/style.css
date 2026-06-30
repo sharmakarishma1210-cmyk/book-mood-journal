@@ -762,6 +762,60 @@ textarea:focus {
 }
 
 /* =========================
+PERSONALITY CARD
+========================= */
+
+.personality-card {
+  margin: 30px 0;
+  padding: 22px 40px;
+  border-radius: 24px;
+  background-color: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.personality-card h2 {
+  margin-bottom: 15px;
+}
+
+.personality-card h3 {
+  font-size: 2rem;
+  /* color: var(--primary-dark); */
+  color: #2d203f;
+  margin-bottom: 15px;
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+
+.personality-card p {
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.7;
+  opacity: 0.9;
+}
+
+.personality-description {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #3d3350;
+  line-height: 1.6;
+  max-width: 630px;
+  margin: 0 auto 10px;
+}
+
+.personality-moods {
+  font-size: 1rem;
+  margin-top: 10px;
+  color: #4a405c;
+}
+
+.personality-moods strong {
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+/* =========================
    EMPTY STATE
 ========================= */
 

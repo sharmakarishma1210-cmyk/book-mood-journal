@@ -414,13 +414,76 @@ def analytics():
     else "None"
     )
 
+    if most_common_mood in [
+    "mystery",
+    "psychological thriller",
+    "crime fiction",
+    "thriller",
+    "suspenseful"]:
+        personality = {
+        "title": "The Detective 🕵️",
+        "description": "You love unraveling mysteries and enjoy stories full of suspense and twists."
+    }
+
+    elif most_common_mood in [
+    "romance",
+    "heartthrobbing"
+    "dark romance",
+    "heartfelt"]:
+        
+        personality = {
+        "title": "The Romantic 💕",
+        "description": "You enjoy emotional stories, meaningful relationships, and unforgettable characters."
+    }
+
+    elif most_common_mood in [
+    "fantasy",
+    "magic",
+    "adventure"
+]:
+        personality = {
+        "title": "The Dreamer ✨",
+        "description": "You love escaping into imaginative worlds filled with wonder."
+    }
+
+    elif most_common_mood in [
+    "self help",
+    "memoir",
+    "biographical memoir",
+    "non-fiction"
+]:
+        personality = {
+        "title": "The Lifelong Learner 🌱",
+        "description": "You read to grow, reflect, and discover new perspectives."
+    }
+
+    elif most_common_mood in [
+    "comedy-drama",
+    "comedy"
+    "contemporary fiction novel"
+]:
+        personality = {
+        "title": "The Slice-of-Life Reader ☕",
+        "description": "You appreciate relatable characters and everyday stories with heart."
+    }
+
+    else:
+        personality = {
+        "title": "The Explorer 📚",
+        "description": "Your bookshelf spans many genres—you enjoy discovering something different every time."
+    }
     top_vibes = sorted(
     mood_data.items(),
     key=lambda x: x[1],
     reverse=True
 )[:5]
-    
     max_count = top_vibes[0][1] if top_vibes else 1
+
+
+    top_personality_moods = [
+        mood.title()
+        for mood , count in top_vibes[:3]
+    ]
 
 
     # =========================
@@ -529,7 +592,9 @@ def analytics():
         most_common_mood=most_common_mood,
         books_this_month=books_this_month,
         top_vibes = top_vibes,
+        top_personality_moods=top_personality_moods,
         max_count = max_count,
+        personality = personality,
 
         # favorite_percentage=favorite_percentage
     )
