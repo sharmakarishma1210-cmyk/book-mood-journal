@@ -732,9 +732,9 @@ def edit_book(id):
 
         book.rating = rating
 
-        book.quote = request.form[
-            "quote"
-        ].strip()
+        book.quote = request.form.get(
+            "quote",""
+        ).strip()
 
         db.session.commit()
 

@@ -323,8 +323,8 @@
       <!-- ========================= -->
 
       {% if books %}
-
-      <div class="books-grid" id="bookshelf-section">
+      <div id="bookshelf-section">
+      <div class="books-grid">
 
         {% for book in books %}
 
@@ -452,6 +452,7 @@
         {% endfor %}
 
       </div>
+      </div>
       {% if pagination.pages > 1 %}
       <div class="pagination">
         {% if pagination.has_prev %}
@@ -484,26 +485,31 @@
       </div>
       {% endif %}
       {% else %}
-
-      <!-- ========================= -->
-      <!-- EMPTY STATE -->
-      <!-- ========================= -->
-
+      {% if total_books > 0 %}
+      <div id="bookshelf-section">
+        <div class="empty-state">
+          <h2>🔍</h2>
+          <p>
+            No books found for 
+            <strong>"{{ search }}"</strong>.
+          </p>
+          <span>
+            Try another title or author.
+          </span>
+        </div>
+      </div>
+      {% else %}
       <div class="empty-state">
-
-        <h2>📚</h2>
-
+        <h2>🔍</h2>
         <p>No books yet.</p>
-
         <span>
           Start building your cozy reading shelf.
         </span>
-
       </div>
-
+      {% endif %}
       {% endif %}
 
-    </div>
+
 
     <!-- ========================= -->
     <!-- FOOTER -->
