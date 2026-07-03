@@ -91,17 +91,39 @@
 
       {% endif %}
 
-      <h2 class="analytics-section-title">
-        ✨ Discover Your Reading Personality
-      </h2>
+      <h2 class="analytics-section-title">📖 Literary Identity</h2>
+
       <div class="personality-card">
-        <h3>{{ personality.title }}</h3>
-        <p class="personality-description">{{ personality.description}}</p>
-        <p class="personality-moods">
-          📚 based on your readings: {% for mood in top_personality_moods %}
-          <strong>{{ mood }}</strong>{% if not loop.last %} . {% endif %} {%
-          endfor %}
-        </p>
+        <!-- CLOSED BOOK -->
+
+        <div id="personality-closed">
+          <div class="book-icon">📕</div>
+
+          <h3>Your Literary Identity</h3>
+
+          <p class="personality-description">
+            Every book you've logged has left a clue. Open the book to discover
+            your literary identity. ✨
+          </p>
+
+          <button class="btn brown-btn" onclick="revealPersonality()">
+            📖 Open Book
+          </button>
+        </div>
+
+        <!-- OPEN BOOK -->
+
+        <div id="personality-open" style="display: none">
+          <h3>{{ personality.title }}</h3>
+
+          <p class="personality-description">{{ personality.description }}</p>
+
+          <p class="personality-moods">
+            📚 Based on your reading: {% for mood in top_personality_moods %}
+            <strong>{{ mood }}</strong>{% if not loop.last %} • {% endif %} {%
+            endfor %}
+          </p>
+        </div>
       </div>
 
       <h2 class="analytics-section-title">📊 Visual Insights</h2>
@@ -219,6 +241,13 @@
           document.body.classList.contains("dark-mode") ? "dark" : "light",
         );
       });
+    </script>
+    <script>
+      function revealPersonality() {
+        document.getElementById("personality-closed").style.display = "none";
+
+        document.getElementById("personality-open").style.display = "block";
+      }
     </script>
   </body>
 </html>

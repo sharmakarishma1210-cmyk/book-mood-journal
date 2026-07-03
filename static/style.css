@@ -765,6 +765,35 @@ textarea:focus {
 PERSONALITY CARD
 ========================= */
 
+.book-icon {
+  font-size: 4rem;
+  margin-bottom: 18px;
+}
+
+#personality-closed {
+  text-align: center;
+}
+
+#personality-closed button {
+  margin-top: 25px;
+}
+
+#personality-open {
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .personality-card {
   margin: 30px 0;
   padding: 22px 40px;
