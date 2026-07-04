@@ -97,23 +97,19 @@
         <!-- CLOSED BOOK -->
 
         <div id="personality-closed">
-          <div class="book-icon">📕</div>
-
-          <h3>Your Literary Identity</h3>
-
+          <div class="book-toggle" onclick="togglePersonality()">📕</div>
           <p class="personality-description">
             Every book you've logged has left a clue. Open the book to discover
             your literary identity. ✨
           </p>
-
-          <button class="btn brown-btn" onclick="revealPersonality()">
-            📖 Open Book
-          </button>
+          <p class="hint">
+            Click the book to discover your reading personality.
+          </p>
         </div>
-
         <!-- OPEN BOOK -->
 
         <div id="personality-open" style="display: none">
+          <div class="book-toggle" onclick="togglePersonality()">📖</div>
           <h3>{{ personality.title }}</h3>
 
           <p class="personality-description">{{ personality.description }}</p>
@@ -123,6 +119,7 @@
             <strong>{{ mood }}</strong>{% if not loop.last %} • {% endif %} {%
             endfor %}
           </p>
+          <p class="hint">Click the book to close</p>
         </div>
       </div>
 
@@ -243,10 +240,17 @@
       });
     </script>
     <script>
-      function revealPersonality() {
-        document.getElementById("personality-closed").style.display = "none";
+      function togglePersonality() {
+        const closed = document.getElementById("personality-closed");
+        const open = document.getElementById("personality-open");
 
-        document.getElementById("personality-open").style.display = "block";
+        if (closed.style.display === "none") {
+          closed.style.display = "block";
+          open.style.display = "none";
+        } else {
+          closed.style.display = "none";
+          open.style.display = "block";
+        }
       }
     </script>
   </body>

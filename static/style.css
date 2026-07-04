@@ -764,10 +764,23 @@ textarea:focus {
 /* =========================
 PERSONALITY CARD
 ========================= */
-
-.book-icon {
+.book-toggle {
   font-size: 4rem;
-  margin-bottom: 18px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  user-select: none;
+  display: inline-block;
+}
+
+.book-toggle:hover {
+  transform: scale(1.15) rotate(-5deg);
+}
+
+.hint {
+  margin-top: 15px;
+  opacity: 0.7;
+  font-size: 0.95rem;
+  font-style: italic;
 }
 
 #personality-closed {
