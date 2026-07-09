@@ -178,19 +178,16 @@ form,
 .auth-form {
   width: 100%;
   max-width: none;
-
   margin: 20px 0;
   padding: 0;
-
   display: flex;
   flex-direction: column;
   gap: 18px;
-
   background: transparent;
   box-shadow: none;
   backdrop-filter: none;
 
-  transition: 0.3s ease;
+  /* transition: 0.3s ease; */
 }
 
 .auth-card {
@@ -236,11 +233,6 @@ form,
   margin-top: 10px;
 }
 
-.auth-form:hover {
-  transform: translate(-4px);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
-}
-
 .password-wrapper {
   position: relative;
   width: 100%;
@@ -258,6 +250,42 @@ form,
   font-size: 20px;
 }
 
+/* =========================
+   EDIT PAGE
+========================= */
+
+.edit-card {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 40px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.35);
+  /* background: #fdfaf7; */
+  /* backdrop-filter: blur(18px); */
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+
+label {
+  display: block;
+  margin-top: 18px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.edit-title {
+  font-size: 44px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.edit-subtitle {
+  font-size: 18px;
+  color: var(--text-soft);
+  margin-bottom: 32px;
+  text-align: center;
+}
 /* =========================
    NAVBAR
 ========================= */
@@ -349,6 +377,7 @@ textarea {
   background: rgba(255, 255, 255, 0.7);
   font-size: 15px;
   font-weight: 500;
+  margin-top: 0;
   font-family: inherit;
   color: var(--text-main);
   transition: 0.25s ease;
