@@ -6,43 +6,43 @@
     <title>Edit Book</title>
     <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}" />
   </head>
-  <body>
+  <body class="dark-mode">
     <div class="container">
       <h1 class="edit-title">🖋️ Edit Book</h1>
       <p class="edit-subtitle">Update your reading memories.</p>
-      <div class="edit-card">
-        <form method="POST">
-          <label>Book Title</label>
-          <input type="text" name="title" value="{{ book.title }}" required />
+      <form method="POST" class="edit-form">
+        <label>Book Title</label>
+        <input type="text" name="title" value="{{ book.title }}" required />
 
-          <label>Author</label>
-          <input type="text" name="author" value="{{ book.author }}" required />
+        <label>Author</label>
+        <input type="text" name="author" value="{{ book.author }}" required />
 
-          <label>Moods</label>
-          <input type="text" name="mood" value="{{ book.mood }}" required />
+        <label>Moods</label>
+        <input type="text" name="mood" value="{{ book.mood }}" required />
 
-          <label>Rating ⭐</label>
-          <input
-            type="number"
-            name="rating"
-            value="{{ book.rating }}"
-            min="1"
-            max="5"
-            step="0.1"
-            required
-          />
-          <textarea
-            name="quote"
-            rows="4"
-            placeholder="A line that stayed with you..."
-          >
+        <label>Rating ⭐</label>
+        <input
+          type="number"
+          name="rating"
+          value="{{ book.rating }}"
+          min="1"
+          max="5"
+          step="0.1"
+          required
+        />
+        <label> Favourite Quote</label>
+        <textarea
+          name="quote"
+          rows="4"
+          placeholder="A line that stayed with you..."
+        >
 {{ book.quote }}</textarea
-          >
-
+        >
+        <div class="button-row">
           <button class="btn brown-btn" type="submit">Save Changes</button>
           <a href="/" class="btn green-btn"> Back </a>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </body>
 </html>
