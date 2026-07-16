@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit Book</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="{{ url_for('static', filename='favicon.svg') }}"
+    />
+
     <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}" />
   </head>
   <body class="dark-mode">
@@ -18,7 +24,13 @@
         <input type="text" name="author" value="{{ book.author }}" required />
 
         <label>Moods</label>
-        <input type="text" name="mood" value="{{ book.mood }}" required />
+        <input
+          type="text"
+          name="mood"
+          autocomplete="off"
+          value="{{ book.mood }}"
+          required
+        />
 
         <label>Rating ⭐</label>
         <input

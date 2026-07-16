@@ -19,6 +19,12 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
     />
+
+        <link
+      rel="icon"
+      type="image/svg+xml"
+      href="{{ url_for('static', filename='favicon.svg') }}"
+    />
   </head>
 
   <body>
@@ -224,7 +230,7 @@
         <input
           type="text"
           name="mood"
-          placeholder="Mood (dark, emotional, comforting...)"
+          placeholder="Separate moods with commas"
           required
         />
 
@@ -697,6 +703,11 @@ filteredBooks.forEach((book) => {
           console.log(workData.subjects)
 
           const subjects = workData.subjects || [];
+          const moods = subjects.slice(0 ,3).join(" , ");
+          document.querySelector(
+            'input[name="mood"]'
+          ).value = moods;
+  
           console.log(subjects)
 
         document.querySelector(
