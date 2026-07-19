@@ -446,7 +446,7 @@
 
             <a
               href="/delete/{{ book.id }}"
-              class="btn red-btn"
+              class="btn red-btn delete-btn"
               onclick="return confirm('Delete this book?');"
             >
               Delete
@@ -574,7 +574,7 @@
           );
           console.log(query);
 
-        resultsDiv.innerHTML = "<p>📚 Searching books...</p>";
+        resultsDiv.innerHTML = "<p>⏳ Searching Open Library...</p>";
 
         const response = await fetch(
   `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=30`
@@ -692,7 +692,6 @@ filteredBooks.forEach((book) => {
     );
     return;
   }
-
 
         console.log("WORK KEY" , workKey)
       
@@ -831,6 +830,22 @@ html += `
           document.body.classList.contains("dark-mode") ? "dark" : "light",
         );
       });
+
+        document
+    .getElementById("book-search")
+    .addEventListener("keydown", function (e) {
+
+if (e.key === "Enter") {
+    e.preventDefault();
+    searchBooks();
+}
+
+if (e.key === "Escape") {
+    e.target.value = "";
+    document.getElementById("search-results").innerHTML = "";
+}
+
+    });
     </script>
     {% if request.args.get('search')%}
     <script>
