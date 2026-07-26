@@ -1,5 +1,6 @@
 from datetime import datetime , timezone
 from flask import Flask, render_template, request, redirect, flash
+from collections import defaultdict
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 from flask_login import (
@@ -570,11 +571,23 @@ def analytics():
     if book.created_at.month == current_month
     and book.created_at.year == current_year
 ])
+    
+
+    books = sorted(
+        books,
+        key=lambda book : book.created_at,
+        reverse = True
+    )
+    monthly_books = defaultdict(list)
+    for book in books:
+        month = book.created_at.strftime("%B %Y")
+        monthly_books[month].append(book)
 
     return render_template(
         "analytics.html",
 
         total_books = len(books),
+        monthly_books = monthly_books,
 
         mood_labels=list(mood_data.keys()),
         mood_values=list(mood_data.values()),

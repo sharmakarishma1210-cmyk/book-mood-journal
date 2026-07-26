@@ -67,6 +67,24 @@
         </div>
       </div>
 
+      <h2 class="section-title">📅 Reading History</h2>
+
+      <div class="history-card">
+        {% for month , books in monthly_books.items() %}
+        <div class="month-section">
+          <div class="month-header">
+            <h3>{{ month }}</h3>
+            <p>{{ books|length }} books logged</p>
+          </div>
+          <ul class="history-list">
+            {% for book in books %}
+            <li>{{ book.title }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endfor %}
+      </div>
+
       <h2 class="analytics-section-title">🏆 Book Spotlight</h2>
 
       {% if highest_rated %}

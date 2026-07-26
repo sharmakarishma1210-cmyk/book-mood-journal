@@ -444,13 +444,13 @@
 
             </a>
 
-            <a
-              href="/delete/{{ book.id }}"
-              class="btn red-btn delete-btn"
-              onclick="return confirm('Delete this book?');"
-            >
-              Delete
-            </a>
+<a
+    href="/delete/{{ book.id }}"
+    class="btn red-btn"
+    onclick="return confirm('Delete this book?');"
+>
+    Delete
+</a>
 
           </div>
 
@@ -848,6 +848,7 @@ if (e.key === "Escape") {
     });
     </script>
     {% if request.args.get('search')%}
+
     <script>
       document.addEventListener(
         "DOMContentLoaded",
@@ -862,6 +863,5 @@ if (e.key === "Escape") {
       );
     </script>
     {% endif %}
-
   </body>
 </html>
