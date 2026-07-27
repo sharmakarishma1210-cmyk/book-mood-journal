@@ -72,15 +72,20 @@
       <div class="history-card">
         {% for month , books in monthly_books.items() %}
         <div class="month-section">
-          <div class="month-header">
-            <h3>{{ month }}</h3>
-            <p>{{ books|length }} books logged</p>
+          <div class="month-header" onclick="toggleMonth(this)">
+            <div class="month-title">
+              <span class="arrow">▶</span>
+              <h3>{{month}}</h3>
+            </div>
+            <span class="book-count"> 📚 {{ books|length}} </span>
           </div>
-          <ul class="history-list">
-            {% for book in books %}
-            <li>{{ book.title }}</li>
-            {% endfor %}
-          </ul>
+          <div class="month-content">
+            <ul class="history-list">
+              {% for book in books %}
+              <li>{{ book.title }}</li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
         {% endfor %}
       </div>
@@ -274,6 +279,18 @@
         } else {
           closed.style.display = "none";
           open.style.display = "block";
+        }
+      }
+
+      function toggleMonth(header) {
+        const content = header.nextElementSibling;
+        const arrow = header.querySelector(".arrow");
+        if (content.style.display === "block") {
+          content.style.display = "none";
+          arrow.textContent = "▶";
+        } else {
+          content.style.display = "block";
+          arrow.textContent = "🔽";
         }
       }
     </script>
