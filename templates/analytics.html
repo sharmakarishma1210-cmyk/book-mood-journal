@@ -66,28 +66,36 @@
           <p>✍️ Most Read Author</p>
         </div>
       </div>
+      <div class="reading-history-section">
+        <h2>📅 Reading History</h2>
+        <div class="history-card">
+          {% for month , books in monthly_books.items() %}
+          <div class="month-section">
+            <div class="month-header" onclick="toggleMonth(this)">
+              <div class="month-title">
+                <span class="arrow">▶</span>
 
-      <h2 class="section-title">📅 Reading History</h2>
+                <div class="month-info">
+                  <h3>{{ month }}</h3>
+                  <p>Reading Activity</p>
+                </div>
+              </div>
 
-      <div class="history-card">
-        {% for month , books in monthly_books.items() %}
-        <div class="month-section">
-          <div class="month-header" onclick="toggleMonth(this)">
-            <div class="month-title">
-              <span class="arrow">▶</span>
-              <h3>{{month}}</h3>
+              <div class="book-count">{{ books|length }} Books</div>
             </div>
-            <span class="book-count"> 📚 {{ books|length}} </span>
+            <div class="month-content">
+              <ul class="history-list">
+                {% for book in books %}
+                <li>
+                  <span class="book-number"> {{ loop.index }} </span>
+                  <span class="book-title"> {{ book.title }} </span>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
           </div>
-          <div class="month-content">
-            <ul class="history-list">
-              {% for book in books %}
-              <li>{{ book.title }}</li>
-              {% endfor %}
-            </ul>
-          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
       </div>
 
       <h2 class="analytics-section-title">🏆 Book Spotlight</h2>
@@ -205,42 +213,93 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script>
-            //  const moodLabels = {{ mood_labels | tojson }};
-            //  const moodValues = {{ mood_values | tojson }};
-             const ratingLabels = {{ rating_labels | tojson }};
-            const ratingValues = {{ rating_values | tojson }};
-      //       new Chart(document.getElementById("moodChart"), {
-      //   type: "doughnut",
-      //   data: {
-      //     labels: moodLabels,
-      //     datasets: [{
-      //       data: moodValues
-      //     }]
-      //   },
+                  //  const moodLabels = {{ mood_labels | tojson }};
+                  //  const moodValues = {{ mood_values | tojson }};
+                   const ratingLabels = {{ rating_labels | tojson }};
+                  const ratingValues = {{ rating_values | tojson }};
+            //       new Chart(document.getElementById("moodChart"), {
+            //   type: "doughnut",
+            //   data: {
+            //     labels: moodLabels,
+            //     datasets: [{
+            //       data: moodValues
+            //     }]
+            //   },
 
-      //   options: {
-      //     responsive: true,
-      //     maintainAspectRatio: false,
+            //   options: {
+            //     responsive: true,
+            //     maintainAspectRatio: false,
 
-      //     plugins: {
-      //       legend: {
-      //         display: false
-      //       }
-      //     }
-      //   }
-      // });
+            //     plugins: {
+            //       legend: {
+            //         display: false
+            //       }
+            //     }
+            //   }
+            // });
+            new Chart(document.getElementById("ratingChart"), {
+        type: "bar",
+        data: {
+          labels: ratingLabels,
+          datasets: [{
+            label: "Book Rating",
+            data: ratingValues,
+            backgroundColor: "rgba(191, 135, 255, 0.75)",
+            borderColor: "rgba(191, 135, 255, 1)",
+            borderWidth: 1,
+            borderRadius: 12,
+            borderSkipped: false,
+            categoryPercentage:0.55,
+            barPercentage: 0.8,
+          }]
+        },
 
-                 new Chart(document.getElementById("ratingChart"),
-               {
-                 type:"bar",
-                 data:{
-                   labels:ratingLabels,
-                   datasets:[{
-                    label : "Book Rating",
-                     data:ratingValues
-                   }]
-                 }
-               });
+        options: {
+          responsive: true,
+
+          plugins: {
+            legend: {
+              display:false
+            }
+          },
+
+          tooltip:{
+            backgroundColor:"#3f3157",
+            borderColor:"#bf87ff",
+            borderWidth:1,
+            cornerRadius:12,
+            padding:12,
+            titleColor:"#ffffff",
+            bodyColor:"f4e9ff"
+          },
+
+          scales: {
+            x: {
+              ticks: {
+                color: "#d8c6e8"
+              },
+              grid: {
+                color: "rgba(255,255,255,0.05)"
+              }
+            },
+
+            y: {
+              beginAtZero: true,
+              ticks: {
+                color: "#d8c6e8"
+              },
+              grid: {
+                color: "rgba(255,255,255,0.05)"
+              }
+            }
+          }
+        },
+        animation:{
+          duration:1200,
+          easing:"easeOutQuart"
+
+        }
+      });
     </script>
     <script>
       const themeToggle = document.getElementById("theme-toggle");
@@ -283,14 +342,28 @@
       }
 
       function toggleMonth(header) {
+        const section = header.closest(".month-section");
         const content = header.nextElementSibling;
         const arrow = header.querySelector(".arrow");
-        if (content.style.display === "block") {
-          content.style.display = "none";
-          arrow.textContent = "▶";
-        } else {
-          content.style.display = "block";
-          arrow.textContent = "🔽";
+
+        const isOpen = content.classList.contains("open");
+
+        document.querySelectorAll(".month-content").forEach((c) => {
+          c.classList.remove("open");
+        });
+
+        document.querySelectorAll(".month-section").forEach((s) => {
+          s.classList.remove("active");
+        });
+
+        document.querySelectorAll(".arrow").forEach((a) => {
+          a.textContent = "▶";
+        });
+
+        if (!isOpen) {
+          content.classList.add("open");
+          section.classList.add("active");
+          arrow.textContent = "▼";
         }
       }
     </script>

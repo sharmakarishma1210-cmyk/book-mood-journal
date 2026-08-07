@@ -13,19 +13,21 @@
   --danger-dark: #be6363;
 
   --gold: #d4a373;
-
   --gold-dark: #bc8a5f;
 
   --text-main: #3d3d3d;
-  --text-soft: #7d748f;
+  --text-soft: #6f687c;
 
-  --glass-bg: rgba(255, 255, 255, 0.18);
+  --page-bg: #f6f3ee;
 
-  --glass-border: rgba(255, 255, 255, 0.22);
+  --glass-bg: rgba(255, 255, 255, 0.48);
+  --glass-border: rgba(92, 84, 112, 0.14);
 
-  --shadow: 0 8px 32px rgba(31, 38, 135, 0.14);
+  --card-bg: rgba(255, 255, 255, 0.48);
 
-  --hover-shadow: 0 18px 40px rgba(31, 38, 135, 0.18);
+  --shadow: 0 8px 32px rgba(67, 61, 85, 0.12);
+
+  --hover-shadow: 0 18px 40px rgba(67, 61, 85, 0.18);
 }
 
 .highlight-form {
@@ -56,18 +58,13 @@
 body {
   margin: 0;
   padding: 40px;
-
   min-height: 100vh;
-
   font-family: "Poppins", sans-serif;
-
   color: var(--text-main);
-
   background:
     radial-gradient(circle at top left, #f3d9fa 0%, transparent 28%),
     radial-gradient(circle at bottom right, #d6e4ff 0%, transparent 30%),
     linear-gradient(135deg, #f6f3ee, #e9e2d8);
-
   background-attachment: fixed;
 }
 
@@ -168,16 +165,22 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* =========================
+   LIGHT MODE STAT CARDS
+========================= */
+
 .navbar,
 form,
 .book-card,
 .stat-card,
+.history-card,
 .api-search-box {
-  background: var(--glass-bg);
+  background: var(--card-bg);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   border: 1px solid var(--glass-border);
   border-radius: 26px;
+
   box-shadow:
     var(--shadow),
     inset 0 1px 1px rgba(255, 255, 255, 0.22);
@@ -553,6 +556,15 @@ textarea:focus {
   margin-top: 16px;
   margin-bottom: 6px;
 }
+
+/* .stat-card{
+    background:
+    linear-gradient(
+        180deg,
+        rgba(250,246,255,0.92),
+        rgba(240,232,250,0.85)
+    );
+} */
 .stat-card {
   width: 220px;
   padding: 26px;
@@ -567,12 +579,14 @@ textarea:focus {
 
 .stat-card h3 {
   margin: 0;
-  font-size: 28px;
+  font-size: 34px;
+  font-weight: 700;
   color: var(--primary-dark);
 }
 
 .stat-card p {
-  margin-top: 12px;
+  margin-top: 10px;
+  font-size: 15px;
   color: var(--text-soft);
 }
 
@@ -581,17 +595,11 @@ textarea:focus {
 ========================= */
 
 .book-count {
-  background: rgba(255, 255, 255, 0.8);
-  padding: 6px 14px;
+  background: rgba(215, 184, 255, 0.3);
+  padding: 7px 15px;
   border-radius: 999px;
   font-size: 14px;
   font-weight: 600;
-}
-
-.month-content {
-  display: none;
-  /* /* border-top: 1px solid rgba(255, 255, 255, 0.08); */
-  padding: 10px 22px 16px;
 }
 
 .month-title {
@@ -600,30 +608,70 @@ textarea:focus {
   gap: 12px;
 }
 
+.month-info h3 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+}
+.month-info p {
+  margin: 4px 0 0;
+  color: var(--accent);
+  font-size: 14px;
+}
 .arrow {
-  background: none;
-  padding: 0;
-  width: auto;
-  height: auto;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  transition: 0.3s;
 }
 
 .history-card {
-  max-width: 900px;
-  margin: 30px auto;
   padding: 28px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.32);
+  border: 1px solid rgba(92, 84, 112, 0.14);
   border-radius: 24px;
+  box-shadow: 0 12px 32px rgba(67, 61, 85, 0.1);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
 }
 
+body.dark-mode .history-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.reading-history-section {
+  max-width: 900px;
+  margin: 60px auto;
+}
+
+.reading-history-section h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
 .month-section {
   margin-bottom: 18px;
   padding: 0;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(92, 84, 112, 0.14);
+  /* border: 1px solid var(--glass-border); */
   border-radius: 18px;
 }
+
+.month-section.active {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.18),
+    0 0 18px rgba(180, 150, 255, 0.12);
+  transition: 0.3s;
+}
+
 .month-header {
   display: flex;
   justify-content: space-between;
@@ -632,61 +680,67 @@ textarea:focus {
   cursor: pointer;
 }
 
-.month-header h3 {
-  margin: 0;
-  font-size: 26px;
-  font-weight: 600;
-}
-
-.month-header span {
-  color: var(--text-soft);
-  background: rgba(255, 255, 255, 0.08);
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
 .month-section ul {
   margin-top: 10px;
   padding-left: 20px;
 }
 
-.month-section li {
-  margin: 8px 0;
-}
-
-.history-book {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: 12px 0;
-}
 .history-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 18px 0 0;
 }
 
-.history-list l1 {
-  padding: 10px 14px;
-  border-radius: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+.month-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height 0.35s ease,
+    opacity 0.3s ease,
+    padding 0.3s ease;
+  padding: 0 22px;
+}
+
+.month-content.open {
+  max-height: 700px;
+  opacity: 1;
+  padding: 18px 22px;
+}
+
+.book-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.history-list li {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .history-list li:last-child {
   border-bottom: none;
 }
 
-.history-list li::before {
+/* .history-list li::before {
   content: "📖";
   margin-right: 10px;
-}
+} */
 
 .history-list li:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
 }
-
 /* =========================
    API SEARCH
 ========================= */
@@ -1106,7 +1160,7 @@ PERSONALITY CARD
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: var(--text-main);
   box-shadow: var(--shadow);
   transition: 0.3s ease;
 }
@@ -1153,11 +1207,13 @@ PERSONALITY CARD
 .hero-number {
   font-size: 56px;
   font-weight: 700;
+  color: var(--primary-dark);
 }
 
 .hero-label {
   font-size: 18px;
   margin-top: 8px;
+  color: var(--text-soft);
 }
 
 .analytics-section-title {
@@ -1188,13 +1244,30 @@ body.dark-mode {
 
 /* Cards */
 
+body.dark-mode .book-count {
+  background: rgba(215, 184, 255, 0.16);
+  color: #f3ddff;
+}
+
+/* body:not(.dark-mode) .book-count {
+  background: #ece2fb;
+} */
+
+body:not(.dark-mode) .history-list li:hover {
+  background: #f2e8ff;
+}
+
+body:not(.dark-mode) .month-section {
+  background: rgba(255, 255, 255, 0.05);
+  /* border: 1px solid rgba(255, 255, 255, 0.1); */
+}
 body.dark-mode .navbar,
 body.dark-mode form,
 body.dark-mode .book-card,
 body.dark-mode .api-search-box,
 body.dark-mode .insight-card,
 body.dark-mode .chart-card,
-body.dark.mode .stat-card,
+body.dark-mode .stat-card,
 body.dark-mode .book-highlight {
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.15);
