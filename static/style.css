@@ -494,6 +494,11 @@ textarea:focus {
   background: linear-gradient(135deg, var(--danger), var(--danger-dark));
 }
 
+.view-books-btn {
+  display: flex;
+  margin: 16px auto 4px;
+}
+
 .gold-btn {
   background: linear-gradient(135deg, var(--gold), var(--gold-dark));
 }
@@ -593,7 +598,6 @@ textarea:focus {
 /* =========================
    READING HISTORY
 ========================= */
-
 .book-count {
   background: rgba(215, 184, 255, 0.3);
   padding: 7px 15px;
@@ -695,17 +699,26 @@ body.dark-mode .history-card {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
+  padding: 0 22px;
+
   transition:
     max-height 0.35s ease,
     opacity 0.3s ease,
     padding 0.3s ease;
-  padding: 0 22px;
 }
 
 .month-content.open {
-  max-height: 700px;
+  max-height: 2000px;
   opacity: 1;
   padding: 18px 22px;
+}
+
+.month-content .extra-book {
+  display: none;
+}
+
+.month-content.show-all .extra-book {
+  display: flex !important;
 }
 
 .book-number {
@@ -731,11 +744,6 @@ body.dark-mode .history-card {
 .history-list li:last-child {
   border-bottom: none;
 }
-
-/* .history-list li::before {
-  content: "📖";
-  margin-right: 10px;
-} */
 
 .history-list li:hover {
   background: rgba(255, 255, 255, 0.05);

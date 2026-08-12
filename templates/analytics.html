@@ -86,12 +86,20 @@
             <div class="month-content">
               <ul class="history-list">
                 {% for book in books %}
-                <li>
+                <li class="{% if loop.index > 5 %}extra-book{% endif %}">
                   <span class="book-number"> {{ loop.index }} </span>
                   <span class="book-title"> {{ book.title }} </span>
                 </li>
                 {% endfor %}
               </ul>
+              {% if books|length > 5 %}
+              <button
+                class="btn green-btn view-books-btn"
+                onclick="toggleBooks(this)"
+              >
+                View all {{books|length}} books ⬇
+              </button>
+              {% endif %}
             </div>
           </div>
           {% endfor %}
@@ -364,6 +372,24 @@
           content.classList.add("open");
           section.classList.add("active");
           arrow.textContent = "▼";
+        }
+      }
+      function toggleBooks(button) {
+        const monthContent = button.closest(".month-content");
+        const extraBooks = monthContent.querySelectorAll(".extra-book");
+
+        extraBooks.forEach((book) => {
+          if (book.style.display === "flex") {
+            book.style.display = "none";
+          } else {
+            book.style.display = "flex";
+          }
+        });
+
+        if (button.textContent.includes("View all")) {
+          button.textContent = "Show less ⬆";
+        } else {
+          button.textContent = `View all ${monthContent.querySelectorAll(".history-list li").length} books ⬇`;
         }
       }
     </script>
