@@ -101,6 +101,48 @@ class Book(db.Model):
         nullable=False
     )
 
+class ReadingGoal(db.Model):
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    month = db.Column(
+        db.Integer,
+        nullable=False
+    )
+
+    year = db.Column(
+        db.Integer,
+        nullable=False
+    )
+
+    target_books = db.Column(
+        db.Integer,
+        nullable=False
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("user.id"),
+        nullable=False
+    )
+
+    created_at = db.Column(
+        db.DateTime,
+        default=datetime.now(timezone.utc)
+    )
+
+    __table_args__ = (
+        db.UniqueConstraint(
+            "user_id",
+            "month",
+            "year",
+            name="unique_user_month_goal"
+        ),
+    )
+
 
 # =========================
 # LOGIN MANAGER
@@ -428,7 +470,7 @@ def analytics():
 
     elif most_common_mood in [
     "romance",
-    "heartthrobbing"
+    "heartthrobbing",
     "dark romance",
     "heartfelt"]:
         
@@ -460,7 +502,7 @@ def analytics():
 
     elif most_common_mood in [
     "comedy-drama",
-    "comedy"
+    "comedy",
     "contemporary fiction novel"
 ]:
         personality = {
@@ -564,13 +606,50 @@ def analytics():
     # =========================
     # BOOKS THIS MONTH
     # =========================
-    current_month = datetime.now(timezone.utc).month
-    current_year = datetime.now(timezone.utc).year
+    
+    current_date = datetime.now(timezone.utc)
+
+    current_month = current_date.month
+    current_year = current_date.year
+    current_month_name = current_date.strftime("%B")
+
     books_this_month = len([
-    book for book in books
-    if book.created_at.month == current_month
-    and book.created_at.year == current_year
+        book for book in books
+        if book.created_at.month == current_month
+        and book.created_at.year == current_year
 ])
+
+    # =========================
+    # READING GOAL
+    # =========================
+
+    reading_goal = ReadingGoal.query.filter_by(
+        user_id=current_user.id,
+        month=current_month,
+        year=current_year
+    ).first()
+
+    goal_target = (
+        reading_goal.target_books
+        if reading_goal
+        else 0
+    )
+
+    goal_remaining = max(
+        goal_target - books_this_month,
+        0
+    )
+
+    goal_progress = (
+        min(
+            round(
+                (books_this_month / goal_target) * 100
+            ),
+            100
+        )
+        if goal_target > 0
+        else 0
+    )
     
 
     books = sorted(
@@ -594,6 +673,7 @@ def analytics():
 
         rating_labels=list(rating_data.keys()),
         rating_values=list(rating_data.values()),
+        current_month_name = current_month_name,
 
         favorite_count=favorite_count,
 
@@ -604,6 +684,9 @@ def analytics():
         top_author=top_author,
         most_common_mood=most_common_mood,
         books_this_month=books_this_month,
+        goal_target=goal_target,
+        goal_remaining=goal_remaining,
+        goal_progress=goal_progress,
         top_vibes = top_vibes,
         top_personality_moods=top_personality_moods,
         max_count = max_count,
@@ -611,6 +694,73 @@ def analytics():
 
         # favorite_percentage=favorite_percentage
     )
+
+
+# =========================
+# READING GOAL MANAGEMENT
+# =========================
+
+@app.route("/reading-goal",methods=["POST"])
+@login_required
+def reading_goal():
+
+    current_date = datetime.now(timezone.utc)
+    current_month = current_date.month
+    current_year = current_date.year
+
+    action = request.form.get("action")
+    goal = ReadingGoal.query.filter_by(
+        user_id = current_user.id,
+        month=current_month,
+        year=current_year
+    ).first()
+
+# =========================
+# REMOVE GOAL
+# =========================
+
+    if action == "delete":
+        if goal:
+            db.session.delete(goal)
+            db.session.commit()
+
+            flash("reading goal removed.")
+
+        return redirect(request.referrer or "/analytics")
+
+# =========================
+# SET/CHANGE GOAL
+# =========================
+
+
+    try:
+        target_books = int(
+            request.form.get("target_books")
+        )
+
+    except(TypeError , ValueError):
+        flash("Please enter a valid number of books.")
+        return redirect(request.referrer or "/analytics")
+
+    if target_books < 1:
+        flash("Your reading goal must be at least 1 book.")
+        return redirect(request.referrer or "/analytics")
+
+    if goal:
+        goal.target_books = target_books
+
+    else:
+        goal=ReadingGoal(
+            user_id = current_user.id,
+            month = current_month,
+            year = current_year,
+            target_books = target_books
+        )
+
+        db.session.commit()
+
+        flash("Reading goal updated 🎯")
+        return redirect(request.referrer or "/analytics")
 
 
 # =========================
@@ -779,6 +929,53 @@ def favorite_book(id):
     db.session.commit()
 
     return redirect("/")
+
+
+# =========================
+# SET READING GOAL
+# =========================
+
+@app.route("/set-reading-goal", methods=["POST"])
+@login_required
+def set_reading_goal():
+
+    target = int(request.form["target_books"])
+
+    if target < 1:
+        flash("Reading goal must be at least 1 book.")
+        return redirect("/analytics")
+
+    current_date = datetime.now(timezone.utc)
+
+    current_month = current_date.month
+    current_year = current_date.year
+
+    reading_goal = ReadingGoal.query.filter_by(
+        user_id=current_user.id,
+        month=current_month,
+        year=current_year
+    ).first()
+
+    if reading_goal:
+
+        reading_goal.target_books = target
+
+    else:
+
+        reading_goal = ReadingGoal(
+            user_id=current_user.id,
+            month=current_month,
+            year=current_year,
+            target_books=target
+        )
+
+        db.session.add(reading_goal)
+
+    db.session.commit()
+
+    flash("Monthly reading goal updated 🎯")
+
+    return redirect("/analytics")
 
 # =========================
 # CREATE DATABASE

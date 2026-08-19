@@ -20,10 +20,10 @@
 
   --page-bg: #f6f3ee;
 
-  --glass-bg: rgba(255, 255, 255, 0.48);
-  --glass-border: rgba(92, 84, 112, 0.14);
+  --glass-bg: rgba(247, 242, 248, 0.72);
+  --glass-border: rgba(92, 84, 112, 0.16);
 
-  --card-bg: rgba(255, 255, 255, 0.48);
+  --card-bg: rgba(247, 242, 248, 0.72);
 
   --shadow: 0 8px 32px rgba(67, 61, 85, 0.12);
 
@@ -337,6 +337,29 @@ label {
   /* gap: 5px; */
 }
 
+.nav-goal-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 12px;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease,
+    color 0.25 ease;
+}
+
+.nav-goal-btn:hover {
+  background: rgba(124, 157, 150, 0.15);
+  color: var(--secondary-dark);
+  transform: translateY(-2px);
+}
+
 .nav-links a {
   text-decoration: none;
   color: var(--primary-dark);
@@ -562,20 +585,20 @@ textarea:focus {
   margin-bottom: 6px;
 }
 
-/* .stat-card{
-    background:
-    linear-gradient(
-        180deg,
-        rgba(250,246,255,0.92),
-        rgba(240,232,250,0.85)
-    );
-} */
 .stat-card {
   width: 220px;
   padding: 26px;
   text-align: center;
   transition: 0.25s ease;
+  box-shadow: 0 10px 28px rgba(67, 61, 85, 0.1);
 }
+
+/* .reading-overview .stat-card {
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+} */
 
 .stat-card:hover {
   transform: translateY(-5px);
@@ -604,6 +627,17 @@ textarea:focus {
   border-radius: 999px;
   font-size: 14px;
   font-weight: 600;
+}
+
+.older-month {
+  display: none;
+}
+
+.older-months-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 4px;
 }
 
 .month-title {
@@ -748,6 +782,100 @@ body.dark-mode .history-card {
 .history-list li:hover {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
+}
+
+/* =========================
+   READING GOAL
+========================= */
+
+.reading-goal-card {
+  max-width: 850px;
+  margin: 35px auto 45px;
+  padding: 30px;
+  background: var(--card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 26px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.goal-header {
+  text-align: center;
+}
+
+.goal-header h2 {
+  margin: 0;
+  color: var(--primary-dark);
+}
+
+.goal-header p {
+  margin: 8px 0 0;
+  color: var(--text-soft);
+  font-size: 14px;
+}
+
+.goal-empty {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.goal-empty p {
+  color: var(--text-soft);
+}
+
+.goal-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.goal-form input {
+  width: 130px;
+  padding: 9px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.35);
+  color: var(--text-main);
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
+
+.goal-numbers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  color: var(--text-soft);
+}
+
+.goal-numbers strong {
+  color: var(--primary-dark);
+  font-size: 22px;
+}
+
+.goal-bar {
+  width: 100%;
+  height: 12px;
+  background: rgba(92, 84, 112, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.goal-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--secondary), var(--secondary-dark));
+  transition: width 0.5s ease;
+}
+
+.goal-remaining {
+  text-align: center;
+  margin: 12px 0 0;
+  color: var(--text-soft);
+  font-size: 14px;
 }
 /* =========================
    API SEARCH
@@ -1143,22 +1271,32 @@ PERSONALITY CARD
   padding: 28px;
   text-align: center;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: 0.3s ease;
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .insight-card:hover {
   transform: translateY(-6px);
+  box-shadow: var(--hover-shadow);
 }
 
 .insight-card h3 {
   margin: 0;
-
   font-size: 30px;
-
   color: var(--primary-dark);
+}
+
+.insight-card p {
+  margin: 8px 0 0;
+  font-size: 15px;
+  color: var(--text-soft);
 }
 
 .hero-card {
@@ -1257,10 +1395,6 @@ body.dark-mode .book-count {
   color: #f3ddff;
 }
 
-/* body:not(.dark-mode) .book-count {
-  background: #ece2fb;
-} */
-
 body:not(.dark-mode) .history-list li:hover {
   background: #f2e8ff;
 }
@@ -1283,8 +1417,10 @@ body.dark-mode .book-highlight {
 }
 
 body.dark-mode .insight-card h3 {
-  /* color: #ffffff; */
-  color: white;
+  color: #f7d9ff;
+}
+body.dark-mode .insight-card p {
+  color: #e6dced;
 }
 
 body.dark-mode .hero-number {
@@ -1354,6 +1490,35 @@ body.dark-mode .welcome-user {
 body.dark-mode .books-card,
 body.dark-mode .rating-card {
   background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .reading-goal-card {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .goal-header h2,
+body.dark-mode .goal-numbers strong {
+  color: #f7d9ff;
+}
+
+body.dark-mode .goal-form input {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f5e9ff;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .goal-bar {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .nav-goal-btn {
+  color: #f7d9ff;
+}
+
+body.dark-mode .nav-goal-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 /* =========================
    MOBILE

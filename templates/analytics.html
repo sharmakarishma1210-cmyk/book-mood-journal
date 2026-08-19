@@ -48,6 +48,73 @@
         </div>
       </div>
 
+      <!-- =========================
+     READING GOAL
+========================= -->
+
+      <div class="reading-goal-card">
+        <div class="goal-header">
+          <div>
+            <h2>🎯 {{ current_month_name }} Reading Goal</h2>
+            <p>How many books do you want to read this month?</p>
+          </div>
+        </div>
+
+        {% if goal_target == 0 %}
+
+        <div class="goal-empty">
+          <p>You haven't set a reading goal yet.</p>
+
+          <form action="/set-reading-goal" method="POST" class="goal-form">
+            <input
+              type="number"
+              name="target_books"
+              min="1"
+              placeholder="e.g. 6"
+              required
+            />
+
+            <button type="submit" class="btn green-btn">Set Goal 🎯</button>
+          </form>
+        </div>
+
+        {% else %}
+
+        <div class="goal-progress">
+          <div class="goal-numbers">
+            <span>
+              <strong>{{ books_this_month }}</strong>
+              / {{ goal_target }} books
+            </span>
+
+            <span> {{ goal_progress }}% </span>
+          </div>
+
+          <div class="goal-bar">
+            <div class="goal-fill" style="width: {{ goal_progress }}%;"></div>
+          </div>
+
+          <p class="goal-remaining">
+            {% if goal_remaining > 0 %} {{ goal_remaining }} books remaining 📚
+            {% else %} Goal completed! 🎉 {% endif %}
+          </p>
+        </div>
+
+        <form action="/set-reading-goal" method="POST" class="goal-form">
+          <input
+            type="number"
+            name="target_books"
+            min="1"
+            value="{{ goal_target }}"
+            required
+          />
+
+          <button type="submit" class="btn brown-btn">Change Goal</button>
+        </form>
+
+        {% endif %}
+      </div>
+
       <h2 class="analytics-section-title">📈 Reading Overview</h2>
 
       <div class="insights-container">
@@ -66,11 +133,16 @@
           <p>✍️ Most Read Author</p>
         </div>
       </div>
+
       <div class="reading-history-section">
         <h2>📅 Reading History</h2>
+
         <div class="history-card">
-          {% for month , books in monthly_books.items() %}
-          <div class="month-section">
+          {% for month, books in monthly_books.items() %}
+
+          <div
+            class="month-section {% if loop.index > 3 %}older-month{% endif %}"
+          >
             <div class="month-header" onclick="toggleMonth(this)">
               <div class="month-title">
                 <span class="arrow">▶</span>
@@ -83,26 +155,45 @@
 
               <div class="book-count">{{ books|length }} Books</div>
             </div>
+
             <div class="month-content">
               <ul class="history-list">
                 {% for book in books %}
+
                 <li class="{% if loop.index > 5 %}extra-book{% endif %}">
                   <span class="book-number"> {{ loop.index }} </span>
+
                   <span class="book-title"> {{ book.title }} </span>
                 </li>
+
                 {% endfor %}
               </ul>
+
               {% if books|length > 5 %}
+
               <button
                 class="btn green-btn view-books-btn"
                 onclick="toggleBooks(this)"
               >
-                View all {{books|length}} books ⬇
+                View all {{ books|length }} books ⬇
               </button>
+
               {% endif %}
             </div>
           </div>
-          {% endfor %}
+
+          {% endfor %} {% if monthly_books|length > 3 %}
+
+          <div class="older-months-container">
+            <button
+              class="btn green-btn older-months-btn"
+              onclick="toggleOlderMonths(this)"
+            >
+              View older months ⬇
+            </button>
+          </div>
+
+          {% endif %}
         </div>
       </div>
 
@@ -347,6 +438,19 @@
           closed.style.display = "none";
           open.style.display = "block";
         }
+      }
+      function toggleOlderMonths(button) {
+        const olderMonths = document.querySelectorAll(".older-month");
+
+        const isShowing = olderMonths[0].style.display === "block";
+
+        olderMonths.forEach((month) => {
+          month.style.display = isShowing ? "none" : "block";
+        });
+
+        button.textContent = isShowing
+          ? "View older months ↓"
+          : "Hide older months ↑";
       }
 
       function toggleMonth(header) {
