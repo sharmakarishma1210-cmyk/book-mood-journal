@@ -15,8 +15,11 @@
   <body>
     <div class="reading-goal-page">
       <div class="reading-goal-card">
+        <a href="/" class="back-to-journal"> ⬅ Back to Journal </a>
+        <!-- ICON -->
         <div class="goal-icon">🎯</div>
 
+        <!-- HEADER -->
         <h1>{{ current_month_name }} Reading Goal</h1>
 
         {% if goal_target > 0 %}
@@ -27,20 +30,21 @@
           this month.
         </p>
 
+        <!-- GOAL SUMMARY -->
         <div class="goal-summary">
-          <span class="goal-summary-label"> Monthly target </span>
+          <span class="goal-number"> {{ goal_target }} </span>
 
-          <span class="goal-summary-number"> {{ goal_target }} </span>
+          <span class="goal-label"> books </span>
 
-          <span class="goal-summary-books"> books </span>
+          <span class="goal-subtext"> monthly target </span>
         </div>
 
-        <div class="goal-divider"></div>
+        <!-- CHANGE GOAL -->
 
-        <form action="/reading-goal" method="POST" class="goal-form">
-          <label for="target_books"> Change your goal </label>
+        <div class="goal-settings">
+          <h3>Change your goal</h3>
 
-          <div class="goal-input-row">
+          <form action="/reading-goal" method="POST" class="goal-update-form">
             <input
               type="number"
               id="target_books"
@@ -50,43 +54,52 @@
               required
             />
 
-            <button type="submit" class="btn green-btn">Update Goal</button>
-          </div>
-        </form>
+            <button type="submit" class="goal-update-btn">Update</button>
+          </form>
+        </div>
 
-        <form action="/reading-goal" method="POST" class="goal-delete-form">
+        <!-- REMOVE -->
+
+        <form action="/reading-goal" method="POST" class="goal-remove-form">
           <input type="hidden" name="action" value="delete" />
 
-          <button type="submit" class="goal-delete-btn">
+          <button type="submit" class="goal-remove-btn">
             Remove reading goal
           </button>
         </form>
 
         {% else %}
 
+        <!-- NO GOAL -->
+
         <p class="goal-description">
           Set a small reading goal for yourself this month.
         </p>
 
-        <form action="/reading-goal" method="POST" class="goal-form">
+        <form action="/reading-goal" method="POST" class="goal-new-form">
           <label for="target_books"> Books to read </label>
 
-          <div class="goal-input-row">
+          <div class="goal-new-input">
             <input
               type="number"
               id="target_books"
               name="target_books"
               min="1"
-              placeholder="e.g. 5"
+              placeholder="5"
               required
             />
 
-            <button type="submit" class="btn green-btn">Set Goal 🎯</button>
+            <button type="submit" class="goal-update-btn">Set Goal</button>
           </div>
         </form>
 
         {% endif %}
       </div>
     </div>
+    <script>
+      if (localStorage.getItem("theme") == "dark") {
+        document.body.classList.add("dark-mode");
+      }
+    </script>
   </body>
 </html>
