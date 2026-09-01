@@ -584,7 +584,9 @@
   `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=30`
 );
 const data = await response.json();
-console.log(data.docs[0]);
+// console.log(data.docs[0]);
+console.log("BOOK:", data.docs[0]);
+console.log("ISBNs:", data.docs[0].isbn);
         const filteredBooks = data.docs
 
   .map(book => {
@@ -625,54 +627,119 @@ console.log(data.docs[0]);
     return;
   }
   resultsDiv.innerHTML = "";
-
-filteredBooks.forEach((book) => {
+  for (const book of filteredBooks) {
 
   console.log(book);
 
-
-  const title =
-    book.title || "Unknown";
+  const title = book.title || "Unknown";
 
   const author =
     book.author_name?.[0] || "Unknown";
-    const cover = book.cover_i
-  ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
-  : "https://placehold.co/120x180?text=No+Cover";
 
-            resultsDiv.innerHTML += `
+  const fallbackCover = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="120" height="180">
+      <rect width="120" height="180" fill="#f7f2f8"/>
+      <rect x="8" y="8" width="104" height="164"
+            fill="none"
+            stroke="#5c5470"
+            stroke-width="1"/>
+            <foreignObject x="10" y="30" width="100" height="120">
+  <div xmlns="http://www.w3.org/1999/xhtml"
+       style="
+         width: 100px;
+         height: 120px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         text-align: center;
+         font-family: Georgia, serif;
+         font-size: 12px;
+         line-height: 1.3;
+         color: #433d55;
+         overflow-wrap: break-word;
+       ">
+    ${title}
+  </div>
+</foreignObject>
 
-              <div
+    </svg>
+  `)}`;
 
-                class="search-book-card"
+  let cover = fallbackCover;
 
-                onclick="
-                  selectBook(
-                    \`${title}\`,
-                    \`${author}\`,
-                    \`${cover}\`,
-                     \`${book.key}\`
-                  )
-                "
-              >
+  if (book.cover_i) {
 
-                <img
-                  src="${cover}"
-                  class="search-cover"
-                >
+    try {
 
-                <div class="search-book-info">
+      const coverResponse = await fetch(
+        `https://covers.openlibrary.org/b/id/${book.cover_i}.json`
+      );
 
-                  <h3>${title}</h3>
+      const coverData = await coverResponse.json();
 
-                  <p>${author}</p>
+      console.log(
+        "Cover:",
+        book.cover_i,
+        coverData.width,
+        coverData.height
+      );
 
-                </div>
-
-              </div>
-            `;
-          });
+      if (
+        coverData.width > 100 &&
+        coverData.height > 100
+      ) {
+        cover =
+          `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg?default=false`;
+      } else {
+        console.log(
+          "Rejected tiny/invalid cover:",
+          book.cover_i
+        );
       }
+
+    } catch (error) {
+
+      console.log(
+        "Could not check cover:",
+        book.cover_i
+      );
+
+    }
+  }
+
+  resultsDiv.innerHTML += `
+
+    <div
+      class="search-book-card"
+      onclick="
+        selectBook(
+          \`${title}\`,
+          \`${author}\`,
+          \`${cover}\`,
+          \`${book.key}\`
+        )
+      "
+    >
+
+      <img
+        src="${cover}"
+        class="search-cover"
+      >
+
+      <div class="search-book-info">
+
+        <h3>${title}</h3>
+
+        <p>${author}</p>
+
+      </div>
+
+    </div>
+  `;
+}
+      }
+
+
 
 
       // =========================
