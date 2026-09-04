@@ -679,6 +679,14 @@ def analytics():
         month = book.created_at.strftime("%B %Y")
         monthly_books[month].append(book)
 
+    goal = ReadingGoal.query.filter_by(
+        user_id=current_user.id,
+        month=current_month,
+        year=current_year
+    ).first()
+
+    goal_target = goal.target_books if goal else 0
+
     return render_template(
         "analytics.html",
 
@@ -701,7 +709,7 @@ def analytics():
         top_author=top_author,
         most_common_mood=most_common_mood,
         books_this_month=books_this_month,
-        # goal_target=goal_target,
+        goal_target=goal_target,
         # goal_remaining=goal_remaining,
         # goal_progress=goal_progress,
         top_vibes = top_vibes,
@@ -814,12 +822,6 @@ def check_book():
     return {
         "exists": existing_book is not None
     }
-
-
-    # if existing_book:
-    #     flash(f"{title} by {author} is already in your bookshelf.")
-    #     return redirect("/")
-    
 
 
 @app.route("/add", methods=["POST"])

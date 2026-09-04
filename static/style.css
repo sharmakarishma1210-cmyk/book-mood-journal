@@ -790,13 +790,16 @@ body.dark-mode .history-card {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 55px 20px;
+
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .reading-goal-card {
   width: 100%;
-  max-width: 720px;
-  padding: 45px 55px;
+  max-width: 650px;
+  padding: 30px 48px 25px;
+  box-sizing: border-box;
   background: var(--card-bg);
   border: 1px solid var(--glass-border);
   border-radius: 26px;
@@ -807,28 +810,63 @@ body.dark-mode .history-card {
 }
 
 /* =========================
+   BACK TO JOURNAL
+========================= */
+
+.back-to-journal {
+  display: block;
+  width: fit-content;
+  margin-bottom: 30px;
+  color: var(--text-soft);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.back-to-journal:hover {
+  color: var(--primary-dark);
+  transform: translateX(-2px);
+}
+
+/* =========================
    HEADER
 ========================= */
 
 .goal-icon {
-  font-size: 42px;
-  margin-bottom: 12px;
+  font-size: 36px;
+  line-height: 1;
+
+  margin-bottom: 14px;
 }
 
 .reading-goal-card h1 {
   margin: 0;
+
   color: var(--primary-dark);
-  font-size: 32px;
+
+  font-size: 29px;
+  font-weight: 600;
+
+  line-height: 1.3;
 }
 
 .goal-description {
-  margin: 10px 0 0;
+  margin: 10px auto 0;
+
+  max-width: 420px;
+
   color: var(--text-soft);
+
   font-size: 14px;
+  line-height: 1.6;
 }
 
 .goal-description strong {
   color: var(--text-main);
+  font-weight: 600;
 }
 
 /* =========================
@@ -836,29 +874,55 @@ body.dark-mode .history-card {
 ========================= */
 
 .goal-summary {
-  margin: 30px auto 0;
+  width: 190px;
+  height: 190px;
+
+  margin: 22px auto 0;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 0 20px rgba(255, 255, 255, 0.12),
+    0 8px 25px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .goal-number {
   color: var(--primary-dark);
-  font-size: 48px;
+  font-size: 58px;
   font-weight: 700;
   line-height: 1;
 }
 
 .goal-label {
-  margin-top: 5px;
-  color: var(--text-main);
-  font-size: 16px;
+  margin-top: 8px;
+  color: var(--primary-dark);
+  font-size: 13px;
+  font-weight: 600;
+
+  letter-spacing: 4px;
+  text-transform: uppercase;
 }
 
 .goal-subtext {
-  margin-top: 2px;
+  margin-top: 10px;
+
+  padding: 5px 13px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.14);
+
   color: var(--text-soft);
-  font-size: 13px;
+
+  font-size: 12px;
 }
 
 /* =========================
@@ -866,57 +930,90 @@ body.dark-mode .history-card {
 ========================= */
 
 .goal-settings {
-  margin: 32px auto 0;
-  padding-top: 28px;
+  margin: 24px 0 0;
+  padding-top: 22px;
   border-top: 1px solid var(--glass-border);
 }
 
 .goal-settings h3 {
-  margin: 0 0 18px;
+  margin: 0 0 14px;
   color: var(--text-main);
   font-size: 16px;
+  font-weight: 600;
 }
 
-/* Update goal form */
+/* =========================
+   GOAL FORM
+========================= */
 
-.goal-update-form {
+.goal-update-form,
+.goal-new-input {
   display: flex;
+
   justify-content: center;
   align-items: center;
+
   gap: 10px;
 }
 
 .goal-update-form input,
 .goal-new-input input {
-  width: 80px;
-  padding: 9px 12px;
-  border-radius: 14px;
+  width: 92px;
+  height: 42px;
+
+  box-sizing: border-box;
+
+  padding: 0 12px;
+
   border: 1px solid var(--glass-border);
-  background: rgba(255, 255, 255, 0.35);
+  border-radius: 13px;
+
+  background: rgba(255, 255, 255, 0.22);
+
   color: var(--text-main);
+
   font-family: "Poppins", sans-serif;
-  text-align: center;
+
   font-size: 14px;
+  text-align: center;
+
   outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
 .goal-update-form input:focus,
 .goal-new-input input:focus {
   border-color: var(--secondary);
+
+  background: rgba(255, 255, 255, 0.32);
 }
 
-/* Update / Set button */
+/* =========================
+   UPDATE / SET BUTTON
+========================= */
 
 .goal-update-btn {
-  padding: 14px 28px;
+  height: 42px;
+
+  padding: 0 25px;
+
   border: none;
-  border-radius: 14px;
+  border-radius: 13px;
+
   background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+
   color: white;
+
   font-family: "Poppins", sans-serif;
+
   font-size: 13px;
   font-weight: 600;
+
   cursor: pointer;
+
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -924,41 +1021,60 @@ body.dark-mode .history-card {
 
 .goal-update-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.12);
 }
 
 /* =========================
    REMOVE GOAL
 ========================= */
+/* =========================
+   REMOVE GOAL
+========================= */
 
 .goal-remove-form {
-  margin-top: 22px;
+  margin: 26px auto 0;
+  padding: 20px 28px;
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
   text-align: center;
 }
 
 .goal-remove-btn {
-  padding: 7px 16px;
-  border: 1px solid rgba(200, 90, 90, 0.35);
-  border-radius: 12px;
-  background: rgba(200, 90, 90, 0.06);
+  width: 100%;
+  padding: 7px 12px;
+  border: none;
+  background: transparent;
   color: var(--danger);
   font-family: "Poppins", sans-serif;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
-  opacity: 0.9;
   transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
+    color 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .goal-remove-btn:hover {
-  background: rgba(200, 90, 90, 0.12);
-  border-color: var(--danger);
-  transform: translateY(-1px);
+  color: var(--danger);
+  opacity: 0.75;
 }
 
+/* =========================
+   DARK MODE — REMOVE GOAL
+========================= */
+
+body.dark-mode .goal-remove-form {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+body.dark-mode .goal-remove-btn {
+  color: #e89a9a;
+}
 /* =========================
    NO GOAL / SET GOAL
 ========================= */
@@ -969,41 +1085,103 @@ body.dark-mode .history-card {
 
 .goal-new-form label {
   display: block;
-  margin-bottom: 12px;
+
+  margin-bottom: 14px;
+
   color: var(--text-main);
+
   font-size: 14px;
   font-weight: 600;
 }
 
-.goal-new-input {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
 .goal-new-input input {
-  width: 80px;
-  height: 40px;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0 12px;
-  border-radius: 14px;
-  border: 1px solid var(--glass-border);
-  background: rgba(255, 255, 255, 0.35);
-  color: var(--text-main);
-  font-family: "Poppins", sans-serif;
-  font-size: 14px;
-  text-align: center;
-  line-height: normal;
-  outline: none;
+  width: 92px;
+  height: 42px;
 }
 
 .goal-new-input .goal-update-btn {
-  height: 38px;
-  box-sizing: border-box;
+  height: 42px;
 }
 
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark-mode .reading-goal-card {
+  background: rgba(255, 255, 255, 0.07);
+
+  border-color: rgba(255, 255, 255, 0.14);
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .back-to-journal {
+  color: #cfc5da;
+}
+
+body.dark-mode .back-to-journal:hover {
+  color: #f5d9ff;
+}
+
+body.dark-mode .reading-goal-card h1 {
+  color: #f2d7ff;
+}
+
+body.dark-mode .goal-description {
+  color: #cfc4d8;
+}
+
+body.dark-mode .goal-description strong {
+  color: #ffffff;
+}
+
+body.dark-mode .goal-summary {
+  background: rgba(255, 255, 255, 0.07);
+
+  border-color: rgba(255, 255, 255, 0.15);
+
+  box-shadow:
+    inset 0 0 20px rgba(255, 255, 255, 0.04),
+    0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+body.dark-mode .goal-number,
+body.dark-mode .goal-label {
+  color: #f2d7ff;
+}
+
+body.dark-mode .goal-subtext {
+  background: rgba(255, 255, 255, 0.07);
+  color: #cfc4d8;
+}
+
+body.dark-mode .goal-settings {
+  border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+body.dark-mode .goal-settings h3,
+body.dark-mode .goal-new-form label {
+  color: #eee7f3;
+}
+
+body.dark-mode .goal-update-form input,
+body.dark-mode .goal-new-input input {
+  background: rgba(255, 255, 255, 0.07);
+
+  border-color: rgba(255, 255, 255, 0.15);
+
+  color: #ffffff;
+}
+
+body.dark-mode .goal-update-form input:focus,
+body.dark-mode .goal-new-input input:focus {
+  background: rgba(255, 255, 255, 0.11);
+}
+
+body.dark-mode .goal-remove-form {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+/*  */
 .api-search-box {
   max-width: 950px;
   margin: 40px auto;
