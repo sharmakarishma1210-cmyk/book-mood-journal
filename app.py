@@ -364,7 +364,7 @@ def home():
         1
     ) if all_books else 0
 
-    # =========================
+    # ============
     # READING GOAL
     # =========================
 
@@ -742,6 +742,20 @@ def reading_goal():
         year=current_year
     ).first()
 
+    books_this_month = Book.query.filter(
+        Book.user_id == current_user.id,
+        db.extract("month" , Book.created_at)==current_month,
+        db.extract("year" , Book.created_at) == current_year
+    ).count()
+
+    goal_target = goal.target_books if goal else 0
+    goal_remaining = max(goal_target - books_this_month , 0)
+    goal_progress = (
+        min((books_this_month/goal_target)*100,100)
+        if goal_target > 0
+        else 0
+    )
+
     if request.method == "POST":
         action = request.form.get("action")
         if action == "delete":
@@ -796,14 +810,12 @@ def reading_goal():
 
     return render_template(
         "reading_goal.html",
-        current_month_name=current_month_name,
-        goal_target=(
-            goal.target_books
-            if goal
-            else 0
-        )
+        current_month_name = current_month_name,
+        goal_target = goal_target,
+        books_this_month = books_this_month,
+        goal_remaining = goal_remaining,
+        goal_progress = goal_progress
     )
-
 
 
 @app.route("/check-book")

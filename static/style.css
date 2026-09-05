@@ -784,43 +784,70 @@ body.dark-mode .history-card {
 /* =========================
    READING GOAL PAGE
 ========================= */
+/* =========================================================
+   READING GOAL PAGE
+========================================================= */
 
 .reading-goal-page {
-  min-height: 100vh;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 
-  padding: 20px;
-  box-sizing: border-box;
+  padding: 16px 32px;
+
+  overflow: hidden;
 }
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
 
 .reading-goal-card {
   width: 100%;
-  max-width: 650px;
-  padding: 30px 48px 25px;
+  max-width: 1120px;
+  height: calc(100vh - 32px);
+
   box-sizing: border-box;
-  background: var(--card-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 26px;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
+
+  padding: 38px 48px;
+
+  background: rgba(255, 255, 255, 0.055);
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 30px;
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
   text-align: center;
+
+  overflow: hidden;
 }
 
-/* =========================
+/* =========================================================
    BACK TO JOURNAL
-========================= */
+========================================================= */
 
 .back-to-journal {
   display: block;
+
   width: fit-content;
-  margin-bottom: 30px;
+
   color: var(--text-soft);
+
   text-decoration: none;
-  font-size: 13px;
+
+  font-size: 14px;
   font-weight: 500;
+
   transition:
     color 0.2s ease,
     transform 0.2s ease;
@@ -828,189 +855,311 @@ body.dark-mode .history-card {
 
 .back-to-journal:hover {
   color: var(--primary-dark);
-  transform: translateX(-2px);
+  transform: translateX(-3px);
 }
 
-/* =========================
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
+
+.goal-header {
+  margin-top: -2px;
+}
 
 .goal-icon {
-  font-size: 36px;
+  font-size: 44px;
   line-height: 1;
 
+  margin-top: -2px;
   margin-bottom: 14px;
 }
 
 .reading-goal-card h1 {
   margin: 0;
 
-  color: var(--primary-dark);
+  color: #f2d7ff;
 
-  font-size: 29px;
-  font-weight: 600;
+  font-size: 36px;
+  font-weight: 700;
 
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
 .goal-description {
-  margin: 10px auto 0;
+  margin: 12px auto 0;
 
-  max-width: 420px;
+  color: #d6ccdf;
 
-  color: var(--text-soft);
-
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .goal-description strong {
-  color: var(--text-main);
-  font-weight: 600;
+  color: #ffffff;
+  font-weight: 700;
 }
 
-/* =========================
-   GOAL SUMMARY
-========================= */
+/* =========================================================
+   PROGRESS SECTION
+========================================================= */
 
-.goal-summary {
-  width: 190px;
-  height: 190px;
+.goal-progress-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  margin: 22px auto 0;
+  margin-top: 26px;
+}
+
+/* =========================================================
+   PROGRESS RING
+========================================================= */
+
+.goal-progress-ring {
+  --progress: 0%;
+
+  width: 230px;
+  height: 230px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: conic-gradient(
+    from -90deg,
+    #d45cf0 0%,
+    #9f75f5 var(--progress),
+    rgba(255, 255, 255, 0.09) var(--progress),
+    rgba(255, 255, 255, 0.09) 100%
+  );
+
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.18),
+    0 0 30px rgba(181, 101, 240, 0.1);
+}
+
+/* INNER CIRCLE */
+
+.goal-progress-inner {
+  width: 208px;
+  height: 208px;
+
+  border-radius: 50%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid var(--glass-border);
-  box-shadow:
-    inset 0 0 20px rgba(255, 255, 255, 0.12),
-    0 8px 25px rgba(0, 0, 0, 0.06);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+
+  background: radial-gradient(
+    circle at center,
+    rgba(44, 35, 68, 0.96),
+    rgba(34, 28, 55, 0.98)
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.04);
 }
 
-.goal-number {
-  color: var(--primary-dark);
-  font-size: 58px;
+/* NUMBER */
+
+.goal-progress-number {
+  color: #dca8ff;
+
+  font-size: 60px;
   font-weight: 700;
+
   line-height: 1;
 }
 
-.goal-label {
-  margin-top: 8px;
-  color: var(--primary-dark);
-  font-size: 13px;
-  font-weight: 600;
+.goal-progress-number span {
+  color: #ffffff;
 
-  letter-spacing: 4px;
-  text-transform: uppercase;
+  font-size: 34px;
+  font-weight: 500;
 }
 
-.goal-subtext {
-  margin-top: 10px;
+/* BOOKS */
 
-  padding: 5px 13px;
+.goal-progress-label {
+  margin-top: 9px;
+
+  color: #e9e0ef;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  letter-spacing: 5px;
+}
+
+/* PERCENTAGE */
+
+.goal-progress-percent {
+  margin-top: 14px;
+
+  padding: 7px 15px;
 
   border-radius: 20px;
 
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.09);
 
-  color: var(--text-soft);
+  color: #d8cfdf;
 
   font-size: 12px;
 }
 
-/* =========================
+/* =========================================================
+   REMAINING
+========================================================= */
+
+.goal-remaining {
+  margin-top: 17px;
+
+  color: #d9d1e1;
+
+  font-size: 16px;
+}
+
+.goal-remaining span {
+  color: #d784ef;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.goal-divider {
+  width: 92%;
+
+  height: 1px;
+
+  margin: 24px auto 20px;
+
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* =========================================================
    CHANGE GOAL
-========================= */
+========================================================= */
 
 .goal-settings {
-  margin: 24px 0 0;
-  padding-top: 22px;
-  border-top: 1px solid var(--glass-border);
+  width: 94%;
+
+  margin: 0 auto;
+
+  padding: 18px 24px;
+
+  box-sizing: border-box;
+
+  border-radius: 22px;
+
+  background: rgba(255, 255, 255, 0.055);
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .goal-settings h3 {
   margin: 0 0 14px;
-  color: var(--text-main);
-  font-size: 16px;
+
+  text-align: left;
+
+  color: #eee8f2;
+
+  font-size: 17px;
   font-weight: 600;
 }
 
-/* =========================
-   GOAL FORM
-========================= */
-
-.goal-update-form,
-.goal-new-input {
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-
-  gap: 10px;
+.goal-settings h3 span {
+  color: #c78cff;
 }
 
-.goal-update-form input,
-.goal-new-input input {
-  width: 92px;
-  height: 42px;
+/* =========================================================
+   UPDATE FORM
+========================================================= */
+
+.goal-update-form {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 28px;
+}
+
+/* INPUT + BOOKS */
+
+.goal-input-wrapper {
+  height: 50px;
+
+  min-width: 380px;
+
+  display: flex;
+  align-items: center;
 
   box-sizing: border-box;
 
-  padding: 0 12px;
+  padding: 0 20px;
 
-  border: 1px solid var(--glass-border);
-  border-radius: 13px;
+  border-radius: 15px;
 
-  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(192, 146, 255, 0.65);
 
-  color: var(--text-main);
+  background: rgba(24, 19, 45, 0.55);
+}
+
+.goal-input-wrapper input {
+  flex: 1;
+
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  font-family: "Poppins", sans-serif;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  text-align: left;
+}
+
+.goal-input-wrapper span {
+  color: #cfc5d9;
+
+  font-size: 14px;
+}
+
+/* =========================================================
+   UPDATE BUTTON
+========================================================= */
+
+.goal-update-btn {
+  height: 50px;
+
+  padding: 0 28px;
+
+  border: none;
+  border-radius: 15px;
+
+  background: linear-gradient(135deg, #79d2bd, #65b8a8);
+
+  color: #ffffff;
 
   font-family: "Poppins", sans-serif;
 
   font-size: 14px;
-  text-align: center;
-
-  outline: none;
-
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
-
-.goal-update-form input:focus,
-.goal-new-input input:focus {
-  border-color: var(--secondary);
-
-  background: rgba(255, 255, 255, 0.32);
-}
-
-/* =========================
-   UPDATE / SET BUTTON
-========================= */
-
-.goal-update-btn {
-  height: 42px;
-
-  padding: 0 25px;
-
-  border: none;
-  border-radius: 13px;
-
-  background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
-
-  color: white;
-
-  font-family: "Poppins", sans-serif;
-
-  font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
 
   cursor: pointer;
 
@@ -1020,166 +1169,212 @@ body.dark-mode .history-card {
 }
 
 .goal-update-btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 
-  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 20px rgba(75, 160, 145, 0.25);
 }
 
-/* =========================
+/* =========================================================
    REMOVE GOAL
-========================= */
-/* =========================
-   REMOVE GOAL
-========================= */
+========================================================= */
 
 .goal-remove-form {
-  margin: 26px auto 0;
-  padding: 20px 28px;
-  border: 1px solid var(--glass-border);
+  width: 94%;
+
+  margin: 18px auto 0;
+
+  padding: 17px 20px;
+
+  box-sizing: border-box;
+
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
-  text-align: center;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  border: 1px solid rgba(255, 255, 255, 0.11);
 }
 
 .goal-remove-btn {
-  width: 100%;
-  padding: 7px 12px;
+  padding: 0;
+
   border: none;
+
   background: transparent;
-  color: var(--danger);
+
+  color: #ff8290;
+
   font-family: "Poppins", sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition:
-    color 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.goal-remove-btn:hover {
-  color: var(--danger);
-  opacity: 0.75;
-}
-
-/* =========================
-   DARK MODE — REMOVE GOAL
-========================= */
-
-body.dark-mode .goal-remove-form {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-body.dark-mode .goal-remove-btn {
-  color: #e89a9a;
-}
-/* =========================
-   NO GOAL / SET GOAL
-========================= */
-
-.goal-new-form {
-  margin-top: 28px;
-}
-
-.goal-new-form label {
-  display: block;
-
-  margin-bottom: 14px;
-
-  color: var(--text-main);
 
   font-size: 14px;
   font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.goal-new-input input {
-  width: 92px;
-  height: 42px;
+.goal-remove-btn:hover {
+  color: #ffabb5;
+
+  transform: translateY(-1px);
 }
 
-.goal-new-input .goal-update-btn {
-  height: 42px;
+.goal-remove-form p {
+  margin: 5px 0 0;
+
+  color: #aaa0b2;
+
+  font-size: 12px;
 }
 
-/* =========================
-   DARK MODE
-========================= */
+/* =========================================================
+   NO GOAL STATE
+========================================================= */
 
-body.dark-mode .reading-goal-card {
-  background: rgba(255, 255, 255, 0.07);
-
-  border-color: rgba(255, 255, 255, 0.14);
-
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+.no-goal-header {
+  margin-top: 45px;
 }
 
-body.dark-mode .back-to-journal {
-  color: #cfc5da;
+.goal-new-section {
+  width: 70%;
+
+  margin: 45px auto 0;
+
+  padding: 28px;
+
+  border-radius: 22px;
+
+  background: rgba(255, 255, 255, 0.055);
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
 }
 
-body.dark-mode .back-to-journal:hover {
-  color: #f5d9ff;
+.goal-new-section h3 {
+  margin: 0 0 20px;
+
+  color: #eee8f2;
+
+  font-size: 18px;
 }
 
-body.dark-mode .reading-goal-card h1 {
-  color: #f2d7ff;
+.goal-new-form {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 20px;
 }
 
-body.dark-mode .goal-description {
-  color: #cfc4d8;
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-height: 800px) {
+  .reading-goal-card {
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+
+  .goal-icon {
+    font-size: 36px;
+    margin-bottom: 9px;
+  }
+
+  .reading-goal-card h1 {
+    font-size: 31px;
+  }
+
+  .goal-description {
+    margin-top: 7px;
+    font-size: 13px;
+  }
+
+  .goal-progress-section {
+    margin-top: 18px;
+  }
+
+  .goal-progress-ring {
+    width: 190px;
+    height: 190px;
+  }
+
+  .goal-progress-inner {
+    width: 172px;
+    height: 172px;
+  }
+
+  .goal-progress-number {
+    font-size: 50px;
+  }
+
+  .goal-progress-number span {
+    font-size: 28px;
+  }
+
+  .goal-progress-percent {
+    margin-top: 9px;
+  }
+
+  .goal-remaining {
+    margin-top: 10px;
+  }
+
+  .goal-divider {
+    margin-top: 17px;
+    margin-bottom: 14px;
+  }
+
+  .goal-settings {
+    padding: 13px 20px;
+  }
+
+  .goal-settings h3 {
+    margin-bottom: 9px;
+  }
+
+  .goal-remove-form {
+    margin-top: 12px;
+    padding: 12px 20px;
+  }
 }
 
-body.dark-mode .goal-description strong {
-  color: #ffffff;
-}
+@media (max-width: 700px) {
+  .reading-goal-page {
+    height: auto;
+    min-height: 100vh;
 
-body.dark-mode .goal-summary {
-  background: rgba(255, 255, 255, 0.07);
+    padding: 15px;
+    overflow: visible;
+  }
 
-  border-color: rgba(255, 255, 255, 0.15);
+  .reading-goal-card {
+    height: auto;
+    min-height: calc(100vh - 30px);
 
-  box-shadow:
-    inset 0 0 20px rgba(255, 255, 255, 0.04),
-    0 8px 25px rgba(0, 0, 0, 0.18);
-}
+    padding: 28px 20px;
+  }
 
-body.dark-mode .goal-number,
-body.dark-mode .goal-label {
-  color: #f2d7ff;
-}
+  .goal-update-form {
+    flex-direction: column;
+    gap: 12px;
+  }
 
-body.dark-mode .goal-subtext {
-  background: rgba(255, 255, 255, 0.07);
-  color: #cfc4d8;
-}
+  .goal-input-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
 
-body.dark-mode .goal-settings {
-  border-top-color: rgba(255, 255, 255, 0.14);
-}
+  .goal-update-btn {
+    width: 100%;
+  }
 
-body.dark-mode .goal-settings h3,
-body.dark-mode .goal-new-form label {
-  color: #eee7f3;
-}
-
-body.dark-mode .goal-update-form input,
-body.dark-mode .goal-new-input input {
-  background: rgba(255, 255, 255, 0.07);
-
-  border-color: rgba(255, 255, 255, 0.15);
-
-  color: #ffffff;
-}
-
-body.dark-mode .goal-update-form input:focus,
-body.dark-mode .goal-new-input input:focus {
-  background: rgba(255, 255, 255, 0.11);
-}
-
-body.dark-mode .goal-remove-form {
-  border-top-color: rgba(255, 255, 255, 0.12);
+  .goal-settings,
+  .goal-remove-form {
+    width: 100%;
+  }
 }
 /*  */
 .api-search-box {
