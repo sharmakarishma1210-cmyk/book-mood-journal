@@ -781,11 +781,36 @@ body.dark-mode .history-card {
   border-radius: 10px;
 }
 
-/* =========================
-   READING GOAL PAGE
-========================= */
+/*  */
 /* =========================================================
    READING GOAL PAGE
+========================================================= */
+
+:root {
+  --goal-card-bg: rgba(247, 242, 248, 0.72);
+  --goal-inner-bg: rgba(255, 255, 255, 0.42);
+
+  --goal-heading: #3d3d3d;
+  --goal-text: #6f687c;
+  --goal-muted: #8a8292;
+
+  --goal-ring-bg: rgba(92, 84, 112, 0.12);
+  --goal-ring-start: #d45cf0;
+  --goal-ring-end: #9f75f5;
+
+  --goal-input-bg: rgba(255, 255, 255, 0.5);
+  --goal-input-border: rgba(92, 84, 112, 0.18);
+
+  --goal-divider: rgba(92, 84, 112, 0.14);
+
+  --goal-update: #68c9b8;
+  --goal-update-hover: #57b8a7;
+
+  --goal-danger: #ef7d8a;
+}
+
+/* =========================================================
+   PAGE
 ========================================================= */
 
 .reading-goal-page {
@@ -808,21 +833,19 @@ body.dark-mode .history-card {
 
 .reading-goal-card {
   width: 100%;
-  max-width: 1120px;
+  max-width: 1050px;
   height: calc(100vh - 32px);
 
   box-sizing: border-box;
 
-  padding: 38px 48px;
+  padding: 28px 48px;
 
-  background: rgba(255, 255, 255, 0.055);
+  background: var(--goal-card-bg);
 
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 30px;
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
 
-  box-shadow:
-    0 25px 60px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow);
 
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
@@ -833,15 +856,14 @@ body.dark-mode .history-card {
 }
 
 /* =========================================================
-   BACK TO JOURNAL
+   BACK LINK
 ========================================================= */
 
 .back-to-journal {
   display: block;
-
   width: fit-content;
 
-  color: var(--text-soft);
+  color: var(--goal-text);
 
   text-decoration: none;
 
@@ -863,44 +885,43 @@ body.dark-mode .history-card {
 ========================================================= */
 
 .goal-header {
-  margin-top: -2px;
+  margin-top: 14px;
 }
 
 .goal-icon {
-  font-size: 44px;
+  font-size: 40px;
   line-height: 1;
 
-  margin-top: -2px;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .reading-goal-card h1 {
   margin: 0;
 
-  color: #f2d7ff;
+  color: var(--goal-heading);
 
-  font-size: 36px;
+  font-size: 34px;
   font-weight: 700;
 
   line-height: 1.2;
 }
 
 .goal-description {
-  margin: 12px auto 0;
+  margin: 8px auto 0;
 
-  color: #d6ccdf;
+  color: var(--goal-text);
 
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
 }
 
 .goal-description strong {
-  color: #ffffff;
+  color: var(--goal-heading);
   font-weight: 700;
 }
 
 /* =========================================================
-   PROGRESS SECTION
+   PROGRESS
 ========================================================= */
 
 .goal-progress-section {
@@ -908,18 +929,14 @@ body.dark-mode .history-card {
   flex-direction: column;
   align-items: center;
 
-  margin-top: 26px;
+  margin-top: 20px;
 }
-
-/* =========================================================
-   PROGRESS RING
-========================================================= */
 
 .goal-progress-ring {
   --progress: 0%;
 
-  width: 230px;
-  height: 230px;
+  width: 190px;
+  height: 190px;
 
   border-radius: 50%;
 
@@ -929,22 +946,20 @@ body.dark-mode .history-card {
 
   background: conic-gradient(
     from -90deg,
-    #d45cf0 0%,
-    #9f75f5 var(--progress),
-    rgba(255, 255, 255, 0.09) var(--progress),
-    rgba(255, 255, 255, 0.09) 100%
+    var(--goal-ring-start) 0%,
+    var(--goal-ring-end) var(--progress),
+    var(--goal-ring-bg) var(--progress),
+    var(--goal-ring-bg) 100%
   );
 
   box-shadow:
-    0 15px 35px rgba(0, 0, 0, 0.18),
-    0 0 30px rgba(181, 101, 240, 0.1);
+    0 12px 28px rgba(67, 61, 85, 0.18),
+    0 0 24px rgba(181, 101, 240, 0.12);
 }
 
-/* INNER CIRCLE */
-
 .goal-progress-inner {
-  width: 208px;
-  height: 208px;
+  width: 172px;
+  height: 172px;
 
   border-radius: 50%;
 
@@ -953,62 +968,56 @@ body.dark-mode .history-card {
   align-items: center;
   justify-content: center;
 
-  background: radial-gradient(
-    circle at center,
-    rgba(44, 35, 68, 0.96),
-    rgba(34, 28, 55, 0.98)
-  );
+  background: var(--goal-inner-bg);
 
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.35);
 
-  box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.08);
 }
 
-/* NUMBER */
+/* =========================================================
+   PROGRESS TEXT
+========================================================= */
 
 .goal-progress-number {
-  color: #dca8ff;
+  color: var(--goal-heading);
 
-  font-size: 60px;
+  font-size: 50px;
   font-weight: 700;
 
   line-height: 1;
 }
 
 .goal-progress-number span {
-  color: #ffffff;
+  color: var(--goal-text);
 
-  font-size: 34px;
+  font-size: 27px;
   font-weight: 500;
 }
 
-/* BOOKS */
-
 .goal-progress-label {
-  margin-top: 9px;
+  margin-top: 7px;
 
-  color: #e9e0ef;
+  color: var(--goal-text);
 
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
 
-  letter-spacing: 5px;
+  letter-spacing: 4px;
 }
 
-/* PERCENTAGE */
-
 .goal-progress-percent {
-  margin-top: 14px;
+  margin-top: 10px;
 
-  padding: 7px 15px;
+  padding: 6px 13px;
 
   border-radius: 20px;
 
-  background: rgba(255, 255, 255, 0.09);
+  background: rgba(92, 84, 112, 0.1);
 
-  color: #d8cfdf;
+  color: var(--goal-text);
 
-  font-size: 12px;
+  font-size: 11px;
 }
 
 /* =========================================================
@@ -1016,16 +1025,15 @@ body.dark-mode .history-card {
 ========================================================= */
 
 .goal-remaining {
-  margin-top: 17px;
+  margin-top: 11px;
 
-  color: #d9d1e1;
+  color: var(--goal-text);
 
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .goal-remaining span {
-  color: #d784ef;
-
+  color: #c878ff;
   font-weight: 700;
 }
 
@@ -1034,144 +1042,148 @@ body.dark-mode .history-card {
 ========================================================= */
 
 .goal-divider {
-  width: 92%;
-
+  width: 88%;
   height: 1px;
 
-  margin: 24px auto 20px;
+  margin: 18px auto;
 
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--goal-divider);
 }
 
 /* =========================================================
-   CHANGE GOAL
+   GOAL SETTINGS
 ========================================================= */
 
 .goal-settings {
-  width: 94%;
+  width: 88%;
 
   margin: 0 auto;
 
-  padding: 18px 24px;
+  padding: 14px 20px;
 
   box-sizing: border-box;
 
-  border-radius: 22px;
+  border-radius: 18px;
 
-  background: rgba(255, 255, 255, 0.055);
+  background: var(--goal-inner-bg);
 
-  border: 1px solid rgba(255, 255, 255, 0.13);
+  border: 1px solid var(--goal-divider);
 
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  box-shadow: none;
 }
 
 .goal-settings h3 {
-  margin: 0 0 14px;
+  margin: 0 0 11px;
 
   text-align: left;
 
-  color: #eee8f2;
+  color: var(--goal-heading);
 
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 600;
 }
 
 .goal-settings h3 span {
-  color: #c78cff;
+  color: #c878ff;
 }
 
 /* =========================================================
    UPDATE FORM
 ========================================================= */
 
-.goal-update-form {
+.goal-update-form,
+.goal-new-form {
   display: flex;
 
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
-  gap: 28px;
+  gap: 12px;
 }
 
-/* INPUT + BOOKS */
-
 .goal-input-wrapper {
-  height: 50px;
+  position: relative;
+  width: 280px;
+}
 
-  min-width: 380px;
-
-  display: flex;
-  align-items: center;
+.goal-update-form input,
+.goal-new-form input {
+  width: 100%;
 
   box-sizing: border-box;
 
-  padding: 0 20px;
+  padding: 11px 55px 11px 15px;
 
-  border-radius: 15px;
+  border-radius: 12px;
 
-  border: 1px solid rgba(192, 146, 255, 0.65);
+  border: 1px solid var(--goal-input-border);
 
-  background: rgba(24, 19, 45, 0.55);
-}
+  background: var(--goal-input-bg);
 
-.goal-input-wrapper input {
-  flex: 1;
-
-  min-width: 0;
-
-  border: none;
-  outline: none;
-
-  background: transparent;
-
-  color: #ffffff;
-
-  font-family: "Poppins", sans-serif;
-
-  font-size: 16px;
-  font-weight: 600;
-
-  text-align: left;
-}
-
-.goal-input-wrapper span {
-  color: #cfc5d9;
+  color: var(--goal-heading);
 
   font-size: 14px;
+
+  outline: none;
+}
+
+.goal-update-form input:focus,
+.goal-new-form input:focus {
+  border-color: #b66cff;
+
+  box-shadow: 0 0 0 3px rgba(182, 108, 255, 0.1);
+}
+
+/* "books" suffix */
+
+.goal-input-wrapper > span {
+  position: absolute;
+
+  right: 15px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: var(--goal-text);
+
+  font-size: 11px;
+  font-weight: 600;
 }
 
 /* =========================================================
    UPDATE BUTTON
 ========================================================= */
 
-.goal-update-btn {
-  height: 50px;
-
-  padding: 0 28px;
-
+.goal-update-form button,
+.goal-new-form button {
   border: none;
-  border-radius: 15px;
 
-  background: linear-gradient(135deg, #79d2bd, #65b8a8);
+  padding: 11px 18px;
 
-  color: #ffffff;
+  border-radius: 12px;
 
-  font-family: "Poppins", sans-serif;
+  background: var(--goal-update);
 
-  font-size: 14px;
-  font-weight: 700;
+  color: white;
+
+  font-size: 13px;
+  font-weight: 600;
 
   cursor: pointer;
 
   transition:
     transform 0.2s ease,
+    background 0.2s ease,
     box-shadow 0.2s ease;
 }
 
-.goal-update-btn:hover {
-  transform: translateY(-2px);
+.goal-update-form button:hover,
+.goal-new-form button:hover {
+  background: var(--goal-update-hover);
 
-  box-shadow: 0 8px 20px rgba(75, 160, 145, 0.25);
+  transform: translateY(-1px);
+
+  box-shadow: 0 6px 15px rgba(104, 201, 184, 0.22);
 }
 
 /* =========================================================
@@ -1179,54 +1191,32 @@ body.dark-mode .history-card {
 ========================================================= */
 
 .goal-remove-form {
-  width: 94%;
-
-  margin: 18px auto 0;
-
-  padding: 17px 20px;
-
-  box-sizing: border-box;
-
-  border-radius: 22px;
-
-  background: rgba(255, 255, 255, 0.035);
-
-  border: 1px solid rgba(255, 255, 255, 0.11);
+  margin-top: 12px;
 }
 
-.goal-remove-btn {
-  padding: 0;
-
+.goal-remove-form button {
   border: none;
 
   background: transparent;
 
-  color: #ff8290;
+  color: var(--goal-danger);
 
-  font-family: "Poppins", sans-serif;
-
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
 
   cursor: pointer;
-
-  transition:
-    color 0.2s ease,
-    transform 0.2s ease;
 }
 
-.goal-remove-btn:hover {
-  color: #ffabb5;
-
-  transform: translateY(-1px);
+.goal-remove-form button:hover {
+  text-decoration: underline;
 }
 
 .goal-remove-form p {
-  margin: 5px 0 0;
+  margin: 4px 0 0;
 
-  color: #aaa0b2;
+  color: var(--goal-muted);
 
-  font-size: 12px;
+  font-size: 11px;
 }
 
 /* =========================================================
@@ -1234,38 +1224,90 @@ body.dark-mode .history-card {
 ========================================================= */
 
 .no-goal-header {
-  margin-top: 45px;
+  margin-top: 35px;
 }
 
 .goal-new-section {
   width: 70%;
 
-  margin: 45px auto 0;
+  margin: 35px auto 0;
 
-  padding: 28px;
+  padding: 22px;
 
-  border-radius: 22px;
+  box-sizing: border-box;
 
-  background: rgba(255, 255, 255, 0.055);
+  border-radius: 18px;
 
-  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: var(--goal-inner-bg);
+
+  border: 1px solid var(--goal-divider);
 }
 
 .goal-new-section h3 {
-  margin: 0 0 20px;
+  margin: 0 0 16px;
 
-  color: #eee8f2;
+  color: var(--goal-heading);
 
-  font-size: 18px;
+  font-size: 17px;
 }
 
-.goal-new-form {
-  display: flex;
+/* =========================================================
+   DARK MODE
+========================================================= */
 
-  align-items: center;
-  justify-content: center;
+body.dark-mode {
+  --goal-card-bg: rgba(255, 255, 255, 0.1);
+  --goal-inner-bg: rgba(255, 255, 255, 0.07);
 
-  gap: 20px;
+  --goal-heading: #f7d9ff;
+  --goal-text: #e6dced;
+  --goal-muted: #c8bdd3;
+
+  --goal-ring-bg: rgba(255, 255, 255, 0.1);
+
+  --goal-input-bg: rgba(255, 255, 255, 0.08);
+  --goal-input-border: rgba(255, 255, 255, 0.15);
+
+  --goal-divider: rgba(255, 255, 255, 0.14);
+}
+
+body.dark-mode .reading-goal-card {
+  border-color: rgba(255, 255, 255, 0.15);
+
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .goal-description strong {
+  color: #ffffff;
+}
+
+body.dark-mode .goal-progress-number {
+  color: #dca8ff;
+}
+
+body.dark-mode .goal-progress-number span {
+  color: #ffffff;
+}
+
+body.dark-mode .goal-progress-label {
+  color: #e9e0ef;
+}
+
+body.dark-mode .goal-progress-percent {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+body.dark-mode .goal-settings {
+  border-color: rgba(255, 255, 255, 0.13);
+}
+
+body.dark-mode .goal-update-form input,
+body.dark-mode .goal-new-form input {
+  color: #ffffff;
+}
+
+body.dark-mode .goal-input-wrapper > span {
+  color: #d8cde6;
 }
 
 /* =========================================================
@@ -1274,70 +1316,69 @@ body.dark-mode .history-card {
 
 @media (max-height: 800px) {
   .reading-goal-card {
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding-top: 22px;
+    padding-bottom: 22px;
   }
 
   .goal-icon {
-    font-size: 36px;
-    margin-bottom: 9px;
+    font-size: 34px;
+    margin-bottom: 7px;
   }
 
   .reading-goal-card h1 {
-    font-size: 31px;
+    font-size: 29px;
   }
 
   .goal-description {
-    margin-top: 7px;
-    font-size: 13px;
+    margin-top: 5px;
+    font-size: 12px;
   }
 
   .goal-progress-section {
-    margin-top: 18px;
+    margin-top: 15px;
   }
 
   .goal-progress-ring {
-    width: 190px;
-    height: 190px;
+    width: 170px;
+    height: 170px;
   }
 
   .goal-progress-inner {
-    width: 172px;
-    height: 172px;
+    width: 154px;
+    height: 154px;
   }
 
   .goal-progress-number {
-    font-size: 50px;
+    font-size: 45px;
   }
 
   .goal-progress-number span {
-    font-size: 28px;
+    font-size: 25px;
   }
 
   .goal-progress-percent {
-    margin-top: 9px;
+    margin-top: 7px;
+    padding: 5px 11px;
   }
 
   .goal-remaining {
-    margin-top: 10px;
+    margin-top: 8px;
   }
 
   .goal-divider {
-    margin-top: 17px;
-    margin-bottom: 14px;
+    margin: 14px auto;
   }
 
   .goal-settings {
-    padding: 13px 20px;
+    padding: 11px 18px;
   }
 
   .goal-settings h3 {
-    margin-bottom: 9px;
+    margin-bottom: 8px;
   }
 
   .goal-remove-form {
-    margin-top: 12px;
-    padding: 12px 20px;
+    margin-top: 8px;
   }
 }
 
@@ -1347,6 +1388,7 @@ body.dark-mode .history-card {
     min-height: 100vh;
 
     padding: 15px;
+
     overflow: visible;
   }
 
@@ -1354,29 +1396,30 @@ body.dark-mode .history-card {
     height: auto;
     min-height: calc(100vh - 30px);
 
-    padding: 28px 20px;
+    padding: 25px 18px;
   }
 
-  .goal-update-form {
+  .goal-update-form,
+  .goal-new-form {
     flex-direction: column;
-    gap: 12px;
   }
 
   .goal-input-wrapper {
-    min-width: 0;
     width: 100%;
   }
 
-  .goal-update-btn {
+  .goal-update-form button,
+  .goal-new-form button {
     width: 100%;
   }
 
   .goal-settings,
-  .goal-remove-form {
+  .goal-new-section {
     width: 100%;
   }
 }
 /*  */
+
 .api-search-box {
   max-width: 950px;
   margin: 40px auto;
@@ -2018,26 +2061,6 @@ body.dark-mode .rating-card {
   background: rgba(255, 255, 255, 0.08);
 }
 
-body.dark-mode .reading-goal-card {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-body.dark-mode .goal-header h2,
-body.dark-mode .goal-numbers strong {
-  color: #f7d9ff;
-}
-
-body.dark-mode .goal-form input {
-  background: rgba(255, 255, 255, 0.08);
-  color: #f5e9ff;
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-body.dark-mode .goal-bar {
-  background: rgba(255, 255, 255, 0.1);
-}
-
 body.dark-mode .nav-goal-btn {
   color: #f7d9ff;
 }
@@ -2072,22 +2095,6 @@ body.dark-mode .goal-description {
 body.dark-mode .goal-description strong {
   color: #ffffff;
 }
-
-/* Goal number */
-
-body.dark-mode .goal-number {
-  color: #f7d9ff;
-}
-
-body.dark-mode .goal-label {
-  color: #ece4f6;
-}
-
-body.dark-mode .goal-subtext {
-  color: #d8cde6;
-}
-
-/* Divider */
 
 body.dark-mode .goal-settings {
   border-top-color: rgba(255, 255, 255, 0.15);
