@@ -687,37 +687,44 @@ def analytics():
 
     goal_target = goal.target_books if goal else 0
 
+    goal_remaining = max(
+        goal_target - books_this_month,
+        0
+    )
+
+    goal_progress = (
+        min(
+            round(
+                (books_this_month/goal_target)*100
+            ),
+            100
+        )
+        if goal_target > 0
+        else 0
+    )
+
     return render_template(
         "analytics.html",
 
         total_books = len(books),
         monthly_books = monthly_books,
-
         mood_labels=list(mood_data.keys()),
         mood_values=list(mood_data.values()),
-
         rating_labels=list(rating_data.keys()),
         rating_values=list(rating_data.values()),
         current_month_name = current_month_name,
-
         favorite_count=favorite_count,
-
         average_rating=average_rating,
-
         highest_rated=highest_rated,
-
         top_author=top_author,
         most_common_mood=most_common_mood,
         books_this_month=books_this_month,
         goal_target=goal_target,
-        # goal_remaining=goal_remaining,
-        # goal_progress=goal_progress,
+        goal_progress=goal_progress,
         top_vibes = top_vibes,
         top_personality_moods=top_personality_moods,
         max_count = max_count,
         personality = personality,
-
-        # favorite_percentage=favorite_percentage
     )
 
 
