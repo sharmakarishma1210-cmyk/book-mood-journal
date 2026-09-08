@@ -783,6 +783,302 @@ body.dark-mode .history-card {
 
 /*  */
 /* =========================================================
+   ANALYTICS OVERVIEW
+========================================================= */
+
+.analytics-overview {
+  display: grid;
+  /* Stats first, goal below */
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* =========================================================
+   EXISTING STATS
+========================================================= */
+
+.analytics-overview .insights-container {
+  margin: 0;
+
+  width: 100%;
+}
+
+/* =========================================================
+   READING GOAL CARD
+========================================================= */
+
+.analytics-goal-card {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 24px 26px;
+
+  border-radius: 22px;
+
+  background: var(--glass-bg);
+
+  border: 1px solid var(--glass-border);
+
+  box-shadow: var(--shadow);
+
+  backdrop-filter: blur(18px);
+
+  -webkit-backdrop-filter: blur(18px);
+
+  align-self: start;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.analytics-goal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.analytics-goal-icon {
+  font-size: 30px;
+
+  flex-shrink: 0;
+}
+
+.analytics-goal-header h3 {
+  margin: 0;
+
+  color: var(--heading, var(--text-main));
+
+  font-size: 18px;
+
+  font-weight: 700;
+}
+
+.analytics-goal-header p {
+  margin: 4px 0 0;
+
+  color: var(--text-soft);
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   NUMBERS
+========================================================= */
+
+.analytics-goal-main {
+  display: flex;
+
+  align-items: baseline;
+
+  justify-content: space-between;
+
+  margin-bottom: 13px;
+}
+
+.analytics-goal-numbers {
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 7px;
+}
+
+.analytics-goal-numbers strong {
+  color: var(--primary);
+
+  font-size: 34px;
+
+  font-weight: 700;
+}
+
+.analytics-goal-numbers span {
+  color: var(--text-soft);
+
+  font-size: 14px;
+}
+
+.analytics-goal-percent {
+  color: #9d68d9;
+
+  font-size: 20px;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   PROGRESS BAR
+========================================================= */
+
+.analytics-goal-bar {
+  width: 100%;
+
+  height: 10px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background: rgba(92, 84, 112, 0.12);
+}
+
+.analytics-goal-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: linear-gradient(90deg, #68c9b8, #9d68d9);
+
+  transition: width 0.5s ease;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.analytics-goal-footer {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-top: 14px;
+}
+
+.analytics-goal-footer span {
+  color: var(--text-soft);
+
+  font-size: 13px;
+}
+
+.analytics-goal-footer span::before {
+  content: "✓ ";
+
+  color: #68c9b8;
+
+  font-weight: 700;
+}
+
+.analytics-goal-footer a {
+  color: var(--primary);
+
+  text-decoration: none;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+.analytics-goal-footer a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   NO GOAL
+========================================================= */
+
+.analytics-no-goal {
+  flex-direction: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px 0 8px;
+}
+
+.analytics-no-goal p {
+  margin: 0 0 15px;
+  color: var(--text-soft);
+  font-size: 14px;
+}
+
+.analytics-no-goal a {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: #68c9b8;
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+body.dark-mode .analytics-goal-card {
+  background: rgba(255, 255, 255, 0.12);
+
+  border-color: rgba(255, 255, 255, 0.15);
+
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+}
+
+body.dark-mode .analytics-goal-header h3 {
+  color: #f7d9ff;
+}
+
+body.dark-mode .analytics-goal-header p,
+body.dark-mode .analytics-goal-numbers span,
+body.dark-mode .analytics-goal-footer span,
+body.dark-mode .analytics-no-goal p {
+  color: #d8cde6;
+}
+
+body.dark-mode .analytics-goal-numbers strong {
+  color: #f2d8ff;
+}
+
+body.dark-mode .analytics-goal-percent {
+  color: #dca8ff;
+}
+
+body.dark-mode .analytics-goal-bar {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .analytics-goal-footer a {
+  color: #dca8ff;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+  .analytics-overview {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .analytics-goal-card {
+    padding: 20px;
+  }
+
+  .analytics-goal-main {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 5px;
+  }
+
+  .analytics-goal-footer {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 8px;
+  }
+}
+
+/* =========================================================
    READING GOAL PAGE
 ========================================================= */
 
