@@ -584,43 +584,149 @@
   `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=30`
 );
 const data = await response.json();
-// console.log(data.docs[0]);
-console.log("BOOK:", data.docs[0]);
-console.log("ISBNs:", data.docs[0].isbn);
-        const filteredBooks = data.docs
+console.table(
+  data.docs.slice(0, 20).map(book => ({
+    title: book.title,
+    authors: book.author_name?.join(", "),
+    editions: book.edition_count,
+    key:book.key,
+    year: book.first_publish_year,
+    publishers: book.publisher?.slice(0, 2).join(", "),
+    subjects: book.subject?.slice(0, 3).join(", ")
+  }))
+);
 
+const queryLower = query.toLowerCase();
+
+let filteredBooks = data.docs
   .map(book => {
-    let score = 0;
-    const title =
-      (book.title || "").toLowerCase();
-    const queryLower =
-      query.toLowerCase();
-    if (title === queryLower)
-      score += 100;
-    else if (title.startsWith(queryLower))
-      score += 50;
-    else if (title.includes(queryLower))
-      score += 20;
 
-    const authorMatch = 
-    book.author_name &&
-    book.author_name.some(author => 
-      author.toLowerCase().includes(queryLower)
-    );
-    if (authorMatch)
-      score+=80
-    return {
-      ...book,
-      score
-    };
+    const title = (book.title || "").toLowerCase();
+
+    const authors = (book.author_name || [])
+      .map(author => author.toLowerCase());
+      let score = 0;
+
+let titleMatch = false;
+
+// =====================================
+// TITLE RELEVANCE
+// =====================================
+
+if (title === queryLower) {
+  score += 100;
+  titleMatch = true;
+}
+else if (title.startsWith(queryLower)) {
+  score += 60;
+  titleMatch = true;
+}
+else if (title.includes(queryLower)) {
+  score += 30;
+  titleMatch = true;
+}
+
+// =====================================
+// AUTHOR MATCH
+// =====================================
+
+const authorMatch = authors.some(author =>
+  author.includes(queryLower)
+);
+
+if (authorMatch) {
+  score += 15;
+}
+
+// =====================================
+// EDITION COUNT
+// =====================================
+
+const editions = book.edition_count || 0;
+
+if (editions >= 100) {
+  score += 15;
+}
+else if (editions >= 20) {
+  score += 10;
+}
+else if (editions >= 5) {
+  score += 5;
+}
+
+// =====================================
+// OLDER / ESTABLISHED WORKS
+// =====================================
+
+if (
+  book.first_publish_year &&
+  book.first_publish_year < 1950
+) {
+  score += 5;
+}
+
+return {
+  ...book,
+  score,
+  titleMatch,
+  authorMatch
+};
   })
-  .filter(book => book.score>0)
-  .sort((a, b) => b.score - a.score)
-  .slice(0, 20);
 
+.filter(book => book.titleMatch || book.authorMatch)
+
+  .sort((a, b) => {
+
+    // Highest relevance first
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+
+    // If relevance is tied,
+    // prefer more editions
+    return (
+      (b.edition_count || 0) -
+      (a.edition_count || 0)
+    );
+
+  });
+
+// =====================================
+// REMOVE DUPLICATE TITLE + AUTHOR
+// =====================================
+
+const seenBooks = new Set();
+
+filteredBooks = filteredBooks.filter(book => {
+
+  const key =
+    book.key ||
+    `${book.title}|${book.author_name?.[0]}`;
+
+  if (seenBooks.has(key)) {
+    return false;
+  }
+
+  seenBooks.add(key);
+
+  return true;
+});
+
+// =====================================
+// LIMIT RESULTS
+// =====================================
+
+filteredBooks = filteredBooks.slice(0, 20);
 
   console.log("Filtered books:", filteredBooks);
-// alert(filteredBooks.length);
+  console.table(
+  filteredBooks.map(book => ({
+    title: book.title,
+    author: book.author_name?.[0],
+    score: book.score
+  }))
+);
+
 
   if (filteredBooks.length===0){
     resultsDiv.innerHTML = "<p>📚 No books found</p>";
