@@ -136,26 +136,15 @@ body {
 
 .analytics-btn-container {
   text-align: center;
-
   margin-top: 50px;
 }
-
-/* .search-book-card {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  padding: 12px 18px;
-  margin: 10px auto;
-  max-width: 500px;
-  box-shadow: none;
-} */
 
 .search-book-card {
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 16px 12px;
-  gap: 18px;
+  padding: 10px 6px;
+  gap: 14px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
   transition: 0.25s;
@@ -462,11 +451,8 @@ textarea:focus {
 
 .optional-label {
   display: block;
-
-  margin-top: 18px;
-
+  margin-top: 3px;
   font-size: 14px;
-
   color: var(--text-soft);
 }
 
@@ -538,6 +524,7 @@ textarea:focus {
   display: flex;
   justify-content: center;
   margin-top: 15px;
+  gap: 10px;
 }
 
 .form-btn-container button {
@@ -1772,16 +1759,12 @@ body.dark-mode .goal-input-wrapper > span {
 ========================= */
 
 .search-cover {
-  width: 60px;
-  height: 90px;
+  width: 40px;
+  height: 68px;
   object-fit: cover;
   border-radius: 6px;
   flex-shrink: 0;
 }
-
-/* .search-book-info {
-  flex: 1;
-} */
 
 .search-book-info {
   display: flex;
@@ -1791,14 +1774,14 @@ body.dark-mode .goal-input-wrapper > span {
 
 .search-book-info h3 {
   margin: 0 0 6px;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
   color: white;
 }
 
 .search-book-info p {
   margin: 0;
-  font-size: 17px;
+  font-size: 14px;
   opacity: 0.8;
   margin-top: 4px;
   color: #c8c1da;

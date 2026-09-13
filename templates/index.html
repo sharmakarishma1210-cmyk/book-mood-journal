@@ -264,6 +264,15 @@
         >
           Add Book
         </button>
+        <button
+        type="button"
+        id="clear-selection-btn"
+        class="btn brown-btn"
+        onclick="clearSelectedBook()"
+        style="display: none;"
+        >
+Clear Selection
+        </button>
         </div>
 
       </form>
@@ -845,9 +854,6 @@ filteredBooks = filteredBooks.slice(0, 20);
 }
       }
 
-
-
-
       // =========================
       // SELECT BOOK
       // =========================
@@ -901,6 +907,9 @@ filteredBooks = filteredBooks.slice(0, 20);
           "cover_url"
         ).value = cover;
 
+        document.getElementById(
+          "clear-selection-btn"
+        ).style.display = "inline-block"
         // clear results
 
         document.getElementById(
@@ -929,6 +938,25 @@ setTimeout(() => {
   form.classList.remove("highlight-form");
 }, 2000);
       }
+
+    function clearSelectedBook() {
+
+  const form = document.querySelector(".main-form");
+
+  form.reset();
+
+  document.getElementById(
+    "cover_url"
+  ).value = "";
+
+  document.getElementById(
+    "recommendations-container"
+  ).innerHTML = "";
+
+  document.getElementById(
+    "clear-selection-btn"
+  ).style.display = "none";
+}  
 
       async function loadRecommendations(author, currentTitle) {
           console.log(
