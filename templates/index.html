@@ -563,12 +563,11 @@ Clear Selection
         });
 
       }, 3000);
+      
+        // =========================
+        // SEARCH BOOKS
+        // =========================
 
-
-      // =========================
-      // SEARCH BOOKS
-      // =========================
-      // alert("Search function started");
       async function searchBooks() {
         console.log("SEARCH RUNNING!")
         // alert("search function started")
@@ -588,11 +587,33 @@ Clear Selection
           console.log(query);
 
         resultsDiv.innerHTML = "<p>⏳ Searching Open Library...</p>";
+        let response;
+        let data;
 
-        const response = await fetch(
-  `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=30`
-);
-const data = await response.json();
+try {
+
+  response = await fetch(
+    `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=30`
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `Open Library returned HTTP ${response.status}`
+    );
+  }
+
+  data = await response.json();
+
+} catch (error) {
+
+  console.error("Open Library search failed:", error);
+
+  resultsDiv.innerHTML =
+    "<p>Unable to reach Open Library right now. Please try again in a moment.</p>";
+
+  return;
+}
+
 console.table(
   data.docs.slice(0, 20).map(book => ({
     title: book.title,
@@ -1051,6 +1072,15 @@ if (e.key === "Escape") {
 }
 
     });
+
+    document
+    .getElementById("book-search")
+    .addEventListener("input" , function(e){
+      if (e.target.value.trim()===""){
+        document.getElementById("search-results").innerHTML = "";
+      }
+    });
+
     </script>
     {% if request.args.get('search')%}
 
