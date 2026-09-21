@@ -187,6 +187,7 @@ form,
   gap: 18px;
   background: transparent;
   box-shadow: none;
+  border: none;
   backdrop-filter: none;
 
   /* transition: 0.3s ease; */
@@ -194,15 +195,11 @@ form,
 
 .auth-card {
   width: min(100%, 560px);
-  margin: 35px auto;
-
+  margin: 15px auto;
   padding: 40px;
-
   border-radius: 28px;
-
   background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(18px);
-
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
 }
 .auth-form input {
@@ -1100,13 +1097,11 @@ body.dark-mode .analytics-goal-footer a {
   width: 100%;
   height: 100vh;
   box-sizing: border-box;
-
+  min-width: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  padding: 16px 32px;
-
+  padding: 24px 32px;
   overflow: hidden;
 }
 
@@ -1117,25 +1112,18 @@ body.dark-mode .analytics-goal-footer a {
 .reading-goal-card {
   width: 100%;
   max-width: 1050px;
-  height: calc(100vh - 32px);
-
+  /* min-height: calc(100vh - 48px); */
+  min-height: 0;
   box-sizing: border-box;
-
   padding: 28px 48px;
-
-  background: var(--goal-card-bg);
-
+  background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-radius: 28px;
-
   box-shadow: var(--shadow);
-
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-
   text-align: center;
-
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* =========================================================
@@ -1338,30 +1326,20 @@ body.dark-mode .analytics-goal-footer a {
 ========================================================= */
 
 .goal-settings {
-  width: 88%;
-
+  width: 90%;
   margin: 0 auto;
-
-  padding: 14px 20px;
-
+  padding: 15px 22px;
   box-sizing: border-box;
-
-  border-radius: 18px;
-
-  background: var(--goal-inner-bg);
-
-  border: 1px solid var(--goal-divider);
-
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: none;
 }
 
 .goal-settings h3 {
   margin: 0 0 11px;
-
   text-align: left;
-
   color: var(--goal-heading);
-
   font-size: 15px;
   font-weight: 600;
 }
@@ -1374,16 +1352,6 @@ body.dark-mode .analytics-goal-footer a {
    UPDATE FORM
 ========================================================= */
 
-.goal-update-form,
-.goal-new-form {
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-
-  gap: 12px;
-}
-
 .goal-input-wrapper {
   position: relative;
   width: 280px;
@@ -1392,21 +1360,13 @@ body.dark-mode .analytics-goal-footer a {
 .goal-update-form input,
 .goal-new-form input {
   width: 100%;
-
   box-sizing: border-box;
-
-  padding: 11px 55px 11px 15px;
-
-  border-radius: 12px;
-
-  border: 1px solid var(--goal-input-border);
-
-  background: var(--goal-input-bg);
-
-  color: var(--goal-heading);
-
+  padding: 11px 60px 11px 15px;
+  border-radius: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
   font-size: 14px;
-
   outline: none;
 }
 
@@ -1474,19 +1434,15 @@ body.dark-mode .analytics-goal-footer a {
 ========================================================= */
 
 .goal-remove-form {
-  margin-top: 12px;
+  margin-top: 11px;
 }
 
 .goal-remove-form button {
   border: none;
-
   background: transparent;
-
   color: var(--goal-danger);
-
   font-size: 12px;
   font-weight: 600;
-
   cursor: pointer;
 }
 
@@ -2426,6 +2382,47 @@ body.dark-mode .goal-remove-btn:hover {
     transform 0.2s ease;
 }
 
+body:has(.reading-goal-page) {
+  padding: 0;
+}
+
+.goal-update-form,
+.goal-new-form {
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.goal-remove-form {
+  width: auto;
+  max-width: none;
+  margin: 12px 0 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
 /* =========================
    MOBILE
 ========================= */
