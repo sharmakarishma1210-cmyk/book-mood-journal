@@ -1338,7 +1338,7 @@ body.dark-mode .analytics-goal-footer a {
 
 .goal-settings h3 {
   margin: 0 0 11px;
-  text-align: left;
+  text-align: center;
   color: var(--goal-heading);
   font-size: 15px;
   font-weight: 600;
@@ -1355,6 +1355,7 @@ body.dark-mode .analytics-goal-footer a {
 .goal-input-wrapper {
   position: relative;
   width: 280px;
+  height: 40px;
 }
 
 .goal-update-form input,
@@ -1363,8 +1364,8 @@ body.dark-mode .analytics-goal-footer a {
   box-sizing: border-box;
   padding: 11px 60px 11px 15px;
   border-radius: 13px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
   color: var(--text-main);
   font-size: 14px;
   outline: none;
@@ -1397,7 +1398,22 @@ body.dark-mode .analytics-goal-footer a {
    UPDATE BUTTON
 ========================================================= */
 
-.goal-update-form button,
+.goal-update-form button {
+  height: 40px;
+  box-sizing: border-box;
+
+  border: none;
+  padding: 0 20px;
+
+  border-radius: 13px;
+  background: #68c9b8;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .goal-new-form button {
   border: none;
 
