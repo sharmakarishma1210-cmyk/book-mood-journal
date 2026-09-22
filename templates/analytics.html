@@ -93,19 +93,15 @@
           </div>
 
           <!-- GOAL PROGRESS -->
-
           <div class="analytics-goal-progress">
             <div class="analytics-goal-numbers">
               <div>
-                <strong> {{ books_this_month }} </strong>
-
-                <span> / {{ goal_target }} books </span>
+                <strong>{{ books_this_month }}</strong>
+                <span>/ {{ goal_target }} books</span>
               </div>
 
-              <b> {{ goal_progress|round|int }}% </b>
+              <b>{{ goal_progress|round|int }}%</b>
             </div>
-
-            <!-- PROGRESS BAR -->
 
             <div class="analytics-goal-bar">
               <div
@@ -114,10 +110,11 @@
               ></div>
             </div>
 
-            <!-- GOAL FOOTER -->
-
             <div class="analytics-goal-footer">
-              <span> {{ goal_remaining }} books left </span>
+              <span>
+                {{ goal_target - books_this_month }} {{ "book" if (goal_target -
+                books_this_month) == 1 else "books" }} left
+              </span>
 
               <a href="/reading-goal"> Manage goal → </a>
             </div>

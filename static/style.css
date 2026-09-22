@@ -857,20 +857,17 @@ body.dark-mode .history-card {
 
 .analytics-goal-main {
   display: flex;
-
   align-items: baseline;
-
   justify-content: space-between;
-
   margin-bottom: 13px;
 }
 
 .analytics-goal-numbers {
   display: flex;
-
-  align-items: baseline;
-
+  justify-content: space-between;
+  align-items: center;
   gap: 7px;
+  width: 100%;
 }
 
 .analytics-goal-numbers strong {
@@ -942,11 +939,12 @@ body.dark-mode .history-card {
 }
 
 .analytics-goal-footer span::before {
-  content: "✓ ";
+  content: none;
+  /* content: "✓ ";
 
   color: #68c9b8;
 
-  font-weight: 700;
+  font-weight: 700; */
 }
 
 .analytics-goal-footer a {
